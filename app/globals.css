@@ -1,0 +1,282 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --shadow-next: 0 8px 30px rgba(0, 0, 0, 0.1);
+
+  --font-inter: var(--font-inter);
+  --font-space: var(--font-space);
+  --font-geist: var(--font-geist);
+  --font-roboto: var(--font-roboto);
+  --font-oswald: var(--font-oswald);
+  --font-manrope: var(--font-manrope);
+  --font-poppins: var(--font-poppins);
+  --font-playfair: var(--font-playfair);
+  --font-instrument: var(--font-instrument);
+  --font-montserrat: var(--font-montserrat);
+
+  --color-ring: oklch(var(--ring));
+  --color-card: oklch(var(--card));
+  --color-input: oklch(var(--input));
+  --color-muted: oklch(var(--muted));
+  --color-border: oklch(var(--border));
+  --color-accent: oklch(var(--accent));
+  --color-success: oklch(var(--success));
+  --color-popover: oklch(var(--popover));
+  --color-primary: oklch(var(--primary));
+  --color-surface: oklch(var(--surface));
+  --color-secondary: oklch(var(--secondary));
+  --color-background: oklch(var(--background));
+  --color-foreground: oklch(var(--foreground));
+  --color-destructive: oklch(var(--destructive));
+  --color-card-foreground: oklch(var(--card-foreground));
+  --color-muted-foreground: oklch(var(--muted-foreground));
+  --color-accent-foreground: oklch(var(--accent-foreground));
+  --color-success-foreground: oklch(var(--success-foreground));
+  --color-popover-foreground: oklch(var(--popover-foreground));
+  --color-primary-foreground: oklch(var(--primary-foreground));
+  --color-secondary-foreground: oklch(var(--secondary-foreground));
+  --color-destructive-foreground: oklch(var(--destructive-foreground));
+
+  --animate-button-shimmer: button-shimmer 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@layer base {
+  :root {
+    --shadow-next: 0 8px 30px rgba(0, 0, 0, 0.25);
+
+    --background: 0.99 0.005 100;
+    --foreground: 0.14 0.02 100;
+
+    --card: 1 0 0;
+    --card-foreground: 0.14 0.02 100;
+
+    --popover: 1 0 0;
+    --popover-foreground: 0.14 0.02 100;
+
+    --primary: 0.58 0.22 255;
+    --primary-foreground: 0.99 0 0;
+
+    --secondary: 0.95 0.01 100;
+    --secondary-foreground: 0.14 0.02 100;
+
+    --muted: 0.94 0.01 100;
+    --muted-foreground: 0.45 0.02 100;
+
+    --accent: 0.94 0.02 100;
+    --accent-foreground: 0.14 0.02 100;
+
+    --destructive: 0.6 0.15 25;
+    --destructive-foreground: 0.98 0.005 100;
+
+    --success: 0.65 0.18 145;
+    --success-foreground: 0.98 0 100;
+
+    --border: 0.9 0.02 100;
+    --input: 0.9 0.02 100;
+    --ring: 0.58 0.22 255;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --shadow-next: 0 8px 30px rgba(0, 225, 250, 0.915);
+
+    --background: 0.1 0.01 100;
+    --foreground: 0.95 0.01 100;
+
+    --card: 0.12 0.01 100;
+    --card-foreground: 0.95 0.01 100;
+
+    --popover: 0.12 0.01 100;
+    --popover-foreground: 0.95 0.01 100;
+
+    --primary: 0.88 0.22 100;
+    --primary-foreground: 0.1 0.02 100;
+
+    --secondary: 0.2 0.02 100;
+    --secondary-foreground: 0.95 0.01 100;
+
+    --muted: 0.18 0.02 100;
+    --muted-foreground: 0.65 0.02 100;
+
+    --accent: 0.18 0.03 100;
+    --accent-foreground: 0.88 0.22 100;
+
+    --destructive: 0.4 0.15 25;
+    --destructive-foreground: 0.98 0.005 100;
+
+    --success: 0.75 0.2 145;
+    --success-foreground: 0.1 0.02 100;
+
+    --border: 0.27 0.005 106;
+    --input: 0.27 0.005 106;
+    --ring: 0.88 0.22 100;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: oklch(var(--border)) transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: oklch(var(--border));
+    border-radius: 9999px;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background: oklch(var(--muted-foreground) / 0.6);
+  }
+}
+
+/* rainbow colors */
+@keyframes mesh-circulate {
+  0% {
+    background-color: #4285f4;
+  }
+  16.6% {
+    background-color: #9b51e0;
+  }
+  33.3% {
+    background-color: #ea4335;
+  }
+  50% {
+    background-color: #fbbc05;
+  }
+  66.6% {
+    background-color: #34a853;
+  }
+  83.3% {
+    background-color: #00dfd8;
+  }
+  100% {
+    background-color: #4285f4;
+  }
+}
+
+@keyframes shimmer-wave {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-circulate-1 {
+  animation: mesh-circulate 3s linear infinite;
+  animation-delay: 0s;
+}
+
+.animate-circulate-2 {
+  animation: mesh-circulate 3s linear infinite;
+  animation-delay: -0.6s;
+}
+
+.animate-circulate-3 {
+  animation: mesh-circulate 3s linear infinite;
+  animation-delay: -1.2s;
+}
+
+.animate-circulate-4 {
+  animation: mesh-circulate 3s linear infinite;
+  animation-delay: -1.8s;
+}
+
+.animate-circulate-5 {
+  animation: mesh-circulate 3s linear infinite;
+  animation-delay: -2.4s;
+}
+
+.animate-palette-shimmer {
+  animation: shimmer-wave 2.5s ease-in-out infinite;
+}
+
+@keyframes button-shimmer {
+  0% {
+    transform: translateX(-150%) skewX(-20deg);
+  }
+  100% {
+    transform: translateX(250%) skewX(-20deg);
+  }
+}
+
+.animate-button-shimmer {
+  animation: button-shimmer 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.group:hover .group-hover\:animate-button-shimmer {
+  animation: button-shimmer 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@property --rainbow-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes rainbow-rotate {
+  0% {
+    --rainbow-angle: 0deg;
+  }
+  100% {
+    --rainbow-angle: 360deg;
+  }
+}
+
+@keyframes google-glow-pulse {
+  0%,
+  100% {
+    opacity: 0.65;
+    filter: blur(8px);
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.95;
+    filter: blur(12px);
+    transform: scale(1.02);
+  }
+}
+
+.google-rainbow-glow {
+  background: conic-gradient(
+    from var(--rainbow-angle, 0deg),
+    #4285f4 0%,
+    #9b51e0 20%,
+    #ea4335 40%,
+    #fbbc05 60%,
+    #34a853 80%,
+    #4285f4 100%
+  );
+  animation:
+    rainbow-rotate 3s linear infinite,
+    google-glow-pulse 2.5s ease-in-out infinite;
+}
