@@ -12,6 +12,8 @@
     "@ffmpeg/core": "^0.12.10",
     "@ffmpeg/ffmpeg": "^0.12.15",
     "@ffmpeg/util": "^0.12.2",
+    "@neon/config": "^1.8.2",
+    "@neon/env": "^1.4.7",
     "@phosphor-icons/react": "^2.1.10",
     "@prisma/adapter-pg": "^7.3.0",
     "@prisma/client": "^7.3.0",
