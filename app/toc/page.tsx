@@ -12,12 +12,12 @@ export const metadata: Metadata = {
     title: "Terms and Conditions (TOC) | Fluidframe",
     description:
       "Review the Terms and Conditions for Fluidframe. Full commercial ownership of all exported designs, zero-knowledge browser execution, and open creative freedom.",
-    url: "https://fluidframe.fun/terms",
+    url: "https://fluidframe.vercel.app/terms",
     siteName: "Fluidframe",
     type: "website",
     images: [
       {
-        url: "https://fluidframe.fun/landing.png",
+        url: "https://fluidframe.vercel.app/landing.png",
         width: 1200,
         height: 630,
         type: "image/png",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
       "Review the Terms and Conditions for Fluidframe. Full commercial ownership of all exported designs, zero-knowledge browser execution, and open creative freedom.",
     images: [
       {
-        url: "https://fluidframe.fun/landing.png",
+        url: "https://fluidframe.vercel.app/landing.png",
         width: 1200,
         height: 630,
         type: "image/png",

@@ -30,12 +30,12 @@ export const metadata: Metadata = {
     title: "Privacy Policy | Fluidframe",
     description:
       "Fluidframe is built with a zero-knowledge architecture. All mockup rendering, shader computations, and media exports happen 100% client-side in your browser.",
-    url: "https://fluidframe.fun/privacy",
+    url: "https://fluidframe.vercel.app/privacy",
     siteName: "Fluidframe",
     type: "website",
     images: [
       {
-        url: "https://fluidframe.fun/landing.png",
+        url: "https://fluidframe.vercel.app/landing.png",
         width: 1200,
         height: 630,
         type: "image/png",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
       "Fluidframe is built with a zero-knowledge architecture. All mockup rendering, shader computations, and media exports happen 100% client-side in your browser.",
     images: [
       {
-        url: "https://fluidframe.fun/landing.png",
+        url: "https://fluidframe.vercel.app/landing.png",
         width: 1200,
         height: 630,
         type: "image/png",
@@ -275,7 +275,7 @@ export default function PrivacyPage() {
                 </div>
               </div>
               <p className="text-xs">
-                You have complete control over this data. You can erase all local presets at any time by clearing your browser cookies and site data for <code className="px-1.5 py-0.5 rounded bg-muted text-foreground font-mono text-[11px]">fluidframe.fun</code>.
+                You have complete control over this data. You can erase all local presets at any time by clearing your browser cookies and site data for <code className="px-1.5 py-0.5 rounded bg-muted text-foreground font-mono text-[11px]">fluidframe.vercel.app</code>.
               </p>
             </div>
 

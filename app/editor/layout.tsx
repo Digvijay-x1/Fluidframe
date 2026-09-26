@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://fluidframe.fun/editor",
+    url: "https://fluidframe.vercel.app/editor",
     title: "Fluidframe Studio Editor - Visual Mockups & WebGL Shaders",
     description:
       "Design high-resolution mockups, interactive 3D device angles, fluid WebGL mesh gradient shaders, retro Bayer dither art, and export 60FPS MP4 videos.",

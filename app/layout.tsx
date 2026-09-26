@@ -80,7 +80,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://fluidframe.fun"),
+  metadataBase: new URL("https://fluidframe.vercel.app"),
   title: {
     default: "Fluidframe - 3D Screenshot Mockups & WebGL Studio for Developers",
     template: "%s | Fluidframe",
@@ -101,22 +101,22 @@ export const metadata: Metadata = {
     "MP4 animation creator",
     "developer portfolio mockup",
   ],
-  authors: [{ name: "Digvijay Rawat" }, { name: "Fluidframe", url: "https://fluidframe.fun" }],
+  authors: [{ name: "Digvijay Rawat" }, { name: "Fluidframe", url: "https://fluidframe.vercel.app" }],
   creator: "Fluidframe",
   publisher: "Fluidframe",
   category: "Design & Developer Tools",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://fluidframe.fun/",
+    url: "https://fluidframe.vercel.app/",
     title: "Fluidframe - 3D Screenshot Mockups & WebGL Studio for Developers",
     description:
       "The premier visual studio for developers and creators. Create 3D isometric screenshot mockups, real-time WebGL fluid mesh gradients, and retro Bayer dither art.",
     siteName: "Fluidframe",
     images: [
       {
-        url: "https://fluidframe.fun/landing.png",
-        secureUrl: "https://fluidframe.fun/landing.png",
+        url: "https://fluidframe.vercel.app/landing.png",
+        secureUrl: "https://fluidframe.vercel.app/landing.png",
         width: 1200,
         height: 630,
         type: "image/png",
@@ -133,7 +133,7 @@ export const metadata: Metadata = {
       "The premier visual studio for developers and creators. Create 3D isometric screenshot mockups, real-time WebGL fluid mesh gradients, and retro Bayer dither art.",
     images: [
       {
-        url: "https://fluidframe.fun/landing.png",
+        url: "https://fluidframe.vercel.app/landing.png",
         width: 1200,
         height: 630,
         type: "image/png",
@@ -156,8 +156,8 @@ export const metadata: Metadata = {
     "twitter:card": "summary_large_image",
     "twitter:site": "@DIGVIJAY__RAWAT",
     "twitter:creator": "@DIGVIJAY__RAWAT",
-    "twitter:url": "https://fluidframe.fun/",
-    "twitter:image": "https://fluidframe.fun/landing.png",
+    "twitter:url": "https://fluidframe.vercel.app/",
+    "twitter:image": "https://fluidframe.vercel.app/landing.png",
     "twitter:image:alt": "Fluidframe - 3D Screenshot Mockups & WebGL Studio for Developers",
   },
 };
@@ -167,9 +167,9 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "SoftwareApplication",
-      "@id": "https://fluidframe.fun/#webapp",
+      "@id": "https://fluidframe.vercel.app/#webapp",
       "name": "Fluidframe",
-      "url": "https://fluidframe.fun",
+      "url": "https://fluidframe.vercel.app",
       "applicationCategory": "DesignApplication",
       "operatingSystem": "All",
       "description":
@@ -196,10 +196,10 @@ const jsonLd = {
     },
     {
       "@type": "Organization",
-      "@id": "https://fluidframe.fun/#organization",
+      "@id": "https://fluidframe.vercel.app/#organization",
       "name": "Fluidframe",
-      "url": "https://fluidframe.fun",
-      "logo": "https://fluidframe.fun/landing.png",
+      "url": "https://fluidframe.vercel.app",
+      "logo": "https://fluidframe.vercel.app/landing.png",
       "sameAs": ["https://x.com/DIGVIJAY__RAWAT", "https://github.com/Digvijay-x1/fluidframe"],
     },
   ],

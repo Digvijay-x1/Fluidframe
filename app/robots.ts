@@ -17,8 +17,8 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
       },
     ],
-    sitemap: "https://fluidframe.fun/sitemap.xml",
-    host: "https://fluidframe.fun",
+    sitemap: "https://fluidframe.vercel.app/sitemap.xml",
+    host: "https://fluidframe.vercel.app",
   };
 }
 

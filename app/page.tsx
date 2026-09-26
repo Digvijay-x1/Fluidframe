@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description:
     "Turn code snippets, screenshots, and side-projects into studio-grade 3D device mockups, real-time WebGL mesh gradients, and retro Bayer dither art in seconds. 100% free & client-side.",
   alternates: {
-    canonical: "https://fluidframe.fun",
+    canonical: "https://fluidframe.vercel.app",
   },
 };
 

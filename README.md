@@ -13,9 +13,9 @@ Design high-impact 3D device mockups, real-time WebGL fluid mesh gradients, retr
 [![WebGL](https://img.shields.io/badge/WebGL-GLSL_Shaders-990000?style=flat-square&logo=webgl)](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API)
 [![FFmpeg](https://img.shields.io/badge/FFmpeg-WASM_Client--Side-007808?style=flat-square&logo=ffmpeg)](https://ffmpegwasm.netlify.app/)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg?style=flat-square)](LICENSE)
-[![Live Demo](https://img.shields.io/badge/Live_Demo-fluidframe.fun-emerald?style=flat-square&logo=vercel)](https://fluidframe.fun)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-fluidframe.vercel.app-emerald?style=flat-square&logo=vercel)](https://fluidframe.vercel.app)
 
-[**Explore Live Demo (fluidframe.fun)**](https://fluidframe.fun) • [**Launch Editor**](https://fluidframe.fun/editor) • [**Report Bug**](https://github.com/Digvijay-x1/fluidframe/issues)
+[**Explore Live Demo (fluidframe.vercel.app)**](https://fluidframe.vercel.app) • [**Launch Editor**](https://fluidframe.vercel.app/editor) • [**Report Bug**](https://github.com/Digvijay-x1/fluidframe/issues)
 
 <br/>
 

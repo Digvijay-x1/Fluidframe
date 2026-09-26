@@ -17,15 +17,15 @@ export const metadata: Metadata = {
     title: "Free 3D Mockup & Showcase Templates - Fluidframe",
     description:
       "Instant 3D mockup templates for GitHub Readme banners, Product Hunt launches, terminal CLI shots, and SaaS marketing heroes.",
-    url: "https://fluidframe.fun/templates",
-    images: [{ url: "https://fluidframe.fun/landing.png", width: 1200, height: 630 }],
+    url: "https://fluidframe.vercel.app/templates",
+    images: [{ url: "https://fluidframe.vercel.app/landing.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Free 3D Mockup Templates - Fluidframe",
     description:
       "Instant 3D mockup templates for GitHub Readme banners, Product Hunt launches, and code snippets.",
-    images: ["https://fluidframe.fun/landing.png"],
+    images: ["https://fluidframe.vercel.app/landing.png"],
   },
 };
 
@@ -35,7 +35,7 @@ const jsonLd = {
   name: "Fluidframe Design & Mockup Templates Library",
   description:
     "Curated collection of 3D screenshot mockup templates, GitHub Readme heroes, Product Hunt launch graphics, and terminal code showcase presets.",
-  url: "https://fluidframe.fun/templates",
+  url: "https://fluidframe.vercel.app/templates",
   mainEntity: {
     "@type": "ItemList",
     itemListElement: BUILTIN_TEMPLATES.map((tpl, index) => ({
@@ -43,7 +43,7 @@ const jsonLd = {
       position: index + 1,
       name: tpl.title,
       description: tpl.description,
-      url: `https://fluidframe.fun/editor?template=${tpl.id}`,
+      url: `https://fluidframe.vercel.app/editor?template=${tpl.id}`,
     })),
   },
 };

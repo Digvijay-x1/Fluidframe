@@ -224,14 +224,14 @@ export async function generateMetadata({
     openGraph: {
       title: tool.metaTitle,
       description: tool.metaDescription,
-      url: `https://fluidframe.fun/tools/${tool.slug}`,
-      images: [{ url: "https://fluidframe.fun/landing.png", width: 1200, height: 630 }],
+      url: `https://fluidframe.vercel.app/tools/${tool.slug}`,
+      images: [{ url: "https://fluidframe.vercel.app/landing.png", width: 1200, height: 630 }],
     },
     twitter: {
       card: "summary_large_image",
       title: tool.metaTitle,
       description: tool.metaDescription,
-      images: ["https://fluidframe.fun/landing.png"],
+      images: ["https://fluidframe.vercel.app/landing.png"],
     },
   };
 }
@@ -253,7 +253,7 @@ export default async function ToolPage({
         name: tool.title,
         applicationCategory: "DesignApplication",
         operatingSystem: "All",
-        url: `https://fluidframe.fun/tools/${tool.slug}`,
+        url: `https://fluidframe.vercel.app/tools/${tool.slug}`,
         description: tool.metaDescription,
         offers: {
           "@type": "Offer",

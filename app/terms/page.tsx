@@ -31,12 +31,12 @@ export const metadata: Metadata = {
     title: "Terms of Service & Conditions (TOC) | Fluidframe",
     description:
       "Review the Terms of Service & Conditions for Fluidframe. Apache 2.0 open-source license, full commercial ownership of all exported designs, and zero-knowledge browser execution.",
-    url: "https://fluidframe.fun/terms",
+    url: "https://fluidframe.vercel.app/terms",
     siteName: "Fluidframe",
     type: "website",
     images: [
       {
-        url: "https://fluidframe.fun/landing.png",
+        url: "https://fluidframe.vercel.app/landing.png",
         width: 1200,
         height: 630,
         type: "image/png",
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
       "Review the Terms of Service & Conditions for Fluidframe. Apache 2.0 open-source license, full commercial ownership of all exported designs, and zero-knowledge browser execution.",
     images: [
       {
-        url: "https://fluidframe.fun/landing.png",
+        url: "https://fluidframe.vercel.app/landing.png",
         width: 1200,
         height: 630,
         type: "image/png",
@@ -226,7 +226,7 @@ export default function TermsPage() {
                 1. Acceptance of Terms
               </h2>
               <p>
-                By accessing, using, or interacting with <strong className="text-foreground">Fluidframe</strong> (&ldquo;fluidframe.fun&rdquo;, &ldquo;the Service&rdquo;, &ldquo;the Project&rdquo;, &ldquo;we&rdquo;, &ldquo;our&rdquo;, or &ldquo;us&rdquo;), you agree to be bound by these Terms of Service and Conditions (&ldquo;Terms&rdquo; or &ldquo;TOC&rdquo;), as well as our <Link href="/privacy" className="text-primary hover:underline font-medium">Privacy Policy</Link> and the applicable provisions of the <strong className="text-foreground">Apache License 2.0</strong>.
+                By accessing, using, or interacting with <strong className="text-foreground">Fluidframe</strong> (&ldquo;fluidframe.vercel.app&rdquo;, &ldquo;the Service&rdquo;, &ldquo;the Project&rdquo;, &ldquo;we&rdquo;, &ldquo;our&rdquo;, or &ldquo;us&rdquo;), you agree to be bound by these Terms of Service and Conditions (&ldquo;Terms&rdquo; or &ldquo;TOC&rdquo;), as well as our <Link href="/privacy" className="text-primary hover:underline font-medium">Privacy Policy</Link> and the applicable provisions of the <strong className="text-foreground">Apache License 2.0</strong>.
               </p>
               <p>
                 If you do not agree with any provision of these Terms, you must discontinue your use of the application immediately.

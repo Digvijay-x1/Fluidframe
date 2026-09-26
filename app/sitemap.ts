@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://fluidframe.fun";
+  const baseUrl = "https://fluidframe.vercel.app";
 
   const tools = [
     "screenshot-mockup-generator",

@@ -47,7 +47,7 @@ export const Support: React.FC = () => {
   const [showQR, setShowQR] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const upiId = "rs4515080@okaxis";
+  const upiId = "hackerearthx1-1@oksbi";
 
   const handleCopyUPI = () => {
     navigator.clipboard.writeText(upiId);
