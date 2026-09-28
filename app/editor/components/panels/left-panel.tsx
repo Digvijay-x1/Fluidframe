@@ -166,8 +166,11 @@ export function LeftPanel({
       toast.error("Please select an image file");
       return;
     }
+    const generation = useStore.getState().documentGeneration;
+    const targetId = selectedElementId;
     const reader = new FileReader();
     reader.onload = (e) => {
+      if (useStore.getState().documentGeneration !== generation || !useStore.getState().elements.some((element) => element.id === targetId)) return;
       const dataUrl = e.target?.result as string;
       updateElement(selectedElementId, {
         src: dataUrl,

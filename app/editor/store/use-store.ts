@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { EditorState, CanvasElement } from "../types";
+import { EditorState, CanvasElement, CanvasDocument } from "../types";
 import {
   ASPECT_RATIOS,
   DEFAULT_MESH_CONFIG,
@@ -18,6 +18,14 @@ const loadSavedPresets = (): EditorState["userPresets"] => {
   }
 };
 
+export const createDefaultDocument = (): CanvasDocument => ({
+  aspectRatio: { ...(ASPECT_RATIOS.find((r) => r.name === "16:9") || ASPECT_RATIOS[0]) },
+  canvasBackground: DEFAULT_BG,
+  meshConfig: { ...DEFAULT_MESH_CONFIG, colors: [...DEFAULT_MESH_CONFIG.colors] },
+  overlayConfig: { ...DEFAULT_OVERLAY_CONFIG },
+  elements: [],
+});
+
 export const useStore = create<EditorState>((set, get) => ({
   aspectRatio:
     ASPECT_RATIOS.find((r) => r.name === "16:9") || ASPECT_RATIOS[0],
@@ -25,6 +33,7 @@ export const useStore = create<EditorState>((set, get) => ({
   meshConfig: { ...DEFAULT_MESH_CONFIG },
   overlayConfig: { ...DEFAULT_OVERLAY_CONFIG },
   elements: [],
+  documentGeneration: 0,
   selectedElementId: null,
   isCropping: false,
   activeTab: "image",
@@ -474,30 +483,24 @@ export const useStore = create<EditorState>((set, get) => ({
     });
   },
 
-  reset: () => {
-    const defaultRatio =
-      ASPECT_RATIOS.find((r) => r.name === "16:9") || ASPECT_RATIOS[0];
-    set({
-      elements: [],
-      canvasBackground: DEFAULT_BG,
-      meshConfig: { ...DEFAULT_MESH_CONFIG },
-      overlayConfig: { ...DEFAULT_OVERLAY_CONFIG },
-      aspectRatio: defaultRatio,
-      history: [
-        {
-          elements: [],
-          canvasBackground: DEFAULT_BG,
-          meshConfig: { ...DEFAULT_MESH_CONFIG },
-          overlayConfig: { ...DEFAULT_OVERLAY_CONFIG },
-          aspectRatio: defaultRatio,
-        },
-      ],
-      historyIndex: 0,
-      selectedElementId: null,
-      lastSelectedImageId: null,
-      lastSelectedTextId: null,
-    });
-  },
+  replaceDocument: (document) => set((state) => ({
+    ...document,
+    documentGeneration: state.documentGeneration + 1,
+    history: [{ ...document }],
+    historyIndex: 0,
+    selectedElementId: null,
+    lastSelectedImageId: null,
+    lastSelectedTextId: null,
+    lastSelectedCodeId: null,
+    isCropping: false,
+    activeTab: "image",
+    exportFormat: "mp4",
+    exportQuality: "2",
+    exportDuration: 3,
+    exportFps: 60,
+  })),
+
+  reset: () => get().replaceDocument(createDefaultDocument()),
 
   setDitherConfig: (layerId, config) => {
     set((state) => {
@@ -608,6 +611,7 @@ export const useStore = create<EditorState>((set, get) => ({
         overlayConfig: overlayCfg,
         aspectRatio: targetRatio,
         selectedElementId: null,
+        documentGeneration: state.documentGeneration + 1,
         history: newHistory,
         historyIndex: newHistory.length - 1,
       };

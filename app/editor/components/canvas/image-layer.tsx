@@ -145,8 +145,10 @@ export const ImageLayer = memo(
         toast.error("Please select an image file");
         return;
       }
+      const generation = useStore.getState().documentGeneration;
       const reader = new FileReader();
       reader.onload = (e) => {
+        if (useStore.getState().documentGeneration !== generation || !useStore.getState().elements.some((element) => element.id === img.id)) return;
         const dataUrl = e.target?.result as string;
         updateElement(img.id, {
           src: dataUrl,

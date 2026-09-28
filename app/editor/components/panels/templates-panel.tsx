@@ -249,6 +249,7 @@ export function TemplatesPanel() {
         </form>
       )}
 
+      <p className="px-3 text-xs text-muted-foreground">Presets are named copies. Your current canvas is recovered separately.</p>
       {/* User Saved Presets List */}
       {mounted && userPresets.length > 0 && (
         <div className="space-y-1.5">

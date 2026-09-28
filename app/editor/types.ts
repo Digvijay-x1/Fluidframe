@@ -236,12 +236,15 @@ export interface EditorCanvasProps {
 
 export type ExportFormat = "mp4" | "gif" | "png" | "jpeg" | "svg";
 
+export type CanvasDocument = Pick<EditorState, "aspectRatio" | "canvasBackground" | "meshConfig" | "overlayConfig" | "elements">;
+
 export interface EditorState {
   aspectRatio: AspectRatioPreset;
   canvasBackground: string;
   meshConfig: MeshGradientConfig;
   overlayConfig: OverlayConfig;
   elements: CanvasElement[];
+  documentGeneration: number;
   selectedElementId: string | null;
   isCropping: boolean;
   exportFormat: ExportFormat;
@@ -292,6 +295,7 @@ export interface EditorState {
   undo: () => void;
   redo: () => void;
   reset: () => void;
+  replaceDocument: (document: CanvasDocument) => void;
   setElements: (elements: CanvasElement[]) => void;
   setDitherConfig: (layerId: string, config: Partial<DitherConfig>) => void;
   saveCustomPreset: (name: string) => void;
