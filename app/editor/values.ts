@@ -82,7 +82,12 @@ export const MESH_PALETTES = [
 export interface AspectRatioPreset {
   name: string;
   label: string;
-  category: "Video & Display" | "Social Media" | "Developer & Launch" | "Design & Standard" | "Custom";
+  category:
+    | "Video & Display"
+    | "Social Media"
+    | "Developer & Launch"
+    | "Design & Standard"
+    | "Custom";
   width: number;
   height: number;
   previewClass: string;
@@ -322,9 +327,27 @@ export const TEXT_EFFECTS = [
 ];
 
 export const WRITING_MODES = [
-  { id: "horizontal", name: "Horizontal", arrow: "→", css: "horizontal-tb", orientation: "mixed" },
-  { id: "vertical", name: "Vertical (Down)", arrow: "↓", css: "vertical-rl", orientation: "mixed" },
-  { id: "vertical-upright", name: "Vertical (Upright)", arrow: "⇊", css: "vertical-rl", orientation: "upright" },
+  {
+    id: "horizontal",
+    name: "Horizontal",
+    arrow: "→",
+    css: "horizontal-tb",
+    orientation: "mixed",
+  },
+  {
+    id: "vertical",
+    name: "Vertical (Down)",
+    arrow: "↓",
+    css: "vertical-rl",
+    orientation: "mixed",
+  },
+  {
+    id: "vertical-upright",
+    name: "Vertical (Upright)",
+    arrow: "⇊",
+    css: "vertical-rl",
+    orientation: "upright",
+  },
 ];
 
 export const CLIP_PATHS = [
@@ -343,22 +366,31 @@ export const CLIP_PATHS = [
   },
   {
     name: "Octagon",
-    value: "polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)",
+    value:
+      "polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)",
   },
   {
     name: "Star",
-    value: "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)",
+    value:
+      "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)",
   },
   {
     name: "Message",
-    value: "polygon(0% 0%, 100% 0%, 100% 75%, 75% 75%, 75% 100%, 50% 75%, 0% 75%)",
+    value:
+      "polygon(0% 0%, 100% 0%, 100% 75%, 75% 75%, 75% 100%, 50% 75%, 0% 75%)",
   },
 ];
 
 export const TRANSFORM_3D_PRESETS = [
   { id: "flat", name: "Flat", rotateX: 0, rotateY: 0, rotate: 0 },
   { id: "tilt-left", name: "Tilt Left", rotateX: 10, rotateY: -20, rotate: 2 },
-  { id: "tilt-right", name: "Tilt Right", rotateX: 10, rotateY: 20, rotate: -2 },
+  {
+    id: "tilt-right",
+    name: "Tilt Right",
+    rotateX: 10,
+    rotateY: 20,
+    rotate: -2,
+  },
   { id: "isometric-l", name: "Iso Left", rotateX: 30, rotateY: -30, rotate: 0 },
   { id: "isometric-r", name: "Iso Right", rotateX: 30, rotateY: 30, rotate: 0 },
   { id: "top-down", name: "Top Down", rotateX: 35, rotateY: 0, rotate: 0 },
@@ -566,14 +598,50 @@ export interface GradientDirectionOption {
 }
 
 export const GRADIENT_DIRECTIONS: GradientDirectionOption[] = [
-  { id: "to-b", name: "To Bottom", tailwind: "to-b", css: "to bottom", arrow: "↓" },
-  { id: "to-r", name: "To Right", tailwind: "to-r", css: "to right", arrow: "→" },
-  { id: "to-br", name: "To Bottom Right", tailwind: "to-br", css: "to bottom right", arrow: "↘" },
-  { id: "to-tr", name: "To Top Right", tailwind: "to-tr", css: "to top right", arrow: "↗" },
+  {
+    id: "to-b",
+    name: "To Bottom",
+    tailwind: "to-b",
+    css: "to bottom",
+    arrow: "↓",
+  },
+  {
+    id: "to-r",
+    name: "To Right",
+    tailwind: "to-r",
+    css: "to right",
+    arrow: "→",
+  },
+  {
+    id: "to-br",
+    name: "To Bottom Right",
+    tailwind: "to-br",
+    css: "to bottom right",
+    arrow: "↘",
+  },
+  {
+    id: "to-tr",
+    name: "To Top Right",
+    tailwind: "to-tr",
+    css: "to top right",
+    arrow: "↗",
+  },
   { id: "to-t", name: "To Top", tailwind: "to-t", css: "to top", arrow: "↑" },
   { id: "to-l", name: "To Left", tailwind: "to-l", css: "to left", arrow: "←" },
-  { id: "to-bl", name: "To Bottom Left", tailwind: "to-bl", css: "to bottom left", arrow: "↙" },
-  { id: "to-tl", name: "To Top Left", tailwind: "to-tl", css: "to top left", arrow: "↖" },
+  {
+    id: "to-bl",
+    name: "To Bottom Left",
+    tailwind: "to-bl",
+    css: "to bottom left",
+    arrow: "↙",
+  },
+  {
+    id: "to-tl",
+    name: "To Top Left",
+    tailwind: "to-tl",
+    css: "to top left",
+    arrow: "↖",
+  },
 ];
 
 export interface GradientPresetOption {

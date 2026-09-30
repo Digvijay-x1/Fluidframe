@@ -58,15 +58,16 @@ export function StudioSlider({
       if (!isNaN(parsed)) {
         const clamped = Math.min(max, Math.max(min, parsed));
         // Round to nearest step if applicable
-        const precision = step < 1 ? String(step).split(".")[1]?.length || 1 : 0;
+        const precision =
+          step < 1 ? String(step).split(".")[1]?.length || 1 : 0;
         const rounded = Number(
-          (Math.round((clamped - min) / step) * step + min).toFixed(precision)
+          (Math.round((clamped - min) / step) * step + min).toFixed(precision),
         );
         onChange(rounded);
       }
       setIsEditing(false);
     },
-    [min, max, step, onChange]
+    [min, max, step, onChange],
   );
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -101,7 +102,7 @@ export function StudioSlider({
       nextVal = Math.min(max, Math.max(min, nextVal));
       const precision = step < 1 ? String(step).split(".")[1]?.length || 1 : 0;
       const rounded = Number(
-        (Math.round((nextVal - min) / step) * step + min).toFixed(precision)
+        (Math.round((nextVal - min) / step) * step + min).toFixed(precision),
       );
       onChange(rounded);
     };
@@ -125,9 +126,7 @@ export function StudioSlider({
     }
   }, [defaultValue, disabled, onChange]);
 
-  const displayString = formatter
-    ? formatter(value)
-    : `${value}${unit}`;
+  const displayString = formatter ? formatter(value) : `${value}${unit}`;
 
   return (
     <div
@@ -135,7 +134,7 @@ export function StudioSlider({
         "group/slider select-none transition-colors",
         compact ? "space-y-1.5" : "space-y-2.5",
         disabled && "opacity-50 pointer-events-none",
-        className
+        className,
       )}
     >
       {/* Header Row: Label & Value Pill */}
@@ -201,7 +200,9 @@ export function StudioSlider({
           step={step}
           disabled={disabled}
           showTooltip={showTooltip}
-          formatValue={(val) => (formatDisplay ? formatDisplay(val) : `${val}${unit}`)}
+          formatValue={(val) =>
+            formatDisplay ? formatDisplay(val) : `${val}${unit}`
+          }
           className="cursor-pointer"
         />
       </div>

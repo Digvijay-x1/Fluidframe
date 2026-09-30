@@ -59,12 +59,15 @@ export function useSelection(
       const mouseXInCanvas = (clientX - canvasRect.left) / scale;
       const mouseYInCanvas = (clientY - canvasRect.top) / scale;
 
-      const targetEl = (e.currentTarget as HTMLElement) || (e.target as HTMLElement);
-      const targetRect = targetEl ? targetEl.getBoundingClientRect() : { left: clientX, top: clientY, width: 100, height: 100 };
-      
+      const targetEl =
+        (e.currentTarget as HTMLElement) || (e.target as HTMLElement);
+      const targetRect = targetEl
+        ? targetEl.getBoundingClientRect()
+        : { left: clientX, top: clientY, width: 100, height: 100 };
+
       // Calculate screen offset from pointer to the visual center of the layer
-      const centerOffsetX = (targetRect.left + targetRect.width / 2) - clientX;
-      const centerOffsetY = (targetRect.top + targetRect.height / 2) - clientY;
+      const centerOffsetX = targetRect.left + targetRect.width / 2 - clientX;
+      const centerOffsetY = targetRect.top + targetRect.height / 2 - clientY;
 
       setCenterOffset({
         x: centerOffsetX,
@@ -113,8 +116,8 @@ export function useSelection(
     const rawY = mouseYInCanvas - dragOffset.y;
 
     // True visual center of the element in canvas coordinate space
-    const currentCenterX = ((clientX + centerOffset.x) - canvasRect.left) / scale;
-    const currentCenterY = ((clientY + centerOffset.y) - canvasRect.top) / scale;
+    const currentCenterX = (clientX + centerOffset.x - canvasRect.left) / scale;
+    const currentCenterY = (clientY + centerOffset.y - canvasRect.top) / scale;
 
     const canvasCenterX = canvasWidth * 0.5;
     const canvasCenterY = canvasHeight * 0.5;
@@ -152,7 +155,10 @@ export function useSelection(
     setDragTarget(null);
     setIsDragging(false);
     setSnapGuides({ x: null, y: null });
-    if (e.target instanceof Element && e.target.hasPointerCapture(e.pointerId)) {
+    if (
+      e.target instanceof Element &&
+      e.target.hasPointerCapture(e.pointerId)
+    ) {
       e.target.releasePointerCapture(e.pointerId);
     }
   };

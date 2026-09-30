@@ -32,9 +32,11 @@ export function CodeInspector() {
   } = useStore();
 
   const selectedElement = elements.find((el) => el.id === selectedElementId);
-  const existingCode = elements.find((e) => e.type === "code") as CodeElement | undefined;
+  const existingCode = elements.find((e) => e.type === "code") as
+    CodeElement | undefined;
   const isCode = selectedElement?.type === "code";
-  const codeEl = (isCode ? (selectedElement as CodeElement) : existingCode) || null;
+  const codeEl =
+    (isCode ? (selectedElement as CodeElement) : existingCode) || null;
   const style = codeEl?.style || DEFAULT_CODE_STYLE;
 
   const updateCode = (updates: any) => {
@@ -102,7 +104,7 @@ export function CodeInspector() {
           <div className="space-y-1.5 min-w-0 pr-1">
             <div className="flex items-center justify-between pr-1">
               <Label className="text-xs text-muted-foreground cursor-pointer select-none">
-                Frame 
+                Frame
               </Label>
               <Switch
                 checked={style.showWindowControls}
@@ -112,14 +114,14 @@ export function CodeInspector() {
               />
             </div>
             <div className="flex justify-center">
-            {style.showWindowControls && (
-              <Input
-                value={style.windowTitle || ""}
-                onChange={(e) => updateCode({ windowTitle: e.target.value })}
-                placeholder="e.g. index.ts"
-                className="h-8 text-xs rounded-md font-inter w-full "
-              />
-            )}
+              {style.showWindowControls && (
+                <Input
+                  value={style.windowTitle || ""}
+                  onChange={(e) => updateCode({ windowTitle: e.target.value })}
+                  placeholder="e.g. index.ts"
+                  className="h-8 text-xs rounded-md font-inter w-full "
+                />
+              )}
             </div>
           </div>
 
@@ -159,17 +161,27 @@ export function CodeInspector() {
                 Language
               </Label>
               <Select
-                value={codeEl.language === "python" || codeEl.language === "py" ? "python" : "typescript"}
+                value={
+                  codeEl.language === "python" || codeEl.language === "py"
+                    ? "python"
+                    : "typescript"
+                }
                 onValueChange={(val) => updateCode({ language: val })}
               >
                 <SelectTrigger className="h-8 w-full text-xs cursor-pointer">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="text-xs">
-                  <SelectItem value="typescript" className="text-xs py-1.5 cursor-pointer">
+                  <SelectItem
+                    value="typescript"
+                    className="text-xs py-1.5 cursor-pointer"
+                  >
                     TypeScript
                   </SelectItem>
-                  <SelectItem value="python" className="text-xs py-1.5 cursor-pointer">
+                  <SelectItem
+                    value="python"
+                    className="text-xs py-1.5 cursor-pointer"
+                  >
                     Python
                   </SelectItem>
                 </SelectContent>
@@ -189,11 +201,13 @@ export function CodeInspector() {
                 </SelectTrigger>
                 <SelectContent className="text-xs">
                   {CODE_THEMES.map((theme) => (
-                    <SelectItem key={theme.id} value={theme.id} className="text-xs py-1.5 cursor-pointer">
+                    <SelectItem
+                      key={theme.id}
+                      value={theme.id}
+                      className="text-xs py-1.5 cursor-pointer"
+                    >
                       <div className="flex">
-                        <div
-                          style={{ backgroundColor: theme.bg }}
-                        />
+                        <div style={{ backgroundColor: theme.bg }} />
                         {theme.name}
                       </div>
                     </SelectItem>
@@ -213,12 +227,12 @@ export function CodeInspector() {
                       p.id !== "custom" &&
                       p.rotateX === style.rotateX &&
                       p.rotateY === style.rotateY &&
-                      p.rotate === style.rotate
+                      p.rotate === style.rotate,
                   )?.id || "custom"
                 }
                 onValueChange={(presetId) => {
                   const preset = TRANSFORM_3D_PRESETS.find(
-                    (p) => p.id === presetId
+                    (p) => p.id === presetId,
                   );
                   if (preset && preset.id !== "custom") {
                     updateCode({
@@ -349,7 +363,8 @@ export function CodeInspector() {
             <PlusIcon className="w-3.5 h-3.5 mr-2" /> Add Code Layer
           </Button>
           <div className="text-center p-6 text-muted-foreground font-inter text-xs border-2 border-dashed rounded-lg">
-            Add a code snippet to customize syntax, window frames, and 3D perspectives.
+            Add a code snippet to customize syntax, window frames, and 3D
+            perspectives.
           </div>
         </div>
       )}

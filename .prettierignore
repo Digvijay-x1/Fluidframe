@@ -5,3 +5,10 @@ dist
 build
 .idea
 .vscode
+public/ffmpeg/
+src/prisma/client/
+package-lock.json
+coverage/
+.agents/
+.codex/
+skills-lock.json

@@ -135,7 +135,8 @@ export interface TextElement {
   isLocked: boolean;
 }
 
-export type WindowFrameStyle = "macos" | "windows" | "classic" | "browser" | "minimal";
+export type WindowFrameStyle =
+  "macos" | "windows" | "classic" | "browser" | "minimal";
 
 export interface CodeStyle {
   fontSize: number;
@@ -237,7 +238,14 @@ export interface EditorCanvasProps {
 
 export type ExportFormat = "mp4" | "gif" | "png" | "jpeg" | "svg";
 
-export type CanvasDocument = Pick<EditorState, "aspectRatio" | "canvasBackground" | "meshConfig" | "overlayConfig" | "elements">;
+export type CanvasDocument = Pick<
+  EditorState,
+  | "aspectRatio"
+  | "canvasBackground"
+  | "meshConfig"
+  | "overlayConfig"
+  | "elements"
+>;
 
 export interface EditorState {
   aspectRatio: AspectRatioPreset;
@@ -286,7 +294,7 @@ export interface EditorState {
       | Partial<CanvasElement>
       | Partial<ImageElement["style"]>
       | Partial<TextElement["style"]>
-      | Partial<CodeStyle>
+      | Partial<CodeStyle>,
   ) => void;
   removeElement: (id: string) => void;
   toggleVisibility: (id: string) => void;
@@ -317,7 +325,9 @@ export interface LeftPanelProps {
   isCropping: boolean;
   onToggleCropping: () => void;
   onImageUpload: (file: File) => void;
-  onLoadTemplateOrPreset: (preset: TemplateItem | UserPreset) => Promise<boolean>;
+  onLoadTemplateOrPreset: (
+    preset: TemplateItem | UserPreset,
+  ) => Promise<boolean>;
 }
 
 export interface Wallpaper {

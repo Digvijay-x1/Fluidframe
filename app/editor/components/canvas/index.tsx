@@ -31,7 +31,7 @@ export const Canvas = forwardRef<HTMLDivElement, EditorCanvasProps>(
       showGrid,
       onCropChange,
     },
-    ref
+    ref,
   ) => {
     const handleEmptyClick = useCallback(() => {
       onEmptyClick();
@@ -46,7 +46,7 @@ export const Canvas = forwardRef<HTMLDivElement, EditorCanvasProps>(
     const getBackgroundStyle = (
       bg: string,
       aspectWidth: number,
-      aspectHeight: number
+      aspectHeight: number,
     ) => {
       if (bg.startsWith("url(")) {
         const isTallCanvas = aspectHeight >= aspectWidth;
@@ -170,7 +170,10 @@ export const Canvas = forwardRef<HTMLDivElement, EditorCanvasProps>(
               onClick={handleEmptyClick}
               className="group w-56 h-36 border-2 border-dashed border-white/70 hover:border-white rounded-xl flex flex-col items-center justify-center cursor-pointer bg-black/20 backdrop-blur-sm hover:backdrop-blur-md transition-all z-20"
             >
-              <ImageIcon className="size-8 mb-2 text-white/80 group-hover:text-white transition-colors" weight="duotone" />
+              <ImageIcon
+                className="size-8 mb-2 text-white/80 group-hover:text-white transition-colors"
+                weight="duotone"
+              />
               <span className="text-sm text-white/90 font-medium font-inter group-hover:text-white">
                 Click to Upload Layer
               </span>
@@ -248,7 +251,7 @@ export const Canvas = forwardRef<HTMLDivElement, EditorCanvasProps>(
         </div>
       </Card>
     );
-  }
+  },
 );
 
 Canvas.displayName = "Canvas";

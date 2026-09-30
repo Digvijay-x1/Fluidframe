@@ -120,7 +120,7 @@ export const ImageLayer = memo(
     onPointerDown?: (e: React.PointerEvent, id: string) => void;
     onCropChange: (
       id: string,
-      newCrop: { top: number; right: number; bottom: number; left: number }
+      newCrop: { top: number; right: number; bottom: number; left: number },
     ) => void;
     isLocked: boolean;
   }) => {
@@ -148,14 +148,20 @@ export const ImageLayer = memo(
       const generation = useStore.getState().documentGeneration;
       const reader = new FileReader();
       reader.onload = (e) => {
-        if (useStore.getState().documentGeneration !== generation || !useStore.getState().elements.some((element) => element.id === img.id)) return;
+        if (
+          useStore.getState().documentGeneration !== generation ||
+          !useStore.getState().elements.some((element) => element.id === img.id)
+        )
+          return;
         const dataUrl = e.target?.result as string;
         updateElement(img.id, {
           src: dataUrl,
           isPlaceholder: false,
           name: file.name.replace(/\.[^/.]+$/, ""),
         });
-        toast.success(`Image added to ${img.placeholderLabel || img.name || "card"}`);
+        toast.success(
+          `Image added to ${img.placeholderLabel || img.name || "card"}`,
+        );
       };
       reader.readAsDataURL(file);
     };
@@ -196,7 +202,7 @@ export const ImageLayer = memo(
             const scaleFactor = Math.max(0.05, (img.style?.scale || 100) / 100);
             const effectivePxSize = Math.max(
               1,
-              Math.round((ditherConfig.pixelSize || 4) / scaleFactor)
+              Math.round((ditherConfig.pixelSize || 4) / scaleFactor),
             );
 
             const processedCanvas = applyDitherToCanvas(originalImage, {
@@ -264,25 +270,25 @@ export const ImageLayer = memo(
         if (side.includes("left")) {
           newCrop.left = Math.min(
             Math.max(0, startCrop.left + deltaPctX),
-            100 - newCrop.right - 5
+            100 - newCrop.right - 5,
           );
         }
         if (side.includes("right")) {
           newCrop.right = Math.min(
             Math.max(0, startCrop.right - deltaPctX),
-            100 - newCrop.left - 5
+            100 - newCrop.left - 5,
           );
         }
         if (side.includes("top")) {
           newCrop.top = Math.min(
             Math.max(0, startCrop.top + deltaPctY),
-            100 - newCrop.bottom - 5
+            100 - newCrop.bottom - 5,
           );
         }
         if (side.includes("bottom")) {
           newCrop.bottom = Math.min(
             Math.max(0, startCrop.bottom - deltaPctY),
-            100 - newCrop.top - 5
+            100 - newCrop.top - 5,
           );
         }
 
@@ -313,8 +319,9 @@ export const ImageLayer = memo(
     return (
       <div
         ref={layerRef}
-        className={`absolute transition-transform ${isDragging ? "duration-0" : "duration-100"
-          } ease-out touch-none`}
+        className={`absolute transition-transform ${
+          isDragging ? "duration-0" : "duration-100"
+        } ease-out touch-none`}
         style={{
           left: img.position.x,
           top: img.position.y,
@@ -347,11 +354,13 @@ export const ImageLayer = memo(
         {isPlaceholder ? (
           /* Subtle Framed Image Placeholder with '+' sign */
           <div
-            className={`w-full h-full relative pointer-events-auto touch-none group flex flex-col items-center justify-center transition-all ${isLocked ? "cursor-default" : "cursor-pointer"
-              } ${isSelected
+            className={`w-full h-full relative pointer-events-auto touch-none group flex flex-col items-center justify-center transition-all ${
+              isLocked ? "cursor-default" : "cursor-pointer"
+            } ${
+              isSelected
                 ? "ring-2 ring-primary ring-offset-2 ring-offset-transparent shadow-2xl"
                 : "hover:border-primary/80"
-              }`}
+            }`}
             onPointerDown={(e) => {
               if (isLocked) return;
               pointerStartRef.current = { x: e.clientX, y: e.clientY };
@@ -450,8 +459,8 @@ export const ImageLayer = memo(
 
             <div
               className={`pointer-events-auto touch-none group relative
-                ${isLocked ? "cursor-default" : "cursor-move"
-                } ${isSelected ? "ring-2 ring-primary" : ""
+                ${isLocked ? "cursor-default" : "cursor-move"} ${
+                  isSelected ? "ring-2 ring-primary" : ""
                 }
               `}
               onPointerDown={(e) => !isLocked && onPointerDown?.(e, img.id)}
@@ -460,7 +469,9 @@ export const ImageLayer = memo(
                 width: img.width ? `${img.width}px` : undefined,
                 height: img.height ? `${img.height}px` : undefined,
                 position: img.width ? "relative" : "absolute",
-                inset: img.width ? undefined : `${top}% ${right}% ${bottom}% ${left}%`,
+                inset: img.width
+                  ? undefined
+                  : `${top}% ${right}% ${bottom}% ${left}%`,
                 borderRadius: `${img.style.borderRadius}px`,
                 boxShadow: img.style.glassmorphism
                   ? "0 8px 32px 0 rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3)"
@@ -477,9 +488,11 @@ export const ImageLayer = memo(
                   ? `blur(${img.style.glassBlur || 16}px) saturate(180%)`
                   : undefined,
                 opacity: img.style.opacity / 100,
-                filter: `blur(${img.style.blur || 0}px) brightness(${(img.style.brightness ?? 100) / 100
-                  }) contrast(${(img.style.contrast ?? 100) / 100}) saturate(${(img.style.saturate ?? 100) / 100
-                  })`,
+                filter: `blur(${img.style.blur || 0}px) brightness(${
+                  (img.style.brightness ?? 100) / 100
+                }) contrast(${(img.style.contrast ?? 100) / 100}) saturate(${
+                  (img.style.saturate ?? 100) / 100
+                })`,
                 backfaceVisibility: has3DRotation ? "visible" : "hidden",
               }}
             >
@@ -491,10 +504,11 @@ export const ImageLayer = memo(
                   src={processedImage || img.src}
                   alt={img.name || "Layer"}
                   draggable={false}
-                  className={`block pointer-events-none ${img.width
-                    ? "w-full h-full object-cover absolute inset-0"
-                    : "object-contain absolute max-w-none max-h-none"
-                    }`}
+                  className={`block pointer-events-none ${
+                    img.width
+                      ? "w-full h-full object-cover absolute inset-0"
+                      : "object-contain absolute max-w-none max-h-none"
+                  }`}
                   style={{
                     width: img.width ? "100%" : `${widthFactor * 100}%`,
                     height: img.height ? "100%" : `${heightFactor * 100}%`,
@@ -578,6 +592,6 @@ export const ImageLayer = memo(
       prev.isDragging === next.isDragging &&
       prev.isLocked === next.isLocked
     );
-  }
+  },
 );
 ImageLayer.displayName = "ImageLayer";

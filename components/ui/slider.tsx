@@ -4,7 +4,9 @@ import * as React from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import { cn } from "@/lib/utils";
 
-export interface SliderProps extends React.ComponentProps<typeof SliderPrimitive.Root> {
+export interface SliderProps extends React.ComponentProps<
+  typeof SliderPrimitive.Root
+> {
   showTooltip?: boolean;
   formatValue?: (val: number) => string;
 }

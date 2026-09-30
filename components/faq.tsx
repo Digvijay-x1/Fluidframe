@@ -61,7 +61,8 @@ export function FAQ() {
             Frequently asked questions
           </h2>
           <p className="mt-3 text-sm sm:text-base text-muted-foreground font-manrope ">
-            Everything you need to know about Fluidframe, shader workflows, privacy.
+            Everything you need to know about Fluidframe, shader workflows,
+            privacy.
           </p>
         </motion.div>
 

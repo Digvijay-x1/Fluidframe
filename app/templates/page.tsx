@@ -18,7 +18,13 @@ export const metadata: Metadata = {
     description:
       "Instant 3D mockup templates for GitHub Readme banners, Product Hunt launches, terminal CLI shots, and SaaS marketing heroes.",
     url: "https://fluidframe.vercel.app/templates",
-    images: [{ url: "https://fluidframe.vercel.app/landing.png", width: 1200, height: 630 }],
+    images: [
+      {
+        url: "https://fluidframe.vercel.app/landing.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -58,7 +64,6 @@ export default function TemplatesPage() {
       <Navbar />
 
       <section className="pt-32 pb-16 px-4 md:pt-40 md:pb-24 max-w-6xl mx-auto w-full flex flex-col items-center text-center">
-
         <h1 className="text-3xl sm:text-5xl md:text-6xl font-semibold tracking-tighter max-w-4xl text-balance">
           Studio-Grade Templates for{" "}
           <span className="text-primary font-instrument font-normal">
@@ -67,7 +72,9 @@ export default function TemplatesPage() {
         </h1>
 
         <p className="mt-4 text-base sm:text-lg text-muted-foreground max-w-2xl font-manrope leading-relaxed">
-          Skip the blank canvas. Pick a pre-configured template tailored for GitHub Readme banners, Product Hunt launch galleries, code snippets, and social changelogs.
+          Skip the blank canvas. Pick a pre-configured template tailored for
+          GitHub Readme banners, Product Hunt launch galleries, code snippets,
+          and social changelogs.
         </p>
 
         {/* Templates Grid */}
@@ -83,7 +90,8 @@ export default function TemplatesPage() {
                     {template.category}
                   </span>
                   <span className="text-[11px] font-mono text-muted-foreground">
-                    {template.elements.length} Cards • {template.aspectRatio?.name || "16:9"}
+                    {template.elements.length} Cards •{" "}
+                    {template.aspectRatio?.name || "16:9"}
                   </span>
                 </div>
 
@@ -127,7 +135,8 @@ export default function TemplatesPage() {
                             backdropFilter: "blur(12px)",
                             border: "2px dashed rgba(255, 255, 255, 0.4)",
                             boxShadow:
-                              img.style.shadow || "0 25px 50px -12px rgba(0,0,0,0.65)",
+                              img.style.shadow ||
+                              "0 25px 50px -12px rgba(0,0,0,0.65)",
                             opacity: (img.style.opacity || 100) / 100,
                             zIndex: idx + 1,
                           }}

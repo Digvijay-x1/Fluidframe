@@ -23,7 +23,7 @@ function AccordionItem({
         className?.includes("rounded") || className?.includes("border")
           ? ""
           : "border-b last:border-b-0",
-        className
+        className,
       )}
       {...props}
     />
@@ -46,7 +46,10 @@ function AccordionTrigger({
         {...props}
       >
         {children}
-        <CaretDownIcon className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200" weight="bold" />
+        <CaretDownIcon
+          className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200"
+          weight="bold"
+        />
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
   );

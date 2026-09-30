@@ -6,10 +6,12 @@ export const BUILTIN_TEMPLATES: TemplateItem[] = [
   {
     id: "tilted-triptych",
     title: "Tilted Triptych",
-    description: "Triple perspective cards with subtle 3D yaw and gentle depth overlap.",
+    description:
+      "Triple perspective cards with subtle 3D yaw and gentle depth overlap.",
     category: "presentation",
     layoutType: "triptych-3d",
-    aspectRatio: ASPECT_RATIOS.find((r) => r.name === "16:9") || ASPECT_RATIOS[0],
+    aspectRatio:
+      ASPECT_RATIOS.find((r) => r.name === "16:9") || ASPECT_RATIOS[0],
     elements: [
       {
         id: "triptych_left",
@@ -79,10 +81,12 @@ export const BUILTIN_TEMPLATES: TemplateItem[] = [
   {
     id: "isometric-trio",
     title: "Angled Trio",
-    description: "Three overlapping fanned cards with natural angles and elevation depth.",
+    description:
+      "Three overlapping fanned cards with natural angles and elevation depth.",
     category: "cards",
     layoutType: "isometric-trio",
-    aspectRatio: ASPECT_RATIOS.find((r) => r.name === "16:9") || ASPECT_RATIOS[0],
+    aspectRatio:
+      ASPECT_RATIOS.find((r) => r.name === "16:9") || ASPECT_RATIOS[0],
     elements: [
       {
         id: "iso_1",
@@ -152,10 +156,12 @@ export const BUILTIN_TEMPLATES: TemplateItem[] = [
   {
     id: "mobile-showcase",
     title: "Mobile Brand Showcase",
-    description: "Three mobile device displays with rounded corners for app and UI presentations.",
+    description:
+      "Three mobile device displays with rounded corners for app and UI presentations.",
     category: "mobile",
     layoutType: "mobile-showcase",
-    aspectRatio: ASPECT_RATIOS.find((r) => r.name === "16:9") || ASPECT_RATIOS[0],
+    aspectRatio:
+      ASPECT_RATIOS.find((r) => r.name === "16:9") || ASPECT_RATIOS[0],
     elements: [
       {
         id: "phone_left",
@@ -225,10 +231,12 @@ export const BUILTIN_TEMPLATES: TemplateItem[] = [
   {
     id: "staggered-cascade",
     title: "Staggered Cascade",
-    description: "Three descending cards showcasing product flow or multi-step screens.",
+    description:
+      "Three descending cards showcasing product flow or multi-step screens.",
     category: "presentation",
     layoutType: "stagger-cascade",
-    aspectRatio: ASPECT_RATIOS.find((r) => r.name === "16:9") || ASPECT_RATIOS[0],
+    aspectRatio:
+      ASPECT_RATIOS.find((r) => r.name === "16:9") || ASPECT_RATIOS[0],
     elements: [
       {
         id: "cascade_1",
@@ -298,10 +306,12 @@ export const BUILTIN_TEMPLATES: TemplateItem[] = [
   {
     id: "dual-perspective",
     title: "Dual Perspective Split",
-    description: "Two large inward-facing cards for side-by-side product or design comparisons.",
+    description:
+      "Two large inward-facing cards for side-by-side product or design comparisons.",
     category: "presentation",
     layoutType: "dual-perspective",
-    aspectRatio: ASPECT_RATIOS.find((r) => r.name === "16:9") || ASPECT_RATIOS[0],
+    aspectRatio:
+      ASPECT_RATIOS.find((r) => r.name === "16:9") || ASPECT_RATIOS[0],
     elements: [
       {
         id: "dual_left",
@@ -350,10 +360,12 @@ export const BUILTIN_TEMPLATES: TemplateItem[] = [
   {
     id: "floating-stack",
     title: "Floating Layered Stack",
-    description: "Three vertically stacked cards with depth, elevation, and focused center.",
+    description:
+      "Three vertically stacked cards with depth, elevation, and focused center.",
     category: "cards",
     layoutType: "floating-stack",
-    aspectRatio: ASPECT_RATIOS.find((r) => r.name === "16:9") || ASPECT_RATIOS[0],
+    aspectRatio:
+      ASPECT_RATIOS.find((r) => r.name === "16:9") || ASPECT_RATIOS[0],
     elements: [
       {
         id: "stack_back",

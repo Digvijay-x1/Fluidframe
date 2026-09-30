@@ -1,16 +1,8 @@
 import { AspectRatioPreset } from "../values";
-import {
-  CanvasElement,
-  MeshGradientConfig,
-  OverlayConfig,
-} from "../types";
+import { CanvasElement, MeshGradientConfig, OverlayConfig } from "../types";
 
 export type TemplateCategory =
-  | "all"
-  | "presentation"
-  | "cards"
-  | "mobile"
-  | "minimal";
+  "all" | "presentation" | "cards" | "mobile" | "minimal";
 
 export type TemplateLayoutType =
   | "triptych-3d"

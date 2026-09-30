@@ -11,17 +11,27 @@ beforeEach(async () => {
     const request = indexedDB.deleteDatabase("fluidframe-recovery");
     request.onsuccess = request.onerror = () => resolve();
   });
-  vi.stubGlobal("document", Object.assign(new EventTarget(), { visibilityState: "visible" }));
+  vi.stubGlobal(
+    "document",
+    Object.assign(new EventTarget(), { visibilityState: "visible" }),
+  );
   vi.stubGlobal("window", new EventTarget());
   useStore.getState().replaceDocument(createDefaultDocument());
   db = await openDraftDatabase();
   vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
 });
-afterEach(() => { stop?.(); db?.close(); vi.useRealTimers(); vi.unstubAllGlobals(); });
+afterEach(() => {
+  stop?.();
+  db?.close();
+  vi.useRealTimers();
+  vi.unstubAllGlobals();
+});
 
 it("ignores selection changes and saves document edits after the debounce", async () => {
   const statuses: string[] = [];
-  const controller = new DraftController(db, null, (status) => statuses.push(status));
+  const controller = new DraftController(db, null, (status) =>
+    statuses.push(status),
+  );
   stop = controller.start();
   useStore.getState().selectElement("missing");
   await vi.advanceTimersByTimeAsync(600);
@@ -30,7 +40,10 @@ it("ignores selection changes and saves document edits after the debounce", asyn
   await vi.advanceTimersByTimeAsync(499);
   expect(await readDraft(db)).toBeUndefined();
   await vi.advanceTimersByTimeAsync(1);
-  expect((await readDraft(db) as { document: { canvasBackground: string } }).document.canvasBackground).toBe("#112233");
+  expect(
+    ((await readDraft(db)) as { document: { canvasBackground: string } })
+      .document.canvasBackground,
+  ).toBe("#112233");
   expect(statuses).toContain("saved");
 });
 

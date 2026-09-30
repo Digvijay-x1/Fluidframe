@@ -9,7 +9,7 @@ import {
   Playfair_Display as Playfair,
   Oswald,
   Montserrat,
-  Geist
+  Geist,
 } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
@@ -101,7 +101,10 @@ export const metadata: Metadata = {
     "MP4 animation creator",
     "developer portfolio mockup",
   ],
-  authors: [{ name: "Digvijay Rawat" }, { name: "Fluidframe", url: "https://fluidframe.vercel.app" }],
+  authors: [
+    { name: "Digvijay Rawat" },
+    { name: "Fluidframe", url: "https://fluidframe.vercel.app" },
+  ],
   creator: "Fluidframe",
   publisher: "Fluidframe",
   category: "Design & Developer Tools",
@@ -158,7 +161,8 @@ export const metadata: Metadata = {
     "twitter:creator": "@DIGVIJAY__RAWAT",
     "twitter:url": "https://fluidframe.vercel.app/",
     "twitter:image": "https://fluidframe.vercel.app/landing.png",
-    "twitter:image:alt": "Fluidframe - 3D Screenshot Mockups & WebGL Studio for Developers",
+    "twitter:image:alt":
+      "Fluidframe - 3D Screenshot Mockups & WebGL Studio for Developers",
   },
 };
 
@@ -168,24 +172,24 @@ const jsonLd = {
     {
       "@type": "SoftwareApplication",
       "@id": "https://fluidframe.vercel.app/#webapp",
-      "name": "Fluidframe",
-      "url": "https://fluidframe.vercel.app",
-      "applicationCategory": "DesignApplication",
-      "operatingSystem": "All",
-      "description":
+      name: "Fluidframe",
+      url: "https://fluidframe.vercel.app",
+      applicationCategory: "DesignApplication",
+      operatingSystem: "All",
+      description:
         "The premier visual studio for developers and creators. Create 3D isometric screenshot mockups, real-time WebGL fluid mesh gradients, terminal code highlights, and retro Bayer dither art.",
-      "browserRequirements": "Requires WebGL support",
-      "offers": {
+      browserRequirements: "Requires WebGL support",
+      offers: {
         "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD",
+        price: "0",
+        priceCurrency: "USD",
       },
-      "aggregateRating": {
+      aggregateRating: {
         "@type": "AggregateRating",
-        "ratingValue": "4.9",
-        "reviewCount": "142",
+        ratingValue: "4.9",
+        reviewCount: "142",
       },
-      "featureList": [
+      featureList: [
         "3D Device Mockup Generation",
         "Syntax Highlighted Code & Terminal Layers",
         "Real-Time WebGL Fluid Mesh Shaders",
@@ -197,10 +201,13 @@ const jsonLd = {
     {
       "@type": "Organization",
       "@id": "https://fluidframe.vercel.app/#organization",
-      "name": "Fluidframe",
-      "url": "https://fluidframe.vercel.app",
-      "logo": "https://fluidframe.vercel.app/landing.png",
-      "sameAs": ["https://x.com/DIGVIJAY__RAWAT", "https://github.com/Digvijay-x1/fluidframe"],
+      name: "Fluidframe",
+      url: "https://fluidframe.vercel.app",
+      logo: "https://fluidframe.vercel.app/landing.png",
+      sameAs: [
+        "https://x.com/DIGVIJAY__RAWAT",
+        "https://github.com/Digvijay-x1/fluidframe",
+      ],
     },
   ],
 };

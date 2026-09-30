@@ -20,11 +20,15 @@ export function ThemeToggle({ classname }: { classname?: string }) {
         "text-muted-foreground hover:text-foreground p-1 cursor-pointer",
         "transition-all duration-300 ease-in-out",
         resolvedTheme === "dark" ? "rotate-180" : "rotate-0",
-        classname
+        classname,
       )}
       aria-label="Toggle theme"
     >
-      {resolvedTheme === "dark" ? <SunIcon size={17} weight="bold" /> : <MoonStarsIcon size={17} weight="bold" />}
+      {resolvedTheme === "dark" ? (
+        <SunIcon size={17} weight="bold" />
+      ) : (
+        <MoonStarsIcon size={17} weight="bold" />
+      )}
     </button>
   );
 }

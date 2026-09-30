@@ -137,7 +137,6 @@ export const Support: React.FC = () => {
     >
       <div className="w-[92%] max-w-6xl mx-auto relative z-10 my-auto">
         <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-10 md:mb-14">
-
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -159,8 +158,9 @@ export const Support: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="mt-3 text-xs sm:text-sm md:text-base text-muted-foreground max-w-2xl leading-relaxed"
           >
-            Fluidframe has no paywalls, zero telemetry trackers, and no venture capitalists. It is built
-            independently with love which accelerates your creative workflow.
+            Fluidframe has no paywalls, zero telemetry trackers, and no venture
+            capitalists. It is built independently with love which accelerates
+            your creative workflow.
           </motion.p>
         </div>
 
@@ -174,12 +174,12 @@ export const Support: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-10 items-center px-4 sm:px-8 lg:px-12 xl:px-24 gap-8 lg:gap-6">
             <div className="lg:col-span-3 flex flex-col justify-between space-y-5">
               <div>
-
                 <h3 className="text-lg sm:text-xl font-bold text-foreground mb-2">
                   Uncompromised studio capabilities for all.
                 </h3>
                 <p className="text-xs text-muted-foreground leading-relaxed">
-                  No features are held hostage behind tier upgrades. Every creator gets the complete toolkit.
+                  No features are held hostage behind tier upgrades. Every
+                  creator gets the complete toolkit.
                 </p>
               </div>
 
@@ -208,7 +208,9 @@ export const Support: React.FC = () => {
                         <h4 className="text-xs sm:text-sm font-semibold text-foreground">
                           {cap.title}
                         </h4>
-                        <p className="text-[11px] text-muted-foreground">{cap.sub}</p>
+                        <p className="text-[11px] text-muted-foreground">
+                          {cap.sub}
+                        </p>
                       </div>
                     </div>
                   );
@@ -301,7 +303,9 @@ export const Support: React.FC = () => {
                             {copied ? (
                               <>
                                 <CheckIcon className="size-3 text-emerald-500" />
-                                <span className="text-emerald-500 font-semibold">Copied</span>
+                                <span className="text-emerald-500 font-semibold">
+                                  Copied
+                                </span>
                               </>
                             ) : (
                               <>
@@ -333,7 +337,8 @@ export const Support: React.FC = () => {
                   Build Fluidframe with us on GitHub.
                 </h3>
                 <p className="text-xs text-muted-foreground leading-relaxed">
-                  Join the open-source community. Contribute custom shaders, submit bug fixes, or star the project.
+                  Join the open-source community. Contribute custom shaders,
+                  submit bug fixes, or star the project.
                 </p>
               </div>
 
@@ -367,7 +372,9 @@ export const Support: React.FC = () => {
                               {channel.title}
                             </span>
                           </div>
-                          <p className="text-[11px] text-muted-foreground">{channel.desc}</p>
+                          <p className="text-[11px] text-muted-foreground">
+                            {channel.desc}
+                          </p>
                         </div>
                       </div>
                     </a>
@@ -395,7 +402,9 @@ export const Support: React.FC = () => {
                     </div>
                     <div className="flex flex-col">
                       <span className="text-sm">Digvijay-x1/fluidframe</span>
-                      <span className="text-[11px] text-muted-foreground font-light">Public repository </span>
+                      <span className="text-[11px] text-muted-foreground font-light">
+                        Public repository{" "}
+                      </span>
                     </div>
                   </div>
                   <div className="flex items-center gap-1 text-[11px] text-muted-foreground group-hover:text-foreground relative z-10">

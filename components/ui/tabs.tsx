@@ -21,7 +21,7 @@ function Tabs({
   const uniqueId = React.useId();
 
   const [activeTab, setActiveTab] = React.useState<string>(
-    value || defaultValue || ""
+    value || defaultValue || "",
   );
 
   React.useEffect(() => {
@@ -62,7 +62,7 @@ function TabsList({
       data-slot="tabs-list"
       className={cn(
         "relative bg-muted dark:bg-neutral-800 text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded-lg p-0.75",
-        className
+        className,
       )}
       {...props}
     />
@@ -92,7 +92,7 @@ function TabsTrigger({
         isActive
           ? "text-foreground dark:text-foreground"
           : "text-foreground/70 dark:text-muted-foreground hover:text-foreground",
-        className
+        className,
       )}
       {...props}
     >

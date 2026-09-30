@@ -8,7 +8,9 @@ export function MobileNotice() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const isDismissed = sessionStorage.getItem("fluidframe_mobile_notice_dismissed");
+    const isDismissed = sessionStorage.getItem(
+      "fluidframe_mobile_notice_dismissed",
+    );
     if (isDismissed) return;
 
     const checkMobile = () => {
@@ -46,7 +48,10 @@ export function MobileNotice() {
                 <DesktopIcon className="size-3" weight="bold" />
               </div>
               <p className="text-[11px] text-muted-foreground leading-tight truncate sm:whitespace-normal">
-                <strong className="text-foreground font-semibold">Works best on desktop:</strong> Please use on a bigger screen.
+                <strong className="text-foreground font-semibold">
+                  Works best on desktop:
+                </strong>{" "}
+                Please use on a bigger screen.
               </p>
             </div>
             <button

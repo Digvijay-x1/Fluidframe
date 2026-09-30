@@ -25,10 +25,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { RightPanelProps } from "../../types";
-import {
-  MESH_PALETTES,
-  DEFAULT_MESH_CONFIG,
-} from "../../values";
+import { MESH_PALETTES, DEFAULT_MESH_CONFIG } from "../../values";
 import { Wallpapers } from "../../hooks/wallpaper";
 import { Memes } from "../../hooks/memes";
 import { generateRandomMeshColors } from "../../utils/gradient-gen";
@@ -70,14 +67,14 @@ export function RightPanel({ onDownload }: RightPanelProps) {
   } = Memes({ limit: 20 });
 
   const [pictureSubTab, setPictureSubTab] = useState<"wallpapers" | "memes">(
-    "wallpapers"
+    "wallpapers",
   );
   const [colorMode, setColorMode] = useState<"gradient" | "solid">("gradient");
   const [solidColor, setSolidColor] = useState<string>(
-    () => meshConfig.colors[0] || "#18181b"
+    () => meshConfig.colors[0] || "#18181b",
   );
   const [prevGradientColors, setPrevGradientColors] = useState<string[]>(
-    () => meshConfig.colors
+    () => meshConfig.colors,
   );
 
   const wallpaperScrollRef = useRef<HTMLDivElement>(null);
@@ -103,7 +100,7 @@ export function RightPanel({ onDownload }: RightPanelProps) {
     setColorMode(mode);
     if (mode === "solid") {
       const isAlreadySolid = meshConfig.colors.every(
-        (c) => c.toLowerCase() === meshConfig.colors[0].toLowerCase()
+        (c) => c.toLowerCase() === meshConfig.colors[0].toLowerCase(),
       );
       if (!isAlreadySolid) {
         setPrevGradientColors(meshConfig.colors);
@@ -111,13 +108,19 @@ export function RightPanel({ onDownload }: RightPanelProps) {
       const targetColor = solidColor || meshConfig.colors[0] || "#18181b";
       setBackground("mesh");
       setMeshConfig({
-        colors: [targetColor, targetColor, targetColor, targetColor, targetColor],
+        colors: [
+          targetColor,
+          targetColor,
+          targetColor,
+          targetColor,
+          targetColor,
+        ],
       });
     } else {
       const colorsToRestore =
         prevGradientColors.length === 5 &&
         prevGradientColors.some(
-          (c) => c.toLowerCase() !== prevGradientColors[0].toLowerCase()
+          (c) => c.toLowerCase() !== prevGradientColors[0].toLowerCase(),
         )
           ? prevGradientColors
           : DEFAULT_MESH_CONFIG.colors;
@@ -154,18 +157,33 @@ export function RightPanel({ onDownload }: RightPanelProps) {
 
   return (
     <div className="flex flex-col h-full w-full bg-card">
-      <Tabs defaultValue="shaders" className="w-full flex-1 flex flex-col h-full">
+      <Tabs
+        defaultValue="shaders"
+        className="w-full flex-1 flex flex-col h-full"
+      >
         <div className="px-3 pt-3 pb-1 shrink-0">
           <TabsList className="w-full grid grid-cols-3 dark:bg-neutral-800">
-            <TabsTrigger value="shaders" className="gap-1.5 font-semibold text-xs cursor-pointer">
-              <LightningIcon className="size-3.5 text-primary" weight="duotone" />
+            <TabsTrigger
+              value="shaders"
+              className="gap-1.5 font-semibold text-xs cursor-pointer"
+            >
+              <LightningIcon
+                className="size-3.5 text-primary"
+                weight="duotone"
+              />
               Shaders
             </TabsTrigger>
-            <TabsTrigger value="overlays" className="gap-1.5 font-semibold text-xs cursor-pointer">
+            <TabsTrigger
+              value="overlays"
+              className="gap-1.5 font-semibold text-xs cursor-pointer"
+            >
               <StackIcon className="size-3.5 text-primary" weight="duotone" />
               Texture
             </TabsTrigger>
-            <TabsTrigger value="pictures" className="gap-1.5 font-semibold text-xs cursor-pointer">
+            <TabsTrigger
+              value="pictures"
+              className="gap-1.5 font-semibold text-xs cursor-pointer"
+            >
               <ImageIcon className="size-3.5 text-primary" weight="duotone" />
               Pictures
             </TabsTrigger>
@@ -220,7 +238,7 @@ export function RightPanel({ onDownload }: RightPanelProps) {
                         meshConfig.colors.length === pal.colors.length &&
                         meshConfig.colors.every(
                           (c, i) =>
-                            c.toLowerCase() === pal.colors[i].toLowerCase()
+                            c.toLowerCase() === pal.colors[i].toLowerCase(),
                         );
 
                       return (
@@ -233,10 +251,11 @@ export function RightPanel({ onDownload }: RightPanelProps) {
                             setColorMode("gradient");
                             setMeshConfig({ colors: [...pal.colors] });
                           }}
-                          className={`group relative rounded-lg p-1.5 border transition-all text-center bg-background/50 hover:scale-[1.03] hover:z-10 hover:shadow-md cursor-pointer ${isSelected
-                            ? "border-primary ring-1 ring-primary/60 bg-primary/5 shadow-xs font-semibold"
-                            : "border-neutral-300 dark:border-neutral-700 hover:border-primary/80 hover:ring-1 hover:ring-primary/50"
-                            }`}
+                          className={`group relative rounded-lg p-1.5 border transition-all text-center bg-background/50 hover:scale-[1.03] hover:z-10 hover:shadow-md cursor-pointer ${
+                            isSelected
+                              ? "border-primary ring-1 ring-primary/60 bg-primary/5 shadow-xs font-semibold"
+                              : "border-neutral-300 dark:border-neutral-700 hover:border-primary/80 hover:ring-1 hover:ring-primary/50"
+                          }`}
                         >
                           <div className="flex h-5 w-full rounded overflow-hidden mb-1 shadow-xs">
                             {pal.colors.map((c, i) => (
@@ -322,9 +341,12 @@ export function RightPanel({ onDownload }: RightPanelProps) {
                       <div className="flex flex-col items-center gap-1">
                         <div
                           className={`relative size-8 rounded-lg overflow-hidden border border-neutral-300 dark:border-neutral-700 shadow-xs hover:scale-105 transition-transform ${
-                            ![ "#64748b","#fed7aa", "#bae6fd", "#f8fafc"].includes(
-                              solidColor.toLowerCase()
-                            )
+                            ![
+                              "#64748b",
+                              "#fed7aa",
+                              "#bae6fd",
+                              "#f8fafc",
+                            ].includes(solidColor.toLowerCase())
                               ? "border-primary ring-2 ring-primary/80"
                               : ""
                           }`}
@@ -528,7 +550,9 @@ export function RightPanel({ onDownload }: RightPanelProps) {
                         <StudioSlider
                           label="Pixel Size"
                           value={meshConfig.ditherPixelSize}
-                          onChange={(val) => setMeshConfig({ ditherPixelSize: val })}
+                          onChange={(val) =>
+                            setMeshConfig({ ditherPixelSize: val })
+                          }
                           min={1}
                           max={16}
                           step={1}
@@ -540,7 +564,9 @@ export function RightPanel({ onDownload }: RightPanelProps) {
                         <StudioSlider
                           label="Strength"
                           value={meshConfig.ditherStrength ?? 100}
-                          onChange={(val) => setMeshConfig({ ditherStrength: val })}
+                          onChange={(val) =>
+                            setMeshConfig({ ditherStrength: val })
+                          }
                           min={0}
                           max={100}
                           step={1}
@@ -569,7 +595,9 @@ export function RightPanel({ onDownload }: RightPanelProps) {
                     <StudioSlider
                       label="Pattern Opacity"
                       value={overlayConfig.patternOpacity}
-                      onChange={(val) => setOverlayConfig({ patternOpacity: val })}
+                      onChange={(val) =>
+                        setOverlayConfig({ patternOpacity: val })
+                      }
                       min={5}
                       max={100}
                       step={1}
@@ -586,15 +614,19 @@ export function RightPanel({ onDownload }: RightPanelProps) {
                         <button
                           key={p.id}
                           onClick={() => setOverlayConfig({ pattern: p.id })}
-                          className={`group relative aspect-video rounded-lg overflow-hidden border transition-all duration-200 hover:scale-[1.03] hover:z-20 hover:shadow-xl cursor-pointer bg-muted/30 ${isSelected
+                          className={`group relative aspect-video rounded-lg overflow-hidden border transition-all duration-200 hover:scale-[1.03] hover:z-20 hover:shadow-xl cursor-pointer bg-muted/30 ${
+                            isSelected
                               ? "border-primary ring-2 ring-primary/80 shadow-lg"
                               : "border-neutral-300 dark:border-neutral-700 hover:border-primary hover:ring-2 hover:ring-primary/60"
-                            }`}
+                          }`}
                         >
                           <div className="absolute inset-0 w-full h-full">
                             {p.id === "none" ? (
                               <div className="w-full h-full flex flex-col items-center justify-center bg-neutral-900/90 text-neutral-500 group-hover:text-neutral-300 transition-colors pb-3">
-                                <ProhibitIcon className="size-5 mb-0.5 opacity-60 group-hover:opacity-100" weight="bold" />
+                                <ProhibitIcon
+                                  className="size-5 mb-0.5 opacity-60 group-hover:opacity-100"
+                                  weight="bold"
+                                />
                                 <span className="text-[9px] uppercase tracking-wider font-semibold opacity-60">
                                   Off
                                 </span>
@@ -628,7 +660,9 @@ export function RightPanel({ onDownload }: RightPanelProps) {
                     <StudioSlider
                       label="Texture Opacity"
                       value={overlayConfig.textureOpacity}
-                      onChange={(val) => setOverlayConfig({ textureOpacity: val })}
+                      onChange={(val) =>
+                        setOverlayConfig({ textureOpacity: val })
+                      }
                       min={5}
                       max={100}
                       step={1}
@@ -645,15 +679,19 @@ export function RightPanel({ onDownload }: RightPanelProps) {
                         <button
                           key={t.id}
                           onClick={() => setOverlayConfig({ texture: t.id })}
-                          className={`group relative aspect-video rounded-lg overflow-hidden border transition-all duration-200 hover:scale-[1.03] hover:z-20 hover:shadow-xl cursor-pointer bg-muted/30 ${isSelected
+                          className={`group relative aspect-video rounded-lg overflow-hidden border transition-all duration-200 hover:scale-[1.03] hover:z-20 hover:shadow-xl cursor-pointer bg-muted/30 ${
+                            isSelected
                               ? "border-primary ring-2 ring-primary/80 shadow-lg"
                               : "border-neutral-300 dark:border-neutral-700 hover:border-primary hover:ring-2 hover:ring-primary/60"
-                            }`}
+                          }`}
                         >
                           <div className="absolute inset-0 w-full h-full">
                             {t.id === "none" ? (
                               <div className="w-full h-full flex flex-col items-center justify-center bg-neutral-900/90 text-neutral-500 group-hover:text-neutral-300 transition-colors pb-3">
-                                <ProhibitIcon className="size-5 mb-0.5 opacity-60 group-hover:opacity-100" weight="bold" />
+                                <ProhibitIcon
+                                  className="size-5 mb-0.5 opacity-60 group-hover:opacity-100"
+                                  weight="bold"
+                                />
                                 <span className="text-[9px] uppercase tracking-wider font-semibold opacity-60">
                                   Off
                                 </span>
@@ -691,19 +729,21 @@ export function RightPanel({ onDownload }: RightPanelProps) {
               <div className="grid grid-cols-2 gap-1 bg-muted/60 p-1 rounded-lg shrink-0">
                 <button
                   onClick={() => setPictureSubTab("wallpapers")}
-                  className={`py-1.5 rounded text-xs font-medium transition-all flex items-center justify-center gap-1.5 cursor-pointer ${pictureSubTab === "wallpapers"
-                    ? "bg-background text-foreground shadow-xs font-bold"
-                    : "text-muted-foreground hover:text-foreground"
-                    }`}
+                  className={`py-1.5 rounded text-xs font-medium transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                    pictureSubTab === "wallpapers"
+                      ? "bg-background text-foreground shadow-xs font-bold"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
                 >
                   <ImageIcon className="size-3.5" weight="duotone" /> Wallpapers
                 </button>
                 <button
                   onClick={() => setPictureSubTab("memes")}
-                  className={`py-1.5 rounded text-xs font-medium transition-all flex items-center justify-center gap-1.5 cursor-pointer ${pictureSubTab === "memes"
-                    ? "bg-background text-foreground shadow-xs font-bold"
-                    : "text-muted-foreground hover:text-foreground"
-                    }`}
+                  className={`py-1.5 rounded text-xs font-medium transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                    pictureSubTab === "memes"
+                      ? "bg-background text-foreground shadow-xs font-bold"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
                 >
                   <SmileyIcon className="size-3.5" weight="duotone" /> Memes
                 </button>
@@ -753,11 +793,16 @@ export function RightPanel({ onDownload }: RightPanelProps) {
                             const img = new Image();
                             img.src = meme.url;
                             img.onload = () => {
-                              setCustomSize(img.naturalWidth, img.naturalHeight);
+                              setCustomSize(
+                                img.naturalWidth,
+                                img.naturalHeight,
+                              );
                               setBackground(`url(${meme.url})`);
                             };
                             img.onerror = () => {
-                              toast.error("Failed to load meme template image.");
+                              toast.error(
+                                "Failed to load meme template image.",
+                              );
                             };
                           }}
                           className="group relative aspect-video rounded-lg overflow-hidden border border-border/70 hover:border-primary hover:ring-2 hover:ring-primary/60 transition-all duration-200 hover:scale-[1.03] hover:z-20 hover:shadow-xl cursor-pointer bg-muted/30"

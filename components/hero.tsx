@@ -3,7 +3,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { motion } from "motion/react";
-import { CpuIcon, StackIcon, VideoCameraIcon, DownloadSimpleIcon } from "@phosphor-icons/react";
+import {
+  CpuIcon,
+  StackIcon,
+  VideoCameraIcon,
+  DownloadSimpleIcon,
+} from "@phosphor-icons/react";
 
 export const Hero = () => {
   return (
@@ -18,7 +23,9 @@ export const Hero = () => {
         >
           <span className="font-manrope">Next-Gen Visual Studio</span>
           <span className="text-border">|</span>
-          <span className="text-foreground font-semibold">100% Free & Open Source</span>
+          <span className="text-foreground font-semibold">
+            100% Free & Open Source
+          </span>
         </motion.div>
 
         {/* Main Centered Artistic Headline */}
@@ -42,7 +49,9 @@ export const Hero = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mt-4 sm:mt-6 text-sm sm:text-base md:text-lg text-muted-foreground text-wrap max-w-2xl font-manrope font-normal leading-relaxed"
         >
-          The all-in-one visual studio for modern creators. Design device mockups, real-time WebGL mesh gradients, retro dither shaders, and export studio-quality images and animations in seconds.
+          The all-in-one visual studio for modern creators. Design device
+          mockups, real-time WebGL mesh gradients, retro dither shaders, and
+          export studio-quality images and animations in seconds.
         </motion.p>
 
         {/* CTA Buttons */}
@@ -110,19 +119,31 @@ export const Hero = () => {
 
         <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 md:gap-6 text-[11px] sm:text-xs font-manrope font-medium text-muted-foreground">
           <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-border/50 dark:border-neutral-800 bg-card/40">
-            <CpuIcon className="size-3 sm:size-3.5 text-primary" weight="duotone" />
+            <CpuIcon
+              className="size-3 sm:size-3.5 text-primary"
+              weight="duotone"
+            />
             <span>WebGL 2.0 GPU Engine</span>
           </div>
           <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-border/50 dark:border-neutral-800 bg-card/40">
-            <StackIcon className="size-3 sm:size-3.5 text-primary" weight="duotone" />
+            <StackIcon
+              className="size-3 sm:size-3.5 text-primary"
+              weight="duotone"
+            />
             <span>Bayer Matrix Dithering</span>
           </div>
           <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-border/50 dark:border-neutral-800 bg-card/40">
-            <VideoCameraIcon className="size-3 sm:size-3.5 text-primary" weight="duotone" />
+            <VideoCameraIcon
+              className="size-3 sm:size-3.5 text-primary"
+              weight="duotone"
+            />
             <span>Client-Side FFmpeg WASM</span>
           </div>
           <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-border/50 dark:border-neutral-800 bg-card/40">
-            <DownloadSimpleIcon className="size-3 sm:size-3.5 text-primary" weight="bold" />
+            <DownloadSimpleIcon
+              className="size-3 sm:size-3.5 text-primary"
+              weight="bold"
+            />
             <span>Lossless Snapshots</span>
           </div>
         </div>

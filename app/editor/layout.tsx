@@ -50,5 +50,9 @@ export default function EditorLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <Suspense fallback={<div className="h-screen w-full bg-background" />}>{children}</Suspense>;
+  return (
+    <Suspense fallback={<div className="h-screen w-full bg-background" />}>
+      {children}
+    </Suspense>
+  );
 }

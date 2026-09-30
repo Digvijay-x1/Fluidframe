@@ -4,7 +4,7 @@ export interface DitherShaderOptions {
   colorSteps: number;
   strength?: number; // 0 to 100
   colorFront: [number, number, number]; // RGB normalized [0, 1]
-  colorBack: [number, number, number];  // RGB normalized [0, 1]
+  colorBack: [number, number, number]; // RGB normalized [0, 1]
 }
 
 const VERTEX_SHADER_SOURCE = `
@@ -114,7 +114,7 @@ const FRAGMENT_SHADER_SOURCE = `
 
 export function applyDitherToCanvas(
   sourceCanvas: HTMLCanvasElement | HTMLImageElement,
-  options: DitherShaderOptions
+  options: DitherShaderOptions,
 ): HTMLCanvasElement {
   const outputCanvas = document.createElement("canvas");
   const width =
@@ -162,7 +162,7 @@ export function applyDitherToCanvas(
   gl.bufferData(
     gl.ARRAY_BUFFER,
     new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
-    gl.STATIC_DRAW
+    gl.STATIC_DRAW,
   );
 
   const posLocation = gl.getAttribLocation(program, "a_position");
@@ -174,7 +174,7 @@ export function applyDitherToCanvas(
   gl.bufferData(
     gl.ARRAY_BUFFER,
     new Float32Array([0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1]),
-    gl.STATIC_DRAW
+    gl.STATIC_DRAW,
   );
 
   const texLocation = gl.getAttribLocation(program, "a_texCoord");
@@ -188,16 +188,38 @@ export function applyDitherToCanvas(
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, sourceCanvas);
+  gl.texImage2D(
+    gl.TEXTURE_2D,
+    0,
+    gl.RGBA,
+    gl.RGBA,
+    gl.UNSIGNED_BYTE,
+    sourceCanvas,
+  );
 
   // Uniforms
   gl.uniform2f(gl.getUniformLocation(program, "u_resolution"), width, height);
   gl.uniform1f(gl.getUniformLocation(program, "u_pxSize"), options.pixelSize);
-  gl.uniform1i(gl.getUniformLocation(program, "u_ditherType"), options.ditherType);
-  gl.uniform1f(gl.getUniformLocation(program, "u_colorSteps"), options.colorSteps);
-  gl.uniform1f(gl.getUniformLocation(program, "u_strength"), (options.strength ?? 100) / 100.0);
-  gl.uniform3fv(gl.getUniformLocation(program, "u_colorFront"), options.colorFront);
-  gl.uniform3fv(gl.getUniformLocation(program, "u_colorBack"), options.colorBack);
+  gl.uniform1i(
+    gl.getUniformLocation(program, "u_ditherType"),
+    options.ditherType,
+  );
+  gl.uniform1f(
+    gl.getUniformLocation(program, "u_colorSteps"),
+    options.colorSteps,
+  );
+  gl.uniform1f(
+    gl.getUniformLocation(program, "u_strength"),
+    (options.strength ?? 100) / 100.0,
+  );
+  gl.uniform3fv(
+    gl.getUniformLocation(program, "u_colorFront"),
+    options.colorFront,
+  );
+  gl.uniform3fv(
+    gl.getUniformLocation(program, "u_colorBack"),
+    options.colorBack,
+  );
 
   // Render Pass
   gl.viewport(0, 0, width, height);

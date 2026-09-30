@@ -22,7 +22,7 @@ export const Glass = React.forwardRef<HTMLDivElement, GlassProps>(
       style,
       ...props
     },
-    ref
+    ref,
   ) => {
     let baseBg = `rgba(255, 255, 255, ${opacity / 100})`;
     if (intensity === "heavy") {
@@ -38,7 +38,7 @@ export const Glass = React.forwardRef<HTMLDivElement, GlassProps>(
           "relative overflow-hidden rounded-xl transition-all duration-300",
           specular &&
             "before:absolute before:inset-0 before:bg-gradient-to-b before:from-white/20 before:to-transparent before:pointer-events-none",
-          className
+          className,
         )}
         style={{
           backgroundColor: baseBg,
@@ -56,7 +56,7 @@ export const Glass = React.forwardRef<HTMLDivElement, GlassProps>(
         {children}
       </div>
     );
-  }
+  },
 );
 
 Glass.displayName = "Glass";

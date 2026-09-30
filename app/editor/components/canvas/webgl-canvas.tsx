@@ -47,7 +47,7 @@ export const WebGLCanvas = forwardRef<WebGLCanvasHandle, WebGLCanvasProps>(
       ditherStrength = 100,
       className,
     },
-    ref
+    ref,
   ) => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const rendererRef = useRef<WebGLMeshRenderer | null>(null);
@@ -116,7 +116,9 @@ export const WebGLCanvas = forwardRef<WebGLCanvasHandle, WebGLCanvasProps>(
         ref={canvasRef}
         width={width}
         height={height}
-        className={className ?? "absolute inset-0 w-full h-full pointer-events-none"}
+        className={
+          className ?? "absolute inset-0 w-full h-full pointer-events-none"
+        }
         style={{
           width: `${width}px`,
           height: `${height}px`,
@@ -124,7 +126,7 @@ export const WebGLCanvas = forwardRef<WebGLCanvasHandle, WebGLCanvasProps>(
         }}
       />
     );
-  }
+  },
 );
 
 WebGLCanvas.displayName = "WebGLCanvas";

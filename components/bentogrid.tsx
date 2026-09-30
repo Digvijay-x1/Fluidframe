@@ -20,10 +20,14 @@ export const BentoGrid = () => {
   ];
 
   // Card 2: Dither intensity state
-  const [ditherType, setDitherType] = useState<"bayer" | "noise" | "halftone">("bayer");
+  const [ditherType, setDitherType] = useState<"bayer" | "noise" | "halftone">(
+    "bayer",
+  );
 
   // Card 3: Device preview aspect ratio
-  const [aspectRatio, setAspectRatio] = useState<"16:9" | "1:1" | "9:16">("16:9");
+  const [aspectRatio, setAspectRatio] = useState<"16:9" | "1:1" | "9:16">(
+    "16:9",
+  );
 
   // Card 4: Font preview state
   const [selectedFont, setSelectedFont] = useState(0);
@@ -49,7 +53,9 @@ export const BentoGrid = () => {
   ];
 
   // Card 5: Export format state
-  const [activeFormat, setActiveFormat] = useState<"PNG" | "MP4" | "GIF">("PNG");
+  const [activeFormat, setActiveFormat] = useState<"PNG" | "MP4" | "GIF">(
+    "PNG",
+  );
   const [isExporting, setIsExporting] = useState(false);
 
   const handleExportSim = (fmt: "PNG" | "MP4" | "GIF") => {
@@ -70,7 +76,8 @@ export const BentoGrid = () => {
             Everything you need to create viral visual content
           </h2>
           <p className="mt-3.5 text-sm sm:text-base text-muted-foreground max-w-xl font-manrope">
-            Streamlined studio capabilities built for creators, marketers, founders, and designers. No complex timeline software.
+            Streamlined studio capabilities built for creators, marketers,
+            founders, and designers. No complex timeline software.
           </p>
         </div>
 
@@ -89,7 +96,8 @@ export const BentoGrid = () => {
                 Fluid WebGL Mesh Gradients
               </h3>
               <p className="mt-1.5 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                Generate dynamic, animated fluid gradients and studio textures. Pick harmonious presets or customize your color points.
+                Generate dynamic, animated fluid gradients and studio textures.
+                Pick harmonious presets or customize your color points.
               </p>
             </div>
 
@@ -117,14 +125,21 @@ export const BentoGrid = () => {
                     key={pal.name}
                     type="button"
                     onClick={() => setSelectedPalette(idx)}
-                    className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-medium transition-all duration-200 cursor-pointer ${selectedPalette === idx
-                      ? "bg-white text-black font-bold shadow-lg scale-[1.03]"
-                      : "bg-black/60 text-white/80 hover:bg-black/80 hover:text-white border border-white/10"
-                      }`}
+                    className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-medium transition-all duration-200 cursor-pointer ${
+                      selectedPalette === idx
+                        ? "bg-white text-black font-bold shadow-lg scale-[1.03]"
+                        : "bg-black/60 text-white/80 hover:bg-black/80 hover:text-white border border-white/10"
+                    }`}
                   >
                     <div className="flex size-3.5 rounded-full overflow-hidden shrink-0 border border-white/30">
-                      <div className="w-1/2 h-full" style={{ backgroundColor: pal.colors[0] }} />
-                      <div className="w-1/2 h-full" style={{ backgroundColor: pal.colors[1] }} />
+                      <div
+                        className="w-1/2 h-full"
+                        style={{ backgroundColor: pal.colors[0] }}
+                      />
+                      <div
+                        className="w-1/2 h-full"
+                        style={{ backgroundColor: pal.colors[1] }}
+                      />
                     </div>
                     <span>{pal.name}</span>
                   </button>
@@ -146,7 +161,8 @@ export const BentoGrid = () => {
                 Vintage Dither Shaders
               </h3>
               <p className="mt-1.5 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                Transform any image into authentic Bayer matrix dither art, retro grain, and 16-bit cyber aesthetics.
+                Transform any image into authentic Bayer matrix dither art,
+                retro grain, and 16-bit cyber aesthetics.
               </p>
             </div>
 
@@ -163,7 +179,8 @@ export const BentoGrid = () => {
                         : ditherType === "noise"
                           ? "repeating-linear-gradient(45deg, #fff 0, #fff 1px, transparent 0, transparent 4px)"
                           : "radial-gradient(circle, #fff 2.5px, transparent 2.5px)",
-                    backgroundSize: ditherType === "halftone" ? "12px 12px" : "6px 6px",
+                    backgroundSize:
+                      ditherType === "halftone" ? "12px 12px" : "6px 6px",
                   }}
                 />
                 <span className="relative z-10 text-xs font-bold text-white uppercase tracking-widest bg-black/80 px-3.5 py-1.5 rounded-lg border border-white/20 shadow-md">
@@ -178,10 +195,11 @@ export const BentoGrid = () => {
                     key={type}
                     type="button"
                     onClick={() => setDitherType(type)}
-                    className={`py-1.5 rounded-lg text-xs font-medium capitalize transition-all cursor-pointer ${ditherType === type
-                      ? "bg-primary text-primary-foreground font-bold shadow-xs"
-                      : "bg-background/80 text-muted-foreground hover:text-foreground border border-border/60 dark:border-neutral-800"
-                      }`}
+                    className={`py-1.5 rounded-lg text-xs font-medium capitalize transition-all cursor-pointer ${
+                      ditherType === type
+                        ? "bg-primary text-primary-foreground font-bold shadow-xs"
+                        : "bg-background/80 text-muted-foreground hover:text-foreground border border-border/60 dark:border-neutral-800"
+                    }`}
                   >
                     {type}
                   </button>
@@ -203,7 +221,8 @@ export const BentoGrid = () => {
                 3D Device Mockups
               </h3>
               <p className="mt-1.5 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                Wrap your visuals in device mockups with perspective tilt and ratios for all feeds.
+                Wrap your visuals in device mockups with perspective tilt and
+                ratios for all feeds.
               </p>
             </div>
 
@@ -218,8 +237,8 @@ export const BentoGrid = () => {
                     aspectRatio === "16:9"
                       ? "w-36 h-20"
                       : aspectRatio === "1:1"
-                      ? "w-20 h-20"
-                      : "w-14 h-24"
+                        ? "w-20 h-20"
+                        : "w-14 h-24"
                   }`}
                 >
                   <div className="w-full flex-1 rounded bg-primary/10 border border-primary/20 flex items-center justify-center my-0.5 min-h-0">
@@ -233,14 +252,28 @@ export const BentoGrid = () => {
               {/* Aspect Ratio Buttons */}
               <div className="w-full flex items-center justify-between gap-1 bg-background/80 p-1 rounded-xl border border-border/60 dark:border-neutral-800 mt-2 shrink-0">
                 {[
-                  { id: "16:9", label: "16:9", icon: <DesktopIcon className="size-3" weight="bold" /> },
-                  { id: "1:1", label: "1:1", icon: <SquareIcon className="size-3" weight="bold" /> },
-                  { id: "9:16", label: "9:16", icon: <DeviceMobileIcon className="size-3" weight="bold" /> },
+                  {
+                    id: "16:9",
+                    label: "16:9",
+                    icon: <DesktopIcon className="size-3" weight="bold" />,
+                  },
+                  {
+                    id: "1:1",
+                    label: "1:1",
+                    icon: <SquareIcon className="size-3" weight="bold" />,
+                  },
+                  {
+                    id: "9:16",
+                    label: "9:16",
+                    icon: <DeviceMobileIcon className="size-3" weight="bold" />,
+                  },
                 ].map((item) => (
                   <button
                     key={item.id}
                     type="button"
-                    onClick={() => setAspectRatio(item.id as "16:9" | "1:1" | "9:16")}
+                    onClick={() =>
+                      setAspectRatio(item.id as "16:9" | "1:1" | "9:16")
+                    }
                     className={`flex-1 flex items-center justify-center gap-1 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                       aspectRatio === item.id
                         ? "bg-primary text-primary-foreground font-bold shadow-xs"
@@ -268,7 +301,8 @@ export const BentoGrid = () => {
                 Expressive Typography
               </h3>
               <p className="mt-1.5 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                Pair modern curated Google fonts, adjustable text badge fills, and corner roundness.
+                Pair modern curated Google fonts, adjustable text badge fills,
+                and corner roundness.
               </p>
             </div>
 
@@ -283,7 +317,9 @@ export const BentoGrid = () => {
                     exit={{ opacity: 0, y: -6 }}
                     className="flex flex-col items-center"
                   >
-                    <p className={`text-sm sm:text-base text-foreground ${fontOptions[selectedFont].fontClass}`}>
+                    <p
+                      className={`text-sm sm:text-base text-foreground ${fontOptions[selectedFont].fontClass}`}
+                    >
                       &ldquo;{fontOptions[selectedFont].sample}&rdquo;
                     </p>
                     <span className="text-[10px] text-muted-foreground font-inter mt-1.5">
@@ -325,7 +361,8 @@ export const BentoGrid = () => {
                 Image and Video Export
               </h3>
               <p className="mt-1.5 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                Export high quality images and broadcast 60 FPS MP4 video loops directly from GPU.
+                Export high quality images and broadcast 60 FPS MP4 video loops
+                directly from GPU.
               </p>
             </div>
 
@@ -341,7 +378,10 @@ export const BentoGrid = () => {
                       Rendering...
                     </span>
                   ) : (
-                    <CheckCircleIcon className="size-3.5 text-emerald-500" weight="fill" />
+                    <CheckCircleIcon
+                      className="size-3.5 text-emerald-500"
+                      weight="fill"
+                    />
                   )}
                 </div>
 
