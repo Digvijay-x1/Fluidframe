@@ -94,6 +94,7 @@ export function LeftPanel({
   onImageUpload,
   isCropping,
   onToggleCropping,
+  onLoadTemplateOrPreset,
 }: LeftPanelProps) {
   const {
     elements,
@@ -719,7 +720,7 @@ export function LeftPanel({
 
                   <Separator />
 
-                  <TemplatesPanel />
+                  <TemplatesPanel onLoadTemplateOrPreset={onLoadTemplateOrPreset} />
                 </div>
               </div>
             </ScrollArea>

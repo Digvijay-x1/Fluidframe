@@ -169,7 +169,7 @@ Follow these steps to run Fluidframe locally on your machine.
 
 ### Prerequisites
 
-- **Node.js**: `v18.18.0` or higher (Node 20+ recommended)
+- **Node.js**: Node 20 (`20.19.0+`), Node 22 (`22.12.0+`), or Node 24+.
 - **Package Manager**: `npm`, `pnpm`, or `bun`
 
 ### 1. Clone the Repository

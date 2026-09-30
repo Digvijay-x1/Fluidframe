@@ -1,6 +1,7 @@
 import { AspectRatioPreset } from "./values";
 import { VectorPatternType } from "./components/canvas/vector-overlay";
 import { StudioTextureType } from "./components/canvas/studio-texture";
+import type { TemplateItem, UserPreset } from "./templates/types";
 
 export interface ImageStyle {
   scale: number;
@@ -316,6 +317,7 @@ export interface LeftPanelProps {
   isCropping: boolean;
   onToggleCropping: () => void;
   onImageUpload: (file: File) => void;
+  onLoadTemplateOrPreset: (preset: TemplateItem | UserPreset) => Promise<boolean>;
 }
 
 export interface Wallpaper {
@@ -359,4 +361,3 @@ export interface DitherConfig {
   colorFront: string; // Hex string e.g. "#ffffff"
   colorBack: string; // Hex string e.g. "#000000"
 }
-

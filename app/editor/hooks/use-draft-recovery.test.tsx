@@ -170,3 +170,58 @@ it("closes a database opened by retry after the editor unmounts", async () => {
   expect(close).toHaveBeenCalledOnce();
   expect(await storage.readDraft(db)).toBeUndefined();
 });
+
+it.each(["template", "preset"] as const)("keeps a recovered draft when opening a %s is cancelled", async (kind) => {
+  const document = { ...createDefaultDocument(), canvasBackground: "#112233" };
+  const saved = await storage.writeDraft(db, null, document);
+  await mount();
+  const generation = useStore.getState().documentGeneration;
+  vi.mocked(window.confirm).mockReturnValueOnce(false);
+  const preset = kind === "template" ? BUILTIN_TEMPLATES[0] : { ...createDefaultDocument(), id: "preset", name: "Saved scene", createdAt: 1 };
+  let opened = true;
+  await act(async () => { opened = await recovery.loadTemplateOrPreset(preset); });
+  expect(opened).toBe(false);
+  expect(window.confirm).toHaveBeenCalledOnce();
+  expect(useStore.getState().canvasBackground).toBe("#112233");
+  expect(useStore.getState().documentGeneration).toBe(generation);
+  expect(await storage.readDraft(db)).toEqual(saved);
+});
+
+it("persists a confirmed built-in template while retaining the current background", async () => {
+  await storage.writeDraft(db, null, { ...createDefaultDocument(), canvasBackground: "#112233" });
+  await mount();
+  const template = BUILTIN_TEMPLATES[0];
+  let opened = false;
+  await act(async () => { opened = await recovery.loadTemplateOrPreset(template); });
+  expect(opened).toBe(true);
+  expect(window.confirm).toHaveBeenCalledOnce();
+  expect(useStore.getState().canvasBackground).toBe("#112233");
+  expect(useStore.getState().elements).toEqual(template.elements);
+  expect((await storage.readDraft(db) as { document: unknown }).document).toEqual({
+    ...createDefaultDocument(), canvasBackground: "#112233", aspectRatio: template.aspectRatio, elements: template.elements,
+  });
+});
+
+it("applies a saved preset's complete canvas settings", async () => {
+  await mount();
+  const preset = { ...createDefaultDocument(), canvasBackground: "#445566", id: "preset", name: "Saved scene", createdAt: 1 };
+  let opened = false;
+  await act(async () => { opened = await recovery.loadTemplateOrPreset(preset); });
+  expect(opened).toBe(true);
+  expect(window.confirm).not.toHaveBeenCalled();
+  expect(useStore.getState().canvasBackground).toBe("#445566");
+  expect((await storage.readDraft(db) as { document: { canvasBackground: string } }).document.canvasBackground).toBe("#445566");
+});
+
+it("does not replace a canvas or a newer draft when a panel template hits a conflict", async () => {
+  const saved = await storage.writeDraft(db, null, { ...createDefaultDocument(), canvasBackground: "#112233" });
+  await mount();
+  const newer = await storage.writeDraft(db, saved.revision, { ...createDefaultDocument(), canvasBackground: "#445566" });
+  let opened = true;
+  await act(async () => { opened = await recovery.loadTemplateOrPreset(BUILTIN_TEMPLATES[0]); });
+  expect(opened).toBe(false);
+  expect(recovery.status).toBe("conflict");
+  expect(useStore.getState().canvasBackground).toBe("#112233");
+  expect(useStore.getState().elements).toEqual([]);
+  expect(await storage.readDraft(db)).toEqual(newer);
+});

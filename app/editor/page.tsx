@@ -674,6 +674,7 @@ export default function EditorPage() {
           </div>
           <div className="flex-1 min-h-0 relative">
             <LeftPanel
+              onLoadTemplateOrPreset={recovery.loadTemplateOrPreset}
               onImageUpload={handleImageUpload}
               isCropping={isCropping}
               onToggleCropping={() => setCropping(!isCropping)}
@@ -731,6 +732,7 @@ export default function EditorPage() {
         </div>
         <div className="flex-1 min-h-0 w-full relative">
           <LeftPanel
+            onLoadTemplateOrPreset={recovery.loadTemplateOrPreset}
             onImageUpload={handleImageUpload}
             isCropping={isCropping}
             onToggleCropping={() => setCropping(!isCropping)}

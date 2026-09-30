@@ -8,6 +8,7 @@ import { decodeDraft, isDefaultDocument, projectDocument } from "../recovery/dra
 import { openDraftDatabase, readDraft } from "../recovery/draft-storage";
 import { DraftController, type RecoveryStatus } from "../recovery/draft-controller";
 import type { CanvasDocument } from "../types";
+import type { TemplateItem, UserPreset } from "../templates/types";
 
 type Problem = "corrupt" | "unsupported" | null;
 export function useDraftRecovery() {
@@ -26,6 +27,7 @@ export function useDraftRecovery() {
   const templateInFlight = useRef(false);
   const pendingTemplateId = useRef<string | null>(null);
   const retryInFlight = useRef(false);
+  const presetInFlight = useRef(false);
   const invalidRaw = useRef<unknown>(undefined);
   const [busy, setBusy] = useState(false);
   const lastTemplate = useRef<string | null>(null);
@@ -198,5 +200,30 @@ export function useDraftRecovery() {
       setProblem(null); invalidRaw.current = undefined;
     }
   };
-  return { ready, busy, status, error, problem, pendingTemplate, applyTemplate, cancelTemplate, newCanvas, retry, discard, loadSaved, useThisCanvas };
+  const loadTemplateOrPreset = async (preset: TemplateItem | UserPreset) => {
+    if (!ready || presetInFlight.current) return false;
+    if (problem || status === "conflict" || status === "invalid") {
+      toast.error("Resolve the saved draft problem before opening a template or preset.");
+      return false;
+    }
+    const current = projectDocument(useStore.getState());
+    if (!isDefaultDocument(current) && !window.confirm("Open this template or preset and replace your local recovery draft?")) return false;
+    const isUserPreset = "createdAt" in preset;
+    const document: CanvasDocument = structuredClone({
+      ...current,
+      aspectRatio: preset.aspectRatio || current.aspectRatio,
+      elements: preset.elements,
+      canvasBackground: isUserPreset ? preset.canvasBackground : current.canvasBackground,
+      meshConfig: isUserPreset ? preset.meshConfig : current.meshConfig,
+      overlayConfig: isUserPreset ? preset.overlayConfig : current.overlayConfig,
+    });
+    presetInFlight.current = true;
+    setBusy(true);
+    try {
+      if (controller.current) return await controller.current.replace(document);
+      if (status === "unavailable") { useStore.getState().replaceDocument(document); return true; }
+      return false;
+    } finally { presetInFlight.current = false; setBusy(false); }
+  };
+  return { ready, busy, status, error, problem, pendingTemplate, applyTemplate, cancelTemplate, newCanvas, retry, discard, loadSaved, useThisCanvas, loadTemplateOrPreset };
 }
