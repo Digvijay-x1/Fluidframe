@@ -1,0 +1,22 @@
+name: Set up Fluidframe
+description: Install the pinned toolchain and frozen dependencies without credentials
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+      with:
+        node-version-file: .nvmrc
+        package-manager-cache: false
+    - name: Install pinned npm
+      shell: bash
+      run: npm install --global npm@11.16.0
+    - name: Cache npm downloads
+      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+      with:
+        path: ~/.npm
+        # Never restore PR caches into trusted release jobs. Do not cache
+        # node_modules or .next; npm ci always recreates dependencies.
+        key: npm-${{ github.event_name == 'pull_request' && 'pr' || 'trusted' }}-${{ runner.os }}-${{ runner.arch }}-node-24.18.0-npm-11.16.0-${{ hashFiles('package-lock.json') }}
+    - name: Install frozen dependencies
+      shell: bash
+      run: npm ci
