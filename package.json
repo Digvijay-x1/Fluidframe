@@ -17,7 +17,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "env:check": "node --experimental-strip-types scripts/check-env.mjs",
-    "typecheck": "npm run env:check && prisma generate && next typegen && tsc --noEmit",
+    "typecheck": "npm run env:check -- production && prisma generate && next typegen && tsc --noEmit",
     "check": "npm run lint && npm run format:check && npm run typecheck && npm test && npm run build"
   },
   "dependencies": {
