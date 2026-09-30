@@ -66,7 +66,7 @@ export function useDraftRecovery() {
           setStatus("invalid");
         } else {
           const record = decoded?.kind === "valid" ? decoded.record : null;
-          if (record) { useStore.getState().replaceDocument(record.document); toast.success("Recovered local draft."); }
+          if (record) { useStore.getState().replaceDocument(record.document); toast.success("Recovered local draft.", { duration: 2000 }); }
           else useStore.getState().replaceDocument(createDefaultDocument());
           attachController(db, record?.revision ?? null);
         }

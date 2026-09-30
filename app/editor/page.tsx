@@ -94,6 +94,14 @@ export default function EditorPage() {
   } = useStore();
 
   const recovery = useDraftRecovery();
+  const [savedStatusDismissed, setSavedStatusDismissed] = useState(false);
+
+  useEffect(() => {
+    setSavedStatusDismissed(false);
+    if (recovery.status !== "saved") return;
+    const timer = setTimeout(() => setSavedStatusDismissed(true), 2000);
+    return () => clearTimeout(timer);
+  }, [recovery.status]);
 
   const isVideoFormat = ["mp4", "gif"].includes(exportFormat);
 
@@ -533,13 +541,13 @@ export default function EditorPage() {
   return (
     <div className="flex h-screen w-full bg-background overflow-hidden flex-col md:flex-row">
       <MobileNotice />
-      <div className="absolute top-2 left-1/2 -translate-x-1/2 z-[100] rounded-md border bg-background px-3 py-1.5 text-xs shadow" role="status" aria-live="polite">
+      {(recovery.status !== "saved" || !savedStatusDismissed) && <div className="absolute top-2 left-1/2 -translate-x-1/2 z-[100] rounded-md border bg-background px-3 py-1.5 text-xs shadow" role="status" aria-live="polite">
         {recovery.status === "idle" ? "Local recovery ready" : recovery.status === "pending" ? "Changes not saved" : recovery.status === "saving" ? "Saving locally…" : recovery.status === "saved" ? "Saved locally" : recovery.status === "conflict" ? "Draft changed in another tab" : recovery.status === "unavailable" ? "Local recovery unavailable" : recovery.problem === "unsupported" ? "This draft needs a different version of Fluidframe." : recovery.problem ? "This local draft couldn’t be opened" : "Couldn’t save locally"}
         {(recovery.status === "error" || recovery.status === "unavailable" || (recovery.status === "invalid" && !recovery.problem)) && <button className="ml-2 underline" onClick={recovery.retry}>Retry</button>}
         {recovery.status === "conflict" && <><button className="ml-2 underline" onClick={recovery.loadSaved}>Load saved draft</button><button className="ml-2 underline" onClick={recovery.useThisCanvas}>Use this canvas</button></>}
         {recovery.problem && <button className="ml-2 underline" onClick={recovery.discard}>Discard saved draft</button>}
         {recovery.error?.message && recovery.status === "error" && <span className="ml-2">{recovery.error.name === "DraftQuotaError" ? "Browser storage is full. Recent changes aren’t saved. Remove large images or free site storage, then retry." : recovery.error.message}</span>}
-      </div>
+      </div>}
       <span className="sr-only">Local drafts can disappear if site data is cleared or a private browsing session ends.</span>
       {recovery.busy && <div className="absolute inset-0 z-[120] bg-background/70 flex items-center justify-center" role="status">Saving canvas…</div>}
       {recovery.pendingTemplate && <div role="dialog" aria-modal="true" className="absolute inset-0 z-[110] flex items-center justify-center bg-background/80"><div className="rounded-lg border bg-background p-6 shadow-xl"><p>Open this template and replace your local recovery draft?</p><div className="mt-4 flex gap-3"><Button onClick={recovery.applyTemplate}>Open template</Button><Button variant="outline" onClick={recovery.cancelTemplate}>Cancel</Button></div></div></div>}
