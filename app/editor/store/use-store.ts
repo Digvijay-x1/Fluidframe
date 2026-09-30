@@ -19,16 +19,20 @@ const loadSavedPresets = (): EditorState["userPresets"] => {
 };
 
 export const createDefaultDocument = (): CanvasDocument => ({
-  aspectRatio: { ...(ASPECT_RATIOS.find((r) => r.name === "16:9") || ASPECT_RATIOS[0]) },
+  aspectRatio: {
+    ...(ASPECT_RATIOS.find((r) => r.name === "16:9") || ASPECT_RATIOS[0]),
+  },
   canvasBackground: DEFAULT_BG,
-  meshConfig: { ...DEFAULT_MESH_CONFIG, colors: [...DEFAULT_MESH_CONFIG.colors] },
+  meshConfig: {
+    ...DEFAULT_MESH_CONFIG,
+    colors: [...DEFAULT_MESH_CONFIG.colors],
+  },
   overlayConfig: { ...DEFAULT_OVERLAY_CONFIG },
   elements: [],
 });
 
 export const useStore = create<EditorState>((set, get) => ({
-  aspectRatio:
-    ASPECT_RATIOS.find((r) => r.name === "16:9") || ASPECT_RATIOS[0],
+  aspectRatio: ASPECT_RATIOS.find((r) => r.name === "16:9") || ASPECT_RATIOS[0],
   canvasBackground: DEFAULT_BG,
   meshConfig: { ...DEFAULT_MESH_CONFIG },
   overlayConfig: { ...DEFAULT_OVERLAY_CONFIG },
@@ -238,13 +242,21 @@ export const useStore = create<EditorState>((set, get) => ({
       let newSelectedId = state.selectedElementId;
 
       if (tab === "text") {
-        const currentEl = state.elements.find((el) => el.id === state.selectedElementId);
+        const currentEl = state.elements.find(
+          (el) => el.id === state.selectedElementId,
+        );
         const currentIsTextOrCode =
           currentEl?.type === "text" || currentEl?.type === "code";
         if (!currentIsTextOrCode) {
-          if (state.lastSelectedCodeId && state.elements.find((el) => el.id === state.lastSelectedCodeId)) {
+          if (
+            state.lastSelectedCodeId &&
+            state.elements.find((el) => el.id === state.lastSelectedCodeId)
+          ) {
             newSelectedId = state.lastSelectedCodeId;
-          } else if (state.lastSelectedTextId && state.elements.find((el) => el.id === state.lastSelectedTextId)) {
+          } else if (
+            state.lastSelectedTextId &&
+            state.elements.find((el) => el.id === state.lastSelectedTextId)
+          ) {
             newSelectedId = state.lastSelectedTextId;
           } else {
             const codeEl = state.elements.find((el) => el.type === "code");
@@ -255,10 +267,12 @@ export const useStore = create<EditorState>((set, get) => ({
 
       if (tab === "image") {
         const currentIsImage =
-          state.elements.find((el) => el.id === state.selectedElementId)?.type ===
-          "image";
+          state.elements.find((el) => el.id === state.selectedElementId)
+            ?.type === "image";
         if (!currentIsImage && state.lastSelectedImageId) {
-          if (state.elements.find((el) => el.id === state.lastSelectedImageId)) {
+          if (
+            state.elements.find((el) => el.id === state.lastSelectedImageId)
+          ) {
             newSelectedId = state.lastSelectedImageId;
           }
         }
@@ -295,9 +309,7 @@ export const useStore = create<EditorState>((set, get) => ({
         elements: newElements,
         selectedElementId: element.id,
         activeTab:
-          element.type === "text" || element.type === "code"
-            ? "text"
-            : "image",
+          element.type === "text" || element.type === "code" ? "text" : "image",
         lastSelectedTextId:
           element.type === "text" ? element.id : state.lastSelectedTextId,
         lastSelectedImageId:
@@ -315,7 +327,11 @@ export const useStore = create<EditorState>((set, get) => ({
       const newElements = state.elements.map((el) => {
         if (el.id !== id) return el;
 
-        if ("style" in updates && typeof updates.style === "object" && updates.style !== null) {
+        if (
+          "style" in updates &&
+          typeof updates.style === "object" &&
+          updates.style !== null
+        ) {
           const { style: styleObj, ...rest } = updates as any;
           return {
             ...el,
@@ -403,7 +419,7 @@ export const useStore = create<EditorState>((set, get) => ({
   toggleVisibility: (id) => {
     set((state) => ({
       elements: state.elements.map((el) =>
-        el.id === id ? { ...el, isVisible: !el.isVisible } : el
+        el.id === id ? { ...el, isVisible: !el.isVisible } : el,
       ),
     }));
   },
@@ -413,7 +429,7 @@ export const useStore = create<EditorState>((set, get) => ({
       const isNowLocked = !state.elements.find((el) => el.id === id)?.isLocked;
       return {
         elements: state.elements.map((el) =>
-          el.id === id ? { ...el, isLocked: !el.isLocked } : el
+          el.id === id ? { ...el, isLocked: !el.isLocked } : el,
         ),
         isCropping:
           isNowLocked && state.selectedElementId === id
@@ -430,9 +446,7 @@ export const useStore = create<EditorState>((set, get) => ({
 
       if (element && state.activeTab !== "layers") {
         newTab =
-          element.type === "text" || element.type === "code"
-            ? "text"
-            : "image";
+          element.type === "text" || element.type === "code" ? "text" : "image";
       }
 
       return {
@@ -483,22 +497,23 @@ export const useStore = create<EditorState>((set, get) => ({
     });
   },
 
-  replaceDocument: (document) => set((state) => ({
-    ...document,
-    documentGeneration: state.documentGeneration + 1,
-    history: [{ ...document }],
-    historyIndex: 0,
-    selectedElementId: null,
-    lastSelectedImageId: null,
-    lastSelectedTextId: null,
-    lastSelectedCodeId: null,
-    isCropping: false,
-    activeTab: "image",
-    exportFormat: "mp4",
-    exportQuality: "2",
-    exportDuration: 3,
-    exportFps: 60,
-  })),
+  replaceDocument: (document) =>
+    set((state) => ({
+      ...document,
+      documentGeneration: state.documentGeneration + 1,
+      history: [{ ...document }],
+      historyIndex: 0,
+      selectedElementId: null,
+      lastSelectedImageId: null,
+      lastSelectedTextId: null,
+      lastSelectedCodeId: null,
+      isCropping: false,
+      activeTab: "image",
+      exportFormat: "mp4",
+      exportQuality: "2",
+      exportDuration: 3,
+      exportFps: 60,
+    })),
 
   reset: () => get().replaceDocument(createDefaultDocument()),
 
@@ -555,7 +570,10 @@ export const useStore = create<EditorState>((set, get) => ({
       const updated = [newPreset, ...state.userPresets];
       if (typeof window !== "undefined") {
         try {
-          localStorage.setItem("fluidframe_user_presets", JSON.stringify(updated));
+          localStorage.setItem(
+            "fluidframe_user_presets",
+            JSON.stringify(updated),
+          );
         } catch (e) {}
       }
       return { userPresets: updated };
@@ -567,7 +585,10 @@ export const useStore = create<EditorState>((set, get) => ({
       const updated = state.userPresets.filter((p) => p.id !== id);
       if (typeof window !== "undefined") {
         try {
-          localStorage.setItem("fluidframe_user_presets", JSON.stringify(updated));
+          localStorage.setItem(
+            "fluidframe_user_presets",
+            JSON.stringify(updated),
+          );
         } catch (e) {}
       }
       return { userPresets: updated };
@@ -631,7 +652,10 @@ export const useStore = create<EditorState>((set, get) => ({
         const merged = [...parsed, ...state.userPresets];
         if (typeof window !== "undefined") {
           try {
-            localStorage.setItem("fluidframe_user_presets", JSON.stringify(merged));
+            localStorage.setItem(
+              "fluidframe_user_presets",
+              JSON.stringify(merged),
+            );
           } catch (e) {}
         }
         return { userPresets: merged };

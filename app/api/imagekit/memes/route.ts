@@ -1,7 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import ImageKit from "imagekit";
+import { env } from "@/lib/env";
 
 export async function GET(request: NextRequest) {
+  if (env.IMAGEKIT_ENABLED !== "true") {
+    return NextResponse.json(
+      { error: "ImageKit integration is disabled" },
+      { status: 503 },
+    );
+  }
   try {
     const searchParams = request.nextUrl.searchParams;
     const page = parseInt(searchParams.get("page") || "1", 10);
@@ -9,9 +16,9 @@ export async function GET(request: NextRequest) {
     const skip = (page - 1) * limit;
 
     const imagekit = new ImageKit({
-      publicKey: process.env.NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY!,
-      privateKey: process.env.IMAGEKIT_PRIVATE_KEY!,
-      urlEndpoint: process.env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT!,
+      publicKey: env.NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY!,
+      privateKey: env.IMAGEKIT_PRIVATE_KEY!,
+      urlEndpoint: env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT!,
     });
 
     const files = await imagekit.listFiles({
@@ -50,7 +57,7 @@ export async function GET(request: NextRequest) {
     console.error("Error fetching memes:", error);
     return NextResponse.json(
       { error: error.message || "Failed to fetch memes" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

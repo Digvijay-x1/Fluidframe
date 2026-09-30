@@ -34,15 +34,15 @@ async function getCachedBlobURLs(): Promise<{
 
     const coreURL = await fetchLocalBlob(
       "/ffmpeg/ffmpeg-core.js",
-      "text/javascript"
+      "text/javascript",
     );
     const wasmURL = await fetchLocalBlob(
       "/ffmpeg/ffmpeg-core.wasm",
-      "application/wasm"
+      "application/wasm",
     );
     const classWorkerURL = await fetchLocalBlob(
       "/ffmpeg/worker.js",
-      "text/javascript"
+      "text/javascript",
     );
 
     cachedCoreURL = coreURL;
@@ -57,11 +57,11 @@ async function getCachedBlobURLs(): Promise<{
 
     const coreURL = await toBlobURL(
       `${baseURL}/ffmpeg-core.js`,
-      "text/javascript"
+      "text/javascript",
     );
     const wasmURL = await toBlobURL(
       `${baseURL}/ffmpeg-core.wasm`,
-      "application/wasm"
+      "application/wasm",
     );
     const classWorkerURL = await toBlobURL(workerURL, "text/javascript");
 
@@ -79,7 +79,7 @@ async function getCachedBlobURLs(): Promise<{
  */
 export async function createFreshFFmpeg(
   onProgress?: (progress: number) => void,
-  onLog?: (message: string) => void
+  onLog?: (message: string) => void,
 ): Promise<FFmpeg> {
   const ffmpeg = new FFmpeg();
 
@@ -102,7 +102,7 @@ export async function createFreshFFmpeg(
 
 export async function getFFmpeg(
   onLog?: (message: string) => void,
-  onProgress?: (progress: number) => void
+  onProgress?: (progress: number) => void,
 ): Promise<FFmpeg> {
   return createFreshFFmpeg(onProgress, onLog);
 }
@@ -116,7 +116,7 @@ export async function renderFramesToMp4(
   width: number,
   height: number,
   fps: number = 60,
-  onProgress?: (progress: number) => void
+  onProgress?: (progress: number) => void,
 ): Promise<Blob> {
   const ffmpeg = await createFreshFFmpeg(onProgress);
   const totalFrames = frames.length;
@@ -189,7 +189,7 @@ export async function renderFramesToGif(
   width: number,
   height: number,
   fps: number = 30,
-  onProgress?: (progress: number) => void
+  onProgress?: (progress: number) => void,
 ): Promise<Blob> {
   const ffmpeg = await createFreshFFmpeg(onProgress);
   const totalFrames = frames.length;
@@ -239,7 +239,7 @@ export async function renderFramesToGif(
 export async function renderFramesToWebM(
   frames: Uint8Array[],
   fps: number = 60,
-  onProgress?: (progress: number) => void
+  onProgress?: (progress: number) => void,
 ): Promise<Blob> {
   const ffmpeg = await createFreshFFmpeg(onProgress);
   const totalFrames = frames.length;
@@ -291,7 +291,7 @@ export async function renderFramesToWebM(
  */
 export async function transcodeToMp4(
   webmBlob: Blob,
-  onProgress?: (progress: number) => void
+  onProgress?: (progress: number) => void,
 ): Promise<Blob> {
   const ffmpeg = await createFreshFFmpeg(onProgress);
   const inputData = await fetchFile(webmBlob);
@@ -336,7 +336,7 @@ export async function transcodeToMp4(
  */
 export async function transcodeToGif(
   webmBlob: Blob,
-  onProgress?: (progress: number) => void
+  onProgress?: (progress: number) => void,
 ): Promise<Blob> {
   const ffmpeg = await createFreshFFmpeg(onProgress);
   const inputData = await fetchFile(webmBlob);

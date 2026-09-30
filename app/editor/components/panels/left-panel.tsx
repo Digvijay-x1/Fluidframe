@@ -171,7 +171,11 @@ export function LeftPanel({
     const targetId = selectedElementId;
     const reader = new FileReader();
     reader.onload = (e) => {
-      if (useStore.getState().documentGeneration !== generation || !useStore.getState().elements.some((element) => element.id === targetId)) return;
+      if (
+        useStore.getState().documentGeneration !== generation ||
+        !useStore.getState().elements.some((element) => element.id === targetId)
+      )
+        return;
       const dataUrl = e.target?.result as string;
       updateElement(selectedElementId, {
         src: dataUrl,
@@ -181,7 +185,7 @@ export function LeftPanel({
       toast.success(
         `Image added to ${
           imgElement?.placeholderLabel || imgElement?.name || "card"
-        }`
+        }`,
       );
     };
     reader.readAsDataURL(file);
@@ -196,15 +200,24 @@ export function LeftPanel({
       >
         <div className="px-3 pt-3 pb-1 shrink-0">
           <TabsList className="w-full grid grid-cols-3 dark:bg-neutral-800">
-            <TabsTrigger value="image" className="gap-1.5 font-semibold text-[13px] cursor-pointer">
+            <TabsTrigger
+              value="image"
+              className="gap-1.5 font-semibold text-[13px] cursor-pointer"
+            >
               <ImageIcon className="size-4 text-primary" weight="duotone" />
               Image
             </TabsTrigger>
-            <TabsTrigger value="text" className="gap-1.5 font-semibold text-[13px] cursor-pointer">
+            <TabsTrigger
+              value="text"
+              className="gap-1.5 font-semibold text-[13px] cursor-pointer"
+            >
               <TextTIcon className="size-4 text-primary" weight="bold" />
               Text
             </TabsTrigger>
-            <TabsTrigger value="layers" className="gap-1.5 font-semibold text-[13px] cursor-pointer">
+            <TabsTrigger
+              value="layers"
+              className="gap-1.5 font-semibold text-[13px] cursor-pointer"
+            >
               <StackIcon className="size-4 text-primary" weight="duotone" />
               Layers
             </TabsTrigger>
@@ -248,7 +261,8 @@ export function LeftPanel({
                           htmlFor="image-upload"
                           className="cursor-pointer"
                         >
-                          <PlusIcon className="w-3.5 h-3.5 mr-2" /> Add Image Layer
+                          <PlusIcon className="w-3.5 h-3.5 mr-2" /> Add Image
+                          Layer
                         </label>
                       </Button>
                     </div>
@@ -289,7 +303,9 @@ export function LeftPanel({
                         <StudioSlider
                           label="Brightness"
                           value={imgStyle.brightness ?? 100}
-                          onChange={(val) => updateSelected({ brightness: val })}
+                          onChange={(val) =>
+                            updateSelected({ brightness: val })
+                          }
                           min={20}
                           max={180}
                           step={1}
@@ -337,7 +353,9 @@ export function LeftPanel({
                         <StudioSlider
                           label="Roundness"
                           value={imgStyle.borderRadius}
-                          onChange={(val) => updateSelected({ borderRadius: val })}
+                          onChange={(val) =>
+                            updateSelected({ borderRadius: val })
+                          }
                           min={0}
                           max={100}
                           step={1}
@@ -350,22 +368,25 @@ export function LeftPanel({
                           label="Shadow"
                           value={
                             SHADOW_PRESETS.findIndex(
-                              (s) => s.value === imgStyle.shadow
+                              (s) => s.value === imgStyle.shadow,
                             ) !== -1
                               ? SHADOW_PRESETS.findIndex(
-                                  (s) => s.value === imgStyle.shadow
+                                  (s) => s.value === imgStyle.shadow,
                                 )
                               : 0
                           }
                           onChange={(val) => {
                             const preset = SHADOW_PRESETS[val];
-                            if (preset) updateSelected({ shadow: preset.value });
+                            if (preset)
+                              updateSelected({ shadow: preset.value });
                           }}
                           min={0}
                           max={SHADOW_PRESETS.length - 1}
                           step={1}
                           defaultValue={0}
-                          formatDisplay={(v) => SHADOW_PRESETS[v]?.name || "None"}
+                          formatDisplay={(v) =>
+                            SHADOW_PRESETS[v]?.name || "None"
+                          }
                           compact
                         />
                       </div>
@@ -456,12 +477,12 @@ export function LeftPanel({
                                     p.id !== "custom" &&
                                     p.rotateX === imgStyle.rotateX &&
                                     p.rotateY === imgStyle.rotateY &&
-                                    p.rotate === imgStyle.rotate
+                                    p.rotate === imgStyle.rotate,
                                 )?.id || "custom"
                               }
                               onValueChange={(presetId) => {
                                 const preset = TRANSFORM_3D_PRESETS.find(
-                                  (p) => p.id === presetId
+                                  (p) => p.id === presetId,
                                 );
                                 if (preset && preset.id !== "custom") {
                                   updateSelected({
@@ -522,9 +543,13 @@ export function LeftPanel({
                                   Matrix&nbsp; Pattern
                                 </Label>
                                 <Select
-                                  value={String(imgElement?.dither?.ditherType ?? 1)}
+                                  value={String(
+                                    imgElement?.dither?.ditherType ?? 1,
+                                  )}
                                   onValueChange={(val) =>
-                                    setDitherConfig(selectedElementId!, { ditherType: Number(val) })
+                                    setDitherConfig(selectedElementId!, {
+                                      ditherType: Number(val),
+                                    })
                                   }
                                 >
                                   <SelectTrigger className="h-8 w-full">
@@ -544,9 +569,13 @@ export function LeftPanel({
                                   Color Levels
                                 </Label>
                                 <Select
-                                  value={String(imgElement?.dither?.colorSteps ?? 4)}
+                                  value={String(
+                                    imgElement?.dither?.colorSteps ?? 4,
+                                  )}
                                   onValueChange={(v) =>
-                                    setDitherConfig(selectedElementId!, { colorSteps: parseInt(v) })
+                                    setDitherConfig(selectedElementId!, {
+                                      colorSteps: parseInt(v),
+                                    })
                                   }
                                 >
                                   <SelectTrigger className="h-8 w-full">
@@ -557,7 +586,9 @@ export function LeftPanel({
                                     <SelectItem value="4">4 Levels</SelectItem>
                                     <SelectItem value="6">6 Levels</SelectItem>
                                     <SelectItem value="8">8 Levels</SelectItem>
-                                    <SelectItem value="16">16 Levels</SelectItem>
+                                    <SelectItem value="16">
+                                      16 Levels
+                                    </SelectItem>
                                   </SelectContent>
                                 </Select>
                               </div>
@@ -569,7 +600,9 @@ export function LeftPanel({
                                 label="Pixel Size"
                                 value={imgElement?.dither?.pixelSize ?? 4}
                                 onChange={(pixelSize) =>
-                                  setDitherConfig(selectedElementId!, { pixelSize })
+                                  setDitherConfig(selectedElementId!, {
+                                    pixelSize,
+                                  })
                                 }
                                 min={1}
                                 max={16}
@@ -583,7 +616,9 @@ export function LeftPanel({
                                 label="Strength"
                                 value={imgElement?.dither?.strength ?? 100}
                                 onChange={(strength) =>
-                                  setDitherConfig(selectedElementId!, { strength })
+                                  setDitherConfig(selectedElementId!, {
+                                    strength,
+                                  })
                                 }
                                 min={0}
                                 max={100}
@@ -602,21 +637,29 @@ export function LeftPanel({
                                   <div
                                     className="absolute inset-0"
                                     style={{
-                                      backgroundColor: imgElement?.dither?.colorBack || "#000000",
+                                      backgroundColor:
+                                        imgElement?.dither?.colorBack ||
+                                        "#000000",
                                     }}
                                   />
                                   <input
                                     type="color"
-                                    value={imgElement?.dither?.colorBack || "#000000"}
+                                    value={
+                                      imgElement?.dither?.colorBack || "#000000"
+                                    }
                                     onChange={(e) =>
-                                      setDitherConfig(selectedElementId!, { colorBack: e.target.value })
+                                      setDitherConfig(selectedElementId!, {
+                                        colorBack: e.target.value,
+                                      })
                                     }
                                     className="absolute inset-0 opacity-0 cursor-pointer w-full h-full p-0 border-0"
                                     title="Background Color"
                                   />
                                 </div>
                                 <div className="flex flex-col">
-                                  <Label className="text-[11px] font-semibold">BG Color</Label>
+                                  <Label className="text-[11px] font-semibold">
+                                    BG Color
+                                  </Label>
                                   <span className="text-[10px] font-mono text-muted-foreground uppercase">
                                     {imgElement?.dither?.colorBack || "#000000"}
                                   </span>
@@ -627,8 +670,10 @@ export function LeftPanel({
                               <button
                                 type="button"
                                 onClick={() => {
-                                  const currentFront = imgElement?.dither?.colorFront || "#ffffff";
-                                  const currentBack = imgElement?.dither?.colorBack || "#000000";
+                                  const currentFront =
+                                    imgElement?.dither?.colorFront || "#ffffff";
+                                  const currentBack =
+                                    imgElement?.dither?.colorBack || "#000000";
                                   setDitherConfig(selectedElementId!, {
                                     colorFront: currentBack,
                                     colorBack: currentFront,
@@ -637,29 +682,42 @@ export function LeftPanel({
                                 className="size-7 flex items-center justify-center rounded-md border border-border/70 hover:border-primary text-muted-foreground hover:text-foreground transition-colors cursor-pointer bg-background hover:bg-muted shadow-xs"
                                 title="Swap Colors"
                               >
-                                <ArrowsLeftRightIcon className="size-3" weight="bold" />
+                                <ArrowsLeftRightIcon
+                                  className="size-3"
+                                  weight="bold"
+                                />
                               </button>
 
                               {/* Foreground Color */}
                               <div className="flex items-center gap-2">
                                 <div className="flex flex-col text-right">
-                                  <Label className="text-[11px] font-semibold">FG Color</Label>
+                                  <Label className="text-[11px] font-semibold">
+                                    FG Color
+                                  </Label>
                                   <span className="text-[10px] font-mono text-muted-foreground uppercase">
-                                    {imgElement?.dither?.colorFront || "#ffffff"}
+                                    {imgElement?.dither?.colorFront ||
+                                      "#ffffff"}
                                   </span>
                                 </div>
                                 <div className="relative size-7 rounded-md overflow-hidden border border-neutral-300 dark:border-neutral-700 shrink-0 hover:scale-105 transition-transform shadow-xs">
                                   <div
                                     className="absolute inset-0"
                                     style={{
-                                      backgroundColor: imgElement?.dither?.colorFront || "#ffffff",
+                                      backgroundColor:
+                                        imgElement?.dither?.colorFront ||
+                                        "#ffffff",
                                     }}
                                   />
                                   <input
                                     type="color"
-                                    value={imgElement?.dither?.colorFront || "#ffffff"}
+                                    value={
+                                      imgElement?.dither?.colorFront ||
+                                      "#ffffff"
+                                    }
                                     onChange={(e) =>
-                                      setDitherConfig(selectedElementId!, { colorFront: e.target.value })
+                                      setDitherConfig(selectedElementId!, {
+                                        colorFront: e.target.value,
+                                      })
                                     }
                                     className="absolute inset-0 opacity-0 cursor-pointer w-full h-full p-0 border-0"
                                     title="Foreground Color"
@@ -686,16 +744,24 @@ export function LeftPanel({
                                     }
                                     className={cn(
                                       "group relative flex flex-col items-center p-1.5 rounded-md border transition-all hover:scale-105 bg-background/50 cursor-pointer shadow-xs",
-                                      imgElement?.dither?.colorFront?.toLowerCase() === pal.front.toLowerCase() &&
-                                      imgElement?.dither?.colorBack?.toLowerCase() === pal.back.toLowerCase()
+                                      imgElement?.dither?.colorFront?.toLowerCase() ===
+                                        pal.front.toLowerCase() &&
+                                        imgElement?.dither?.colorBack?.toLowerCase() ===
+                                          pal.back.toLowerCase()
                                         ? "border-primary ring-1 ring-primary/40 bg-primary/5"
-                                        : "border-border dark:border-neutral-700 hover:border-primary/80"
+                                        : "border-border dark:border-neutral-700 hover:border-primary/80",
                                     )}
                                     title={`${pal.name} (${pal.front} / ${pal.back})`}
                                   >
                                     <div className="flex h-3.5 w-full rounded-xs overflow-hidden mb-1 shadow-2xs border border-black/10 dark:border-white/10">
-                                      <div className="flex-1 h-full" style={{ backgroundColor: pal.front }} />
-                                      <div className="flex-1 h-full" style={{ backgroundColor: pal.back }} />
+                                      <div
+                                        className="flex-1 h-full"
+                                        style={{ backgroundColor: pal.front }}
+                                      />
+                                      <div
+                                        className="flex-1 h-full"
+                                        style={{ backgroundColor: pal.back }}
+                                      />
                                     </div>
                                     <span className="text-[11px] font-medium text-muted-foreground group-hover:text-foreground truncate block">
                                       {pal.name}
@@ -711,8 +777,8 @@ export function LeftPanel({
                   ) : (
                     <div className="text-center p-8 text-muted-foreground font-inter text-xs border-2 border-dashed rounded-lg">
                       {activeTab === "image" &&
-                        selectedElement?.type !== "image" &&
-                        elements.some((e) => e.type === "image")
+                      selectedElement?.type !== "image" &&
+                      elements.some((e) => e.type === "image")
                         ? "An image layer was previously selected. Select it again from Layers to edit."
                         : "Select an image layer to edit properties."}
                     </div>
@@ -720,7 +786,9 @@ export function LeftPanel({
 
                   <Separator />
 
-                  <TemplatesPanel onLoadTemplateOrPreset={onLoadTemplateOrPreset} />
+                  <TemplatesPanel
+                    onLoadTemplateOrPreset={onLoadTemplateOrPreset}
+                  />
                 </div>
               </div>
             </ScrollArea>
@@ -784,7 +852,11 @@ export function LeftPanel({
                             >
                               <SelectTrigger
                                 className="h-8 w-full text-xs"
-                                style={{ fontFamily: getFontFamilyStyle(textStyle.fontFamily) }}
+                                style={{
+                                  fontFamily: getFontFamilyStyle(
+                                    textStyle.fontFamily,
+                                  ),
+                                }}
                               >
                                 <SelectValue />
                               </SelectTrigger>
@@ -793,7 +865,9 @@ export function LeftPanel({
                                   <SelectItem
                                     key={f}
                                     value={f}
-                                    style={{ fontFamily: getFontFamilyStyle(f) }}
+                                    style={{
+                                      fontFamily: getFontFamilyStyle(f),
+                                    }}
                                     className="text-xs py-1.5 cursor-pointer"
                                   >
                                     {f}
@@ -846,7 +920,9 @@ export function LeftPanel({
                           <StudioSlider
                             label="Tracking"
                             value={textStyle.letterSpacing ?? 0}
-                            onChange={(v) => updateSelected({ letterSpacing: v })}
+                            onChange={(v) =>
+                              updateSelected({ letterSpacing: v })
+                            }
                             min={-5}
                             max={30}
                             step={0.5}
@@ -884,7 +960,9 @@ export function LeftPanel({
                               },
                               {
                                 id: "uppercase",
-                                icon: (props: any) => <CaseUpper {...props} strokeWidth={2.5} />,
+                                icon: (props: any) => (
+                                  <CaseUpper {...props} strokeWidth={2.5} />
+                                ),
                                 title: "Uppercase",
                               },
                               {
@@ -893,7 +971,9 @@ export function LeftPanel({
                                 title: "Small Caps",
                               },
                             ].map((eff) => {
-                              const isActive = (textStyle.textEffect || []).includes(eff.id);
+                              const isActive = (
+                                textStyle.textEffect || []
+                              ).includes(eff.id);
                               const Icon = eff.icon;
                               return (
                                 <button
@@ -903,23 +983,30 @@ export function LeftPanel({
                                     const current = textStyle.textEffect || [];
                                     let next: string[];
                                     if (isActive) {
-                                      next = current.filter((x) => x !== eff.id);
+                                      next = current.filter(
+                                        (x) => x !== eff.id,
+                                      );
                                     } else {
                                       // Uppercase and small-caps switch each other
                                       let filtered = current;
                                       if (eff.id === "uppercase") {
-                                        filtered = current.filter((x) => x !== "small-caps");
+                                        filtered = current.filter(
+                                          (x) => x !== "small-caps",
+                                        );
                                       } else if (eff.id === "small-caps") {
-                                        filtered = current.filter((x) => x !== "uppercase");
+                                        filtered = current.filter(
+                                          (x) => x !== "uppercase",
+                                        );
                                       }
                                       next = [...filtered, eff.id];
                                     }
                                     updateSelected({ textEffect: next });
                                   }}
-                                  className={`aspect-square w-full rounded-md border flex items-center justify-center transition-all cursor-pointer shadow-2xs hover:scale-105 ${isActive
-                                    ? "bg-primary text-primary-foreground border-primary font-bold shadow-xs scale-102"
-                                    : "bg-background/60 hover:bg-muted/60 border-neutral-300 dark:border-neutral-700 text-muted-foreground hover:text-foreground"
-                                    }`}
+                                  className={`aspect-square w-full rounded-md border flex items-center justify-center transition-all cursor-pointer shadow-2xs hover:scale-105 ${
+                                    isActive
+                                      ? "bg-primary text-primary-foreground border-primary font-bold shadow-xs scale-102"
+                                      : "bg-background/60 hover:bg-muted/60 border-neutral-300 dark:border-neutral-700 text-muted-foreground hover:text-foreground"
+                                  }`}
                                   title={eff.title}
                                 >
                                   <Icon className="size-4" weight="bold" />
@@ -945,10 +1032,14 @@ export function LeftPanel({
                                   key={mode.id}
                                   type="button"
                                   onClick={() =>
-                                    updateSelected({ colorType: mode.id as "gradient" | "solid" })
+                                    updateSelected({
+                                      colorType: mode.id as
+                                        "gradient" | "solid",
+                                    })
                                   }
                                   className={`px-2.5 py-0.5 text-[10px] font-medium rounded-xs transition-all cursor-pointer ${
-                                    (textStyle.colorType || "gradient") === mode.id
+                                    (textStyle.colorType || "gradient") ===
+                                    mode.id
                                       ? "bg-background text-foreground shadow-xs font-semibold"
                                       : "text-muted-foreground hover:text-foreground"
                                   }`}
@@ -959,7 +1050,8 @@ export function LeftPanel({
                             </div>
                           </div>
 
-                          {(textStyle.colorType || "gradient") === "gradient" ? (
+                          {(textStyle.colorType || "gradient") ===
+                          "gradient" ? (
                             <div className="space-y-5">
                               {/* 3 Color Pickers: From - Via - To */}
                               <div className="grid grid-cols-3 gap-1.25 ">
@@ -968,20 +1060,27 @@ export function LeftPanel({
                                   <div className="relative size-7 rounded-md overflow-hidden border border-neutral-300 dark:border-neutral-700 shrink-0 hover:scale-105 transition-transform shadow-xs">
                                     <div
                                       className="absolute inset-0"
-                                      style={{ backgroundColor: textStyle.color || "#ffffff" }}
+                                      style={{
+                                        backgroundColor:
+                                          textStyle.color || "#ffffff",
+                                      }}
                                     />
                                     <input
                                       type="color"
                                       value={textStyle.color || "#ffffff"}
                                       onChange={(e) =>
-                                        updateSelected({ color: e.target.value })
+                                        updateSelected({
+                                          color: e.target.value,
+                                        })
                                       }
                                       className="absolute inset-0 opacity-0 cursor-pointer w-full h-full p-0 border-0"
                                       title="From Color"
                                     />
                                   </div>
                                   <div className="flex flex-col min-w-0">
-                                    <span className="text-[9px] text-muted-foreground uppercase font-medium leading-tight">From</span>
+                                    <span className="text-[9px] text-muted-foreground uppercase font-medium leading-tight">
+                                      From
+                                    </span>
                                     <span className="text-[10px] font-semibold uppercase truncate leading-tight">
                                       {textStyle.color || "#ffffff"}
                                     </span>
@@ -993,20 +1092,27 @@ export function LeftPanel({
                                   <div className="relative size-7 rounded-md overflow-hidden border border-neutral-300 dark:border-neutral-700 shrink-0 hover:scale-105 transition-transform shadow-xs">
                                     <div
                                       className="absolute inset-0"
-                                      style={{ backgroundColor: textStyle.colorVia || "#cbd5e1" }}
+                                      style={{
+                                        backgroundColor:
+                                          textStyle.colorVia || "#cbd5e1",
+                                      }}
                                     />
                                     <input
                                       type="color"
                                       value={textStyle.colorVia || "#cbd5e1"}
                                       onChange={(e) =>
-                                        updateSelected({ colorVia: e.target.value })
+                                        updateSelected({
+                                          colorVia: e.target.value,
+                                        })
                                       }
                                       className="absolute inset-0 opacity-0 cursor-pointer w-full h-full p-0 border-0"
                                       title="Via Color"
                                     />
                                   </div>
                                   <div className="flex flex-col min-w-0">
-                                    <span className="text-[9px] text-muted-foreground uppercase font-medium leading-tight">Via</span>
+                                    <span className="text-[9px] text-muted-foreground uppercase font-medium leading-tight">
+                                      Via
+                                    </span>
                                     <span className="text-[10px] font-semibold uppercase truncate leading-tight">
                                       {textStyle.colorVia || "#cbd5e1"}
                                     </span>
@@ -1018,20 +1124,27 @@ export function LeftPanel({
                                   <div className="relative size-7 rounded-md overflow-hidden border border-neutral-300 dark:border-neutral-700 shrink-0 hover:scale-105 transition-transform shadow-xs">
                                     <div
                                       className="absolute inset-0"
-                                      style={{ backgroundColor: textStyle.colorEnd || "#64748b" }}
+                                      style={{
+                                        backgroundColor:
+                                          textStyle.colorEnd || "#64748b",
+                                      }}
                                     />
                                     <input
                                       type="color"
                                       value={textStyle.colorEnd || "#64748b"}
                                       onChange={(e) =>
-                                        updateSelected({ colorEnd: e.target.value })
+                                        updateSelected({
+                                          colorEnd: e.target.value,
+                                        })
                                       }
                                       className="absolute inset-0 opacity-0 cursor-pointer w-full h-full p-0 border-0"
                                       title="To Color"
                                     />
                                   </div>
                                   <div className="flex flex-col min-w-0">
-                                    <span className="text-[9px] text-muted-foreground uppercase font-medium leading-tight">To</span>
+                                    <span className="text-[9px] text-muted-foreground uppercase font-medium leading-tight">
+                                      To
+                                    </span>
                                     <span className="text-[10px] font-semibold uppercase truncate leading-tight">
                                       {textStyle.colorEnd || "#64748b"}
                                     </span>
@@ -1047,7 +1160,9 @@ export function LeftPanel({
                                     Direction
                                   </Label>
                                   <Select
-                                    value={textStyle.colorDirection || "to bottom"}
+                                    value={
+                                      textStyle.colorDirection || "to bottom"
+                                    }
                                     onValueChange={(val) =>
                                       updateSelected({ colorDirection: val })
                                     }
@@ -1062,7 +1177,9 @@ export function LeftPanel({
                                           value={dir.css}
                                           className="text-xs py-1.5 cursor-pointer"
                                         >
-                                          <span className="font-manrope text-[11px]">{dir.arrow}</span>
+                                          <span className="font-manrope text-[11px]">
+                                            {dir.arrow}
+                                          </span>
                                           <span>{dir.name}</span>
                                         </SelectItem>
                                       ))}
@@ -1079,14 +1196,17 @@ export function LeftPanel({
                                     value={
                                       TEXT_GRADIENT_PRESETS.find(
                                         (p) =>
-                                          p.from.toLowerCase() === textStyle.color?.toLowerCase() &&
-                                          p.via.toLowerCase() === textStyle.colorVia?.toLowerCase() &&
-                                          p.to.toLowerCase() === textStyle.colorEnd?.toLowerCase()
+                                          p.from.toLowerCase() ===
+                                            textStyle.color?.toLowerCase() &&
+                                          p.via.toLowerCase() ===
+                                            textStyle.colorVia?.toLowerCase() &&
+                                          p.to.toLowerCase() ===
+                                            textStyle.colorEnd?.toLowerCase(),
                                       )?.name || "custom"
                                     }
                                     onValueChange={(presetName) => {
                                       const preset = TEXT_GRADIENT_PRESETS.find(
-                                        (p) => p.name === presetName
+                                        (p) => p.name === presetName,
                                       );
                                       if (preset) {
                                         updateSelected({
@@ -1137,7 +1257,10 @@ export function LeftPanel({
                               <div className="relative size-7 rounded-md overflow-hidden border border-neutral-300 dark:border-neutral-700 shrink-0 hover:scale-105 transition-transform shadow-xs">
                                 <div
                                   className="absolute inset-0"
-                                  style={{ backgroundColor: textStyle.color || "#ffffff" }}
+                                  style={{
+                                    backgroundColor:
+                                      textStyle.color || "#ffffff",
+                                  }}
                                 />
                                 <input
                                   type="color"
@@ -1150,7 +1273,9 @@ export function LeftPanel({
                                 />
                               </div>
                               <div className="flex flex-col min-w-0">
-                                <span className="text-[9px] text-muted-foreground uppercase font-medium leading-tight">Solid Color</span>
+                                <span className="text-[9px] text-muted-foreground uppercase font-medium leading-tight">
+                                  Solid Color
+                                </span>
                                 <span className="text-[10px] font-semibold uppercase truncate leading-tight">
                                   {textStyle.color || "#ffffff"}
                                 </span>
@@ -1171,7 +1296,9 @@ export function LeftPanel({
                             <StudioSlider
                               label="X-Axis"
                               value={textStyle.rotateX}
-                              onChange={(val) => updateSelected({ rotateX: val })}
+                              onChange={(val) =>
+                                updateSelected({ rotateX: val })
+                              }
                               min={-180}
                               max={180}
                               step={1}
@@ -1182,7 +1309,9 @@ export function LeftPanel({
                             <StudioSlider
                               label="Y-Axis"
                               value={textStyle.rotateY}
-                              onChange={(val) => updateSelected({ rotateY: val })}
+                              onChange={(val) =>
+                                updateSelected({ rotateY: val })
+                              }
                               min={-180}
                               max={180}
                               step={1}
@@ -1193,7 +1322,9 @@ export function LeftPanel({
                             <StudioSlider
                               label="Z-Axis"
                               value={textStyle.rotate}
-                              onChange={(val) => updateSelected({ rotate: val })}
+                              onChange={(val) =>
+                                updateSelected({ rotate: val })
+                              }
                               min={-180}
                               max={180}
                               step={1}
@@ -1204,7 +1335,7 @@ export function LeftPanel({
                           </div>
 
                           <div className="grid grid-cols-2 gap-4 font-manrope font-semibold">
-                             <div className="space-y-1.5 min-w-0">
+                            <div className="space-y-1.5 min-w-0">
                               <Label className="text-xs font-medium text-muted-foreground truncate block">
                                 3D Preset
                               </Label>
@@ -1215,12 +1346,12 @@ export function LeftPanel({
                                       p.id !== "custom" &&
                                       p.rotateX === textStyle.rotateX &&
                                       p.rotateY === textStyle.rotateY &&
-                                      p.rotate === textStyle.rotate
+                                      p.rotate === textStyle.rotate,
                                   )?.id || "custom"
                                 }
                                 onValueChange={(presetId) => {
                                   const preset = TRANSFORM_3D_PRESETS.find(
-                                    (p) => p.id === presetId
+                                    (p) => p.id === presetId,
                                   );
                                   if (preset && preset.id !== "custom") {
                                     updateSelected({
@@ -1254,7 +1385,7 @@ export function LeftPanel({
                                 </SelectContent>
                               </Select>
                             </div>
-                            
+
                             <div className="space-y-1.5 min-w-0">
                               <Label className="text-xs font-medium text-muted-foreground truncate block">
                                 Writing Mode
@@ -1275,13 +1406,15 @@ export function LeftPanel({
                                       value={mode.id}
                                       className="text-xs py-1.5 cursor-pointer"
                                     >
-                                      <span className="font-manrope text-[11px]">{mode.arrow}</span>
+                                      <span className="font-manrope text-[11px]">
+                                        {mode.arrow}
+                                      </span>
                                       <span>{mode.name}</span>
                                     </SelectItem>
                                   ))}
                                 </SelectContent>
                               </Select>
-                            </div>                           
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -1317,10 +1450,14 @@ export function LeftPanel({
                                     key={mode.id}
                                     type="button"
                                     onClick={() =>
-                                      updateSelected({ backgroundType: mode.id as "gradient" | "solid" })
+                                      updateSelected({
+                                        backgroundType: mode.id as
+                                          "gradient" | "solid",
+                                      })
                                     }
                                     className={`px-2.5 py-0.5 text-[10px] font-medium rounded-xs transition-all cursor-pointer ${
-                                      (textStyle.backgroundType || "gradient") === mode.id
+                                      (textStyle.backgroundType ||
+                                        "gradient") === mode.id
                                         ? "bg-background text-foreground shadow-xs font-semibold"
                                         : "text-muted-foreground hover:text-foreground"
                                     }`}
@@ -1332,7 +1469,8 @@ export function LeftPanel({
                             </div>
 
                             {/* Background Colors */}
-                            {(textStyle.backgroundType || "gradient") === "gradient" ? (
+                            {(textStyle.backgroundType || "gradient") ===
+                            "gradient" ? (
                               <div className="space-y-5">
                                 {/* 3 Color Pickers: From - Via - To */}
                                 <div className="grid grid-cols-3 gap-1.25 ">
@@ -1342,12 +1480,16 @@ export function LeftPanel({
                                       <div
                                         className="absolute inset-0"
                                         style={{
-                                          backgroundColor: textStyle.backgroundColor || "#18181b",
+                                          backgroundColor:
+                                            textStyle.backgroundColor ||
+                                            "#18181b",
                                         }}
                                       />
                                       <input
                                         type="color"
-                                        value={textStyle.backgroundColor || "#18181b"}
+                                        value={
+                                          textStyle.backgroundColor || "#18181b"
+                                        }
                                         onChange={(e) =>
                                           updateSelected({
                                             backgroundColor: e.target.value,
@@ -1358,7 +1500,9 @@ export function LeftPanel({
                                       />
                                     </div>
                                     <div className="flex flex-col min-w-0">
-                                      <span className="text-[9px] text-muted-foreground uppercase font-medium leading-tight">From</span>
+                                      <span className="text-[9px] text-muted-foreground uppercase font-medium leading-tight">
+                                        From
+                                      </span>
                                       <span className="text-[10px] font-semibold uppercase truncate leading-tight">
                                         {textStyle.backgroundColor || "#18181b"}
                                       </span>
@@ -1371,12 +1515,17 @@ export function LeftPanel({
                                       <div
                                         className="absolute inset-0"
                                         style={{
-                                          backgroundColor: textStyle.backgroundColorVia || "#111113",
+                                          backgroundColor:
+                                            textStyle.backgroundColorVia ||
+                                            "#111113",
                                         }}
                                       />
                                       <input
                                         type="color"
-                                        value={textStyle.backgroundColorVia || "#111113"}
+                                        value={
+                                          textStyle.backgroundColorVia ||
+                                          "#111113"
+                                        }
                                         onChange={(e) =>
                                           updateSelected({
                                             backgroundColorVia: e.target.value,
@@ -1387,9 +1536,12 @@ export function LeftPanel({
                                       />
                                     </div>
                                     <div className="flex flex-col min-w-0">
-                                      <span className="text-[9px] text-muted-foreground uppercase font-medium leading-tight">Via</span>
+                                      <span className="text-[9px] text-muted-foreground uppercase font-medium leading-tight">
+                                        Via
+                                      </span>
                                       <span className="text-[10px] font-semibold uppercase truncate leading-tight">
-                                        {textStyle.backgroundColorVia || "#111113"}
+                                        {textStyle.backgroundColorVia ||
+                                          "#111113"}
                                       </span>
                                     </div>
                                   </div>
@@ -1400,12 +1552,17 @@ export function LeftPanel({
                                       <div
                                         className="absolute inset-0"
                                         style={{
-                                          backgroundColor: textStyle.backgroundColorEnd || "#09090b",
+                                          backgroundColor:
+                                            textStyle.backgroundColorEnd ||
+                                            "#09090b",
                                         }}
                                       />
                                       <input
                                         type="color"
-                                        value={textStyle.backgroundColorEnd || "#09090b"}
+                                        value={
+                                          textStyle.backgroundColorEnd ||
+                                          "#09090b"
+                                        }
                                         onChange={(e) =>
                                           updateSelected({
                                             backgroundColorEnd: e.target.value,
@@ -1416,9 +1573,12 @@ export function LeftPanel({
                                       />
                                     </div>
                                     <div className="flex flex-col min-w-0">
-                                      <span className="text-[9px] text-muted-foreground uppercase font-medium leading-tight">To</span>
+                                      <span className="text-[9px] text-muted-foreground uppercase font-medium leading-tight">
+                                        To
+                                      </span>
                                       <span className="text-[10px] font-semibold uppercase truncate leading-tight">
-                                        {textStyle.backgroundColorEnd || "#09090b"}
+                                        {textStyle.backgroundColorEnd ||
+                                          "#09090b"}
                                       </span>
                                     </div>
                                   </div>
@@ -1432,9 +1592,14 @@ export function LeftPanel({
                                       Direction
                                     </Label>
                                     <Select
-                                      value={textStyle.backgroundDirection || "to bottom"}
+                                      value={
+                                        textStyle.backgroundDirection ||
+                                        "to bottom"
+                                      }
                                       onValueChange={(val) =>
-                                        updateSelected({ backgroundDirection: val })
+                                        updateSelected({
+                                          backgroundDirection: val,
+                                        })
                                       }
                                     >
                                       <SelectTrigger className="h-8 w-full text-xs">
@@ -1447,7 +1612,9 @@ export function LeftPanel({
                                             value={dir.css}
                                             className="text-xs py-1.5 cursor-pointer"
                                           >
-                                            <span className="font-manrope text-[11px]">{dir.arrow}</span>
+                                            <span className="font-manrope text-[11px]">
+                                              {dir.arrow}
+                                            </span>
                                             <span>{dir.name}</span>
                                           </SelectItem>
                                         ))}
@@ -1464,15 +1631,19 @@ export function LeftPanel({
                                       value={
                                         BACKGROUND_GRADIENT_PRESETS.find(
                                           (p) =>
-                                            p.from.toLowerCase() === textStyle.backgroundColor?.toLowerCase() &&
-                                            p.via.toLowerCase() === textStyle.backgroundColorVia?.toLowerCase() &&
-                                            p.to.toLowerCase() === textStyle.backgroundColorEnd?.toLowerCase()
+                                            p.from.toLowerCase() ===
+                                              textStyle.backgroundColor?.toLowerCase() &&
+                                            p.via.toLowerCase() ===
+                                              textStyle.backgroundColorVia?.toLowerCase() &&
+                                            p.to.toLowerCase() ===
+                                              textStyle.backgroundColorEnd?.toLowerCase(),
                                         )?.name || "custom"
                                       }
                                       onValueChange={(presetName) => {
-                                        const preset = BACKGROUND_GRADIENT_PRESETS.find(
-                                          (p) => p.name === presetName
-                                        );
+                                        const preset =
+                                          BACKGROUND_GRADIENT_PRESETS.find(
+                                            (p) => p.name === presetName,
+                                          );
                                         if (preset) {
                                           updateSelected({
                                             backgroundColor: preset.from,
@@ -1494,23 +1665,27 @@ export function LeftPanel({
                                         >
                                           Custom
                                         </SelectItem>
-                                        {BACKGROUND_GRADIENT_PRESETS.map((preset) => (
-                                          <SelectItem
-                                            key={preset.name}
-                                            value={preset.name}
-                                            className="text-xs py-1.5 cursor-pointer"
-                                          >
-                                            <div className="flex items-center gap-2">
-                                              <div
-                                                className="size-3 rounded-xs shrink-0 border border-neutral-300 dark:border-neutral-700 shadow-2xs"
-                                                style={{
-                                                  background: `linear-gradient(to right, ${preset.from}, ${preset.via}, ${preset.to})`,
-                                                }}
-                                              />
-                                              <span className="truncate">{preset.name}</span>
-                                            </div>
-                                          </SelectItem>
-                                        ))}
+                                        {BACKGROUND_GRADIENT_PRESETS.map(
+                                          (preset) => (
+                                            <SelectItem
+                                              key={preset.name}
+                                              value={preset.name}
+                                              className="text-xs py-1.5 cursor-pointer"
+                                            >
+                                              <div className="flex items-center gap-2">
+                                                <div
+                                                  className="size-3 rounded-xs shrink-0 border border-neutral-300 dark:border-neutral-700 shadow-2xs"
+                                                  style={{
+                                                    background: `linear-gradient(to right, ${preset.from}, ${preset.via}, ${preset.to})`,
+                                                  }}
+                                                />
+                                                <span className="truncate">
+                                                  {preset.name}
+                                                </span>
+                                              </div>
+                                            </SelectItem>
+                                          ),
+                                        )}
                                       </SelectContent>
                                     </Select>
                                   </div>
@@ -1523,12 +1698,15 @@ export function LeftPanel({
                                   <div
                                     className="absolute inset-0"
                                     style={{
-                                      backgroundColor: textStyle.backgroundColor || "#18181b",
+                                      backgroundColor:
+                                        textStyle.backgroundColor || "#18181b",
                                     }}
                                   />
                                   <input
                                     type="color"
-                                    value={textStyle.backgroundColor || "#18181b"}
+                                    value={
+                                      textStyle.backgroundColor || "#18181b"
+                                    }
                                     onChange={(e) =>
                                       updateSelected({
                                         backgroundColor: e.target.value,
@@ -1539,7 +1717,9 @@ export function LeftPanel({
                                   />
                                 </div>
                                 <div className="flex flex-col min-w-0">
-                                  <span className="text-[9px] text-muted-foreground uppercase font-medium leading-tight">Solid Color</span>
+                                  <span className="text-[9px] text-muted-foreground uppercase font-medium leading-tight">
+                                    Solid Color
+                                  </span>
                                   <span className="text-[10px] font-semibold uppercase truncate leading-tight">
                                     {textStyle.backgroundColor || "#18181b"}
                                   </span>
@@ -1554,12 +1734,12 @@ export function LeftPanel({
                                 value={
                                   SHADOW_PRESETS.findIndex(
                                     (s) =>
-                                      s.value === textStyle.backgroundShadow
+                                      s.value === textStyle.backgroundShadow,
                                   ) !== -1
                                     ? SHADOW_PRESETS.findIndex(
                                         (s) =>
                                           s.value ===
-                                          textStyle.backgroundShadow
+                                          textStyle.backgroundShadow,
                                       )
                                     : 0
                                 }

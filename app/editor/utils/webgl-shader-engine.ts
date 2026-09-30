@@ -4,7 +4,7 @@ export interface MeshShaderUniforms {
     [number, number, number],
     [number, number, number],
     [number, number, number],
-    [number, number, number]
+    [number, number, number],
   ];
   speed: number;
   noiseIntensity: number;
@@ -261,7 +261,10 @@ export class WebGLMeshRenderer {
       gl.shaderSource(shader, src);
       gl.compileShader(shader);
       if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        console.error("Shader compilation failed:", gl.getShaderInfoLog(shader));
+        console.error(
+          "Shader compilation failed:",
+          gl.getShaderInfoLog(shader),
+        );
         gl.deleteShader(shader);
         return null;
       }
@@ -303,7 +306,10 @@ export class WebGLMeshRenderer {
     this.uDitherTypeLoc = gl.getUniformLocation(program, "u_ditherType");
     this.uDitherPxLoc = gl.getUniformLocation(program, "u_ditherPixelSize");
     this.uDitherStepsLoc = gl.getUniformLocation(program, "u_ditherSteps");
-    this.uDitherStrengthLoc = gl.getUniformLocation(program, "u_ditherStrength");
+    this.uDitherStrengthLoc = gl.getUniformLocation(
+      program,
+      "u_ditherStrength",
+    );
 
     // Fullscreen quad buffer [-1, -1] to [1, 1]
     const buffer = gl.createBuffer();
@@ -311,7 +317,7 @@ export class WebGLMeshRenderer {
     gl.bufferData(
       gl.ARRAY_BUFFER,
       new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
-      gl.STATIC_DRAW
+      gl.STATIC_DRAW,
     );
 
     const posLoc = gl.getAttribLocation(program, "a_position");
@@ -338,7 +344,8 @@ export class WebGLMeshRenderer {
     gl.viewport(0, 0, width, height);
 
     if (this.uniforms.isAnimating) {
-      this.lastRenderTime = ((timestamp ?? performance.now()) - this.startTime) / 1000.0;
+      this.lastRenderTime =
+        ((timestamp ?? performance.now()) - this.startTime) / 1000.0;
     }
 
     if (this.uResLoc) gl.uniform2f(this.uResLoc, width, height);
@@ -352,15 +359,27 @@ export class WebGLMeshRenderer {
     if (this.uC5Loc) gl.uniform3f(this.uC5Loc, c[4][0], c[4][1], c[4][2]);
 
     if (this.uSpeedLoc) gl.uniform1f(this.uSpeedLoc, this.uniforms.speed);
-    if (this.uNoiseIntLoc) gl.uniform1f(this.uNoiseIntLoc, this.uniforms.noiseIntensity);
-    if (this.uNoiseScaleLoc) gl.uniform1f(this.uNoiseScaleLoc, this.uniforms.noiseScale);
-    if (this.uNoiseGrainLoc) gl.uniform1f(this.uNoiseGrainLoc, this.uniforms.noiseGrain || 0.0);
-    if (this.uIsAnimLoc) gl.uniform1i(this.uIsAnimLoc, this.uniforms.isAnimating ? 1 : 0);
-    if (this.uDitherEnLoc) gl.uniform1i(this.uDitherEnLoc, this.uniforms.ditherEnabled ? 1 : 0);
-    if (this.uDitherTypeLoc) gl.uniform1i(this.uDitherTypeLoc, this.uniforms.ditherType);
-    if (this.uDitherPxLoc) gl.uniform1f(this.uDitherPxLoc, this.uniforms.ditherPixelSize);
-    if (this.uDitherStepsLoc) gl.uniform1f(this.uDitherStepsLoc, this.uniforms.ditherColorSteps);
-    if (this.uDitherStrengthLoc) gl.uniform1f(this.uDitherStrengthLoc, (this.uniforms.ditherStrength ?? 100) / 100.0);
+    if (this.uNoiseIntLoc)
+      gl.uniform1f(this.uNoiseIntLoc, this.uniforms.noiseIntensity);
+    if (this.uNoiseScaleLoc)
+      gl.uniform1f(this.uNoiseScaleLoc, this.uniforms.noiseScale);
+    if (this.uNoiseGrainLoc)
+      gl.uniform1f(this.uNoiseGrainLoc, this.uniforms.noiseGrain || 0.0);
+    if (this.uIsAnimLoc)
+      gl.uniform1i(this.uIsAnimLoc, this.uniforms.isAnimating ? 1 : 0);
+    if (this.uDitherEnLoc)
+      gl.uniform1i(this.uDitherEnLoc, this.uniforms.ditherEnabled ? 1 : 0);
+    if (this.uDitherTypeLoc)
+      gl.uniform1i(this.uDitherTypeLoc, this.uniforms.ditherType);
+    if (this.uDitherPxLoc)
+      gl.uniform1f(this.uDitherPxLoc, this.uniforms.ditherPixelSize);
+    if (this.uDitherStepsLoc)
+      gl.uniform1f(this.uDitherStepsLoc, this.uniforms.ditherColorSteps);
+    if (this.uDitherStrengthLoc)
+      gl.uniform1f(
+        this.uDitherStrengthLoc,
+        (this.uniforms.ditherStrength ?? 100) / 100.0,
+      );
 
     gl.drawArrays(gl.TRIANGLES, 0, 6);
   }
@@ -387,15 +406,27 @@ export class WebGLMeshRenderer {
     if (this.uC5Loc) gl.uniform3f(this.uC5Loc, c[4][0], c[4][1], c[4][2]);
 
     if (this.uSpeedLoc) gl.uniform1f(this.uSpeedLoc, this.uniforms.speed);
-    if (this.uNoiseIntLoc) gl.uniform1f(this.uNoiseIntLoc, this.uniforms.noiseIntensity);
-    if (this.uNoiseScaleLoc) gl.uniform1f(this.uNoiseScaleLoc, this.uniforms.noiseScale);
-    if (this.uNoiseGrainLoc) gl.uniform1f(this.uNoiseGrainLoc, this.uniforms.noiseGrain || 0.0);
-    if (this.uIsAnimLoc) gl.uniform1i(this.uIsAnimLoc, this.uniforms.isAnimating ? 1 : 0);
-    if (this.uDitherEnLoc) gl.uniform1i(this.uDitherEnLoc, this.uniforms.ditherEnabled ? 1 : 0);
-    if (this.uDitherTypeLoc) gl.uniform1i(this.uDitherTypeLoc, this.uniforms.ditherType);
-    if (this.uDitherPxLoc) gl.uniform1f(this.uDitherPxLoc, this.uniforms.ditherPixelSize);
-    if (this.uDitherStepsLoc) gl.uniform1f(this.uDitherStepsLoc, this.uniforms.ditherColorSteps);
-    if (this.uDitherStrengthLoc) gl.uniform1f(this.uDitherStrengthLoc, (this.uniforms.ditherStrength ?? 100) / 100.0);
+    if (this.uNoiseIntLoc)
+      gl.uniform1f(this.uNoiseIntLoc, this.uniforms.noiseIntensity);
+    if (this.uNoiseScaleLoc)
+      gl.uniform1f(this.uNoiseScaleLoc, this.uniforms.noiseScale);
+    if (this.uNoiseGrainLoc)
+      gl.uniform1f(this.uNoiseGrainLoc, this.uniforms.noiseGrain || 0.0);
+    if (this.uIsAnimLoc)
+      gl.uniform1i(this.uIsAnimLoc, this.uniforms.isAnimating ? 1 : 0);
+    if (this.uDitherEnLoc)
+      gl.uniform1i(this.uDitherEnLoc, this.uniforms.ditherEnabled ? 1 : 0);
+    if (this.uDitherTypeLoc)
+      gl.uniform1i(this.uDitherTypeLoc, this.uniforms.ditherType);
+    if (this.uDitherPxLoc)
+      gl.uniform1f(this.uDitherPxLoc, this.uniforms.ditherPixelSize);
+    if (this.uDitherStepsLoc)
+      gl.uniform1f(this.uDitherStepsLoc, this.uniforms.ditherColorSteps);
+    if (this.uDitherStrengthLoc)
+      gl.uniform1f(
+        this.uDitherStrengthLoc,
+        (this.uniforms.ditherStrength ?? 100) / 100.0,
+      );
 
     gl.drawArrays(gl.TRIANGLES, 0, 6);
   }
@@ -451,7 +482,7 @@ export function buildMeshUniforms(meshConfig: {
     [number, number, number],
     [number, number, number],
     [number, number, number],
-    [number, number, number]
+    [number, number, number],
   ] = [
     hexToRgb01(meshConfig.colors[0] || "#09090b"),
     hexToRgb01(meshConfig.colors[1] || "#18181b"),

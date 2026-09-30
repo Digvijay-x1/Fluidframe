@@ -21,4 +21,3 @@ export default function robots(): MetadataRoute.Robots {
     host: "https://fluidframe.vercel.app",
   };
 }
-

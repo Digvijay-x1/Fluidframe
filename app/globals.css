@@ -39,7 +39,8 @@
   --color-secondary-foreground: oklch(var(--secondary-foreground));
   --color-destructive-foreground: oklch(var(--destructive-foreground));
 
-  --animate-button-shimmer: button-shimmer 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  --animate-button-shimmer: button-shimmer 1.5s cubic-bezier(0.4, 0, 0.2, 1)
+    infinite;
 }
 
 @layer base {

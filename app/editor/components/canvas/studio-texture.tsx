@@ -3,13 +3,7 @@
 import React, { useId, useState, useEffect } from "react";
 
 export type StudioTextureType =
-  | "none"
-  | "grain"
-  | "paper"
-  | "scratches"
-  | "canvas"
-  | "dust"
-  | "halftone";
+  "none" | "grain" | "paper" | "scratches" | "canvas" | "dust" | "halftone";
 
 export interface StudioTextureProps {
   type: StudioTextureType;
@@ -147,10 +141,7 @@ export const StudioTexture: React.FC<StudioTextureProps> = ({
       )}
 
       {type === "dust" && (
-        <svg
-          className="w-full h-full"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <filter id={`${prefix}-dust-filter`}>
             <feTurbulence
               type="fractalNoise"
@@ -188,7 +179,11 @@ export const StudioTexture: React.FC<StudioTextureProps> = ({
               <circle cx="10" cy="10" r="1" fill="#ffffff" opacity="0.4" />
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill={`url(#${prefix}-halftone-pat)`} />
+          <rect
+            width="100%"
+            height="100%"
+            fill={`url(#${prefix}-halftone-pat)`}
+          />
         </svg>
       )}
     </div>

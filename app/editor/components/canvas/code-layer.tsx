@@ -27,7 +27,11 @@ interface ThemePalette {
 }
 
 // Language-aware single-pass highlighter with inline CSS for 100% reliable rendering
-function highlightLine(line: string, language: string, theme: ThemePalette): string {
+function highlightLine(
+  line: string,
+  language: string,
+  theme: ThemePalette,
+): string {
   const isPython = language === "python" || language === "py";
 
   const numColor = theme.number || "#ff9e64";
@@ -132,14 +136,15 @@ export const CodeLayer = memo(
       transformValue = `scale(${style.scale / 100})`;
     }
 
-    const codeFontFamily =
-      style.fontFamily || "var(--font-mono), monospace";
+    const codeFontFamily = style.fontFamily || "var(--font-mono), monospace";
 
     const language = element.language || "typescript";
     const tokenized = highlightCode(element.code || "", language, theme);
 
     const windowWidth = element.width || style.width || 500;
-    const isGlassActive = (style.glassBlur !== undefined && style.glassBlur > 0) || Boolean(style.glassmorphism);
+    const isGlassActive =
+      (style.glassBlur !== undefined && style.glassBlur > 0) ||
+      Boolean(style.glassmorphism);
 
     return (
       <div
@@ -206,8 +211,8 @@ export const CodeLayer = memo(
                 backgroundColor: isGlassActive
                   ? "transparent"
                   : style.windowFrame === "classic"
-                  ? "rgba(0,0,128,0.25)"
-                  : "rgba(0,0,0,0.15)",
+                    ? "rgba(0,0,128,0.25)"
+                    : "rgba(0,0,0,0.15)",
               }}
             >
               {/* Frame 1: macOS (Traffic Lights) */}
@@ -255,9 +260,20 @@ export const CodeLayer = memo(
                   </div>
 
                   <div className="flex items-center gap-3 shrink-0 opacity-70">
-                    <div className="w-2.5 h-[1.5px] bg-current" style={{ color: theme.text }} />
-                    <div className="size-2.5 border border-current rounded-[1px]" style={{ color: theme.text }} />
-                    <span className="text-xs leading-none select-none font-mono" style={{ color: theme.text }}>✕</span>
+                    <div
+                      className="w-2.5 h-[1.5px] bg-current"
+                      style={{ color: theme.text }}
+                    />
+                    <div
+                      className="size-2.5 border border-current rounded-[1px]"
+                      style={{ color: theme.text }}
+                    />
+                    <span
+                      className="text-xs leading-none select-none font-mono"
+                      style={{ color: theme.text }}
+                    >
+                      ✕
+                    </span>
                   </div>
                 </>
               )}
@@ -293,30 +309,34 @@ export const CodeLayer = memo(
               )}
 
               {style.windowFrame === "browser" && (
-         
-                  <div
-                    className="flex justify-center items-center w-fit mx-2 px-2.5 py-0.5 rounded-full border gap-1.5 text-[10px] truncate shadow-2xs"
-                    style={{
-                      backgroundColor: "rgba(0, 0, 0, 0.2)",
-                      borderColor: theme.border,
-                      color: theme.text,
-                    }}
-                  >
-                    <span className="size-1.5 rounded-full bg-emerald-400 shrink-0" />
-                    <span className="font-mono truncate opacity-85 font-medium">
-                      {style.windowTitle || "localhost:3000"}
-                    </span>
-                  </div>
+                <div
+                  className="flex justify-center items-center w-fit mx-2 px-2.5 py-0.5 rounded-full border gap-1.5 text-[10px] truncate shadow-2xs"
+                  style={{
+                    backgroundColor: "rgba(0, 0, 0, 0.2)",
+                    borderColor: theme.border,
+                    color: theme.text,
+                  }}
+                >
+                  <span className="size-1.5 rounded-full bg-emerald-400 shrink-0" />
+                  <span className="font-mono truncate opacity-85 font-medium">
+                    {style.windowTitle || "localhost:3000"}
+                  </span>
+                </div>
               )}
 
               {style.windowFrame === "minimal" && (
                 <>
                   <div className="flex items-center gap-2 min-w-0">
-                    <span className="text-emerald-400 font-mono text-xs font-bold leading-none">$</span>
+                    <span className="text-emerald-400 font-mono text-xs font-bold leading-none">
+                      $
+                    </span>
                     {style.windowTitle && (
                       <div
                         className="text-[11px] font-mono tracking-tight font-medium opacity-85 truncate"
-                        style={{ color: theme.text, fontFamily: codeFontFamily }}
+                        style={{
+                          color: theme.text,
+                          fontFamily: codeFontFamily,
+                        }}
                       >
                         {style.windowTitle}
                       </div>
@@ -343,13 +363,13 @@ export const CodeLayer = memo(
               textRendering: "geometricPrecision",
             }}
           >
-            <table
-              className="border-collapse w-full"
-              style={{ width: "100%" }}
-            >
+            <table className="border-collapse w-full" style={{ width: "100%" }}>
               <tbody>
                 {tokenized.map(({ lineIndex, html }) => (
-                  <tr key={lineIndex} className="hover:bg-white/5 transition-colors">
+                  <tr
+                    key={lineIndex}
+                    className="hover:bg-white/5 transition-colors"
+                  >
                     {style.lineNumbers !== false && (
                       <td
                         className="pr-4 select-none text-right opacity-35 font-mono align-top"
@@ -391,7 +411,7 @@ export const CodeLayer = memo(
         </div>
       </div>
     );
-  }
+  },
 );
 
 CodeLayer.displayName = "CodeLayer";

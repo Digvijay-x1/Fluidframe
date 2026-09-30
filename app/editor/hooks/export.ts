@@ -7,14 +7,11 @@ import {
   captureCanvasFrames,
   captureStaticSnapshot,
 } from "../utils/canvas-recorder";
-import {
-  renderFramesToMp4,
-  renderFramesToGif,
-} from "../utils/ffmpeg-service";
+import { renderFramesToMp4, renderFramesToGif } from "../utils/ffmpeg-service";
 
 export function useExport(
   canvasRef: RefObject<HTMLDivElement | null>,
-  setSelectedElementId: (id: string | null) => void
+  setSelectedElementId: (id: string | null) => void,
 ) {
   const {
     aspectRatio,
@@ -54,7 +51,9 @@ export function useExport(
       if (exportFormat === "mp4" || exportFormat === "gif") {
         const qualityScale = Math.max(1, parseInt(exportQuality) || 2);
         const targetFps =
-          exportFormat === "gif" ? Math.min(exportFps || 30, 30) : exportFps || 60;
+          exportFormat === "gif"
+            ? Math.min(exportFps || 30, 30)
+            : exportFps || 60;
         const isMesh =
           canvasBackground === "mesh" ||
           (!canvasBackground.startsWith("url(") &&
@@ -86,7 +85,7 @@ export function useExport(
             captured.fps,
             (ffmpegPct) => {
               setExportProgress(45 + Math.round(ffmpegPct * 0.55));
-            }
+            },
           );
 
           downloadBlob(mp4Blob, `fluidframe-video-${Date.now()}.mp4`);
@@ -102,7 +101,7 @@ export function useExport(
             captured.fps,
             (ffmpegPct) => {
               setExportProgress(45 + Math.round(ffmpegPct * 0.55));
-            }
+            },
           );
 
           downloadBlob(gifBlob, `fluidframe-animation-${Date.now()}.gif`);
@@ -135,14 +134,14 @@ export function useExport(
 
         downloadBlob(
           imageBlob,
-          `fluidframe-${exportFormat}-${Date.now()}.${exportFormat}`
+          `fluidframe-${exportFormat}-${Date.now()}.${exportFormat}`,
         );
         toast.success(`Exported ${exportFormat.toUpperCase()} successfully!`);
       }
     } catch (error: any) {
       console.error("Export failed:", error);
       toast.error(
-        `Export failed: ${error?.message || "Unknown error occurred"}`
+        `Export failed: ${error?.message || "Unknown error occurred"}`,
       );
     } finally {
       setIsExporting(false);

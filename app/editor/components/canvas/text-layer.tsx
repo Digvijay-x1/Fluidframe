@@ -71,19 +71,19 @@ export const TextLayer = memo(
           WebkitTextFillColor: "transparent",
         }
       : colorType === "solid"
-      ? {
-          color: startColor,
-          backgroundImage: "none",
-          WebkitBackgroundClip: "border-box",
-          WebkitTextFillColor: startColor,
-        }
-      : {
-          backgroundImage: textGradient,
-          WebkitBackgroundClip: "text",
-          backgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-          color: "transparent",
-        };
+        ? {
+            color: startColor,
+            backgroundImage: "none",
+            WebkitBackgroundClip: "border-box",
+            WebkitTextFillColor: startColor,
+          }
+        : {
+            backgroundImage: textGradient,
+            WebkitBackgroundClip: "text",
+            backgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            color: "transparent",
+          };
 
     // Text Background Computation
     const bgType = element.style.backgroundType || "gradient";
@@ -105,7 +105,8 @@ export const TextLayer = memo(
     const isBgEnabled = Boolean(element.style.showBackground);
     const isGlass = Boolean(element.style.glassmorphism);
 
-    const hasBorder = (isBgEnabled || isGlass) && (element.style.borderWidth ?? 0) > 0;
+    const hasBorder =
+      (isBgEnabled || isGlass) && (element.style.borderWidth ?? 0) > 0;
     const borderGradient = element.style.colorVia
       ? `linear-gradient(${colorDirection}, ${startColor}, ${viaColor}, ${endColor})`
       : `linear-gradient(${colorDirection}, ${startColor}, ${endColor})`;
@@ -115,8 +116,8 @@ export const TextLayer = memo(
         ? backgroundStyle
         : "rgba(255, 255, 255, 0.15)"
       : isBgEnabled
-      ? backgroundStyle
-      : "transparent";
+        ? backgroundStyle
+        : "transparent";
 
     const backgroundCss = hasBorder
       ? colorType === "solid"
@@ -133,8 +134,8 @@ export const TextLayer = memo(
         ? `${element.style.borderWidth}px solid ${startColor}`
         : `${element.style.borderWidth}px solid transparent`
       : isGlass
-      ? "1px solid rgba(255, 255, 255, 0.3)"
-      : undefined;
+        ? "1px solid rgba(255, 255, 255, 0.3)"
+        : undefined;
 
     // Writing Mode Computation
     const selectedMode =
@@ -151,7 +152,9 @@ export const TextLayer = memo(
         className={`absolute select-none touch-none ${
           isLocked ? "cursor-default" : "cursor-move"
         } ${
-          isSelected ? "ring-2 ring-primary" : "hover:ring-1 hover:ring-white/40"
+          isSelected
+            ? "ring-2 ring-primary"
+            : "hover:ring-1 hover:ring-white/40"
         }`}
         onPointerDown={(e) => {
           if (!isLocked && onPointerDown) {
@@ -185,10 +188,12 @@ export const TextLayer = memo(
           boxShadow: isGlass
             ? "0 8px 32px 0 rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.35)"
             : isBgEnabled
-            ? element.style.backgroundShadow
-            : "none",
-          borderRadius: isBgEnabled || isGlass ? `${element.style.borderRadius}px` : "0px",
-          padding: isBgEnabled || isGlass ? `${element.style.padding}px` : "0px",
+              ? element.style.backgroundShadow
+              : "none",
+          borderRadius:
+            isBgEnabled || isGlass ? `${element.style.borderRadius}px` : "0px",
+          padding:
+            isBgEnabled || isGlass ? `${element.style.padding}px` : "0px",
           lineHeight: isUpright ? 1.35 : 1.2,
           backfaceVisibility: "visible",
           filter: isSelected ? "brightness(1.03)" : "none",
@@ -219,12 +224,13 @@ export const TextLayer = memo(
       prev.element.id === next.element.id &&
       prev.element.position.x === next.element.position.x &&
       prev.element.position.y === next.element.position.y &&
-      JSON.stringify(prev.element.style) === JSON.stringify(next.element.style) &&
+      JSON.stringify(prev.element.style) ===
+        JSON.stringify(next.element.style) &&
       prev.element.content === next.element.content &&
       prev.isSelected === next.isSelected &&
       prev.isDragging === next.isDragging &&
       prev.isLocked === next.isLocked
     );
-  }
+  },
 );
 TextLayer.displayName = "TextLayer";

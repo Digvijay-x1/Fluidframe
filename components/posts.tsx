@@ -166,12 +166,7 @@ export const XPost = ({ caption, images = [], className }: PostProps) => (
     <div className="flex gap-2">
       <div className="shrink-0">
         <div className="w-10 h-10 bg-muted rounded-full overflow-hidden cursor-pointer hover:opacity-90 transition-opacity relative">
-          <Image
-            src="/pfp2.jpg"
-            alt="avatar"
-            fill
-            className="object-cover"
-          />
+          <Image src="/pfp2.jpg" alt="avatar" fill className="object-cover" />
         </div>
       </div>
 
@@ -200,7 +195,11 @@ export const XPost = ({ caption, images = [], className }: PostProps) => (
               alt="grok"
               className="dark:invert"
             />
-            <DotsThreeIcon size={18} weight="bold" className="text-muted-foreground" />
+            <DotsThreeIcon
+              size={18}
+              weight="bold"
+              className="text-muted-foreground"
+            />
           </div>
         </div>
 
@@ -267,12 +266,7 @@ export const LinkedInPost = ({
     <div className="flex justify-between items-start mb-4">
       <div className="flex gap-3">
         <div className="w-10 h-10 bg-muted rounded-full overflow-hidden relative">
-          <Image
-            src="/pfp1.jpg"
-            alt="avatar"
-            fill
-            className="object-cover"
-          />
+          <Image src="/pfp1.jpg" alt="avatar" fill className="object-cover" />
         </div>
         <div>
           <div className="font-bold text-[16px] font-display leading-tight font-manrope">
@@ -286,7 +280,11 @@ export const LinkedInPost = ({
           </div>
         </div>
       </div>
-      <DotsThreeIcon size={22} weight="bold" className="text-muted-foreground" />
+      <DotsThreeIcon
+        size={22}
+        weight="bold"
+        className="text-muted-foreground"
+      />
     </div>
     <div className="mb-6 text-[14px] leading-relaxed font-light font-inter whitespace-pre-wrap">
       {caption ||
@@ -339,18 +337,17 @@ export const InstagramPost = ({
     <div className="flex justify-between items-center p-3 border-b border-border">
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 bg-muted rounded-full overflow-hidden relative">
-          <Image
-            src="/pfp3.jpg"
-            alt="avatar"
-            fill
-            className="object-contain"
-          />
+          <Image src="/pfp3.jpg" alt="avatar" fill className="object-contain" />
         </div>{" "}
         <span className="text-xs font-bold font-display font-manrope">
           visual_architect
         </span>
       </div>
-      <DotsThreeIcon size={20} weight="bold" className="text-muted-foreground" />
+      <DotsThreeIcon
+        size={20}
+        weight="bold"
+        className="text-muted-foreground"
+      />
     </div>
 
     <div className="w-full bg-muted/30 flex items-center justify-center border-b border-border relative overflow-hidden group">

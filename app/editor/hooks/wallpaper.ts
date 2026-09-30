@@ -18,11 +18,7 @@ const wallpaperCache: {
 };
 
 export function Wallpapers(options: UseWallpapersOptions = {}) {
-  const {
-    limit = 50,
-    enableCache = true,
-    cacheTime = 5 * 60 * 1000,
-  } = options;
+  const { limit = 50, enableCache = true, cacheTime = 5 * 60 * 1000 } = options;
 
   const [wallpapers, setWallpapers] = useState<Wallpaper[]>([]);
   const [loading, setLoading] = useState(true);
@@ -60,7 +56,7 @@ export function Wallpapers(options: UseWallpapersOptions = {}) {
           `/api/imagekit/wallpapers?page=${pageNum}&limit=${limit}`,
           {
             signal: abortControllerRef.current.signal,
-          }
+          },
         );
 
         if (!response.ok) {
@@ -98,7 +94,7 @@ export function Wallpapers(options: UseWallpapersOptions = {}) {
         setLoading(false);
       }
     },
-    [limit, isCacheValid, enableCache, wallpapers]
+    [limit, isCacheValid, enableCache, wallpapers],
   );
 
   const loadMore = useCallback(() => {

@@ -2,10 +2,7 @@
 
 import { toPng, toSvg } from "html-to-image";
 import { MeshGradientConfig } from "../types";
-import {
-  WebGLMeshRenderer,
-  buildMeshUniforms,
-} from "./webgl-shader-engine";
+import { WebGLMeshRenderer, buildMeshUniforms } from "./webgl-shader-engine";
 import { DEFAULT_MESH_CONFIG } from "../values";
 
 export interface StaticCaptureOptions {
@@ -25,7 +22,7 @@ export interface StaticCaptureOptions {
  */
 export async function captureStaticSnapshot(
   containerEl: HTMLElement,
-  options: StaticCaptureOptions = {}
+  options: StaticCaptureOptions = {},
 ): Promise<Blob> {
   const {
     scale = 2,
@@ -74,8 +71,8 @@ export async function captureStaticSnapshot(
     backgroundColor: isMeshBackground
       ? "transparent"
       : canvasBackground.startsWith("#")
-      ? canvasBackground
-      : undefined,
+        ? canvasBackground
+        : undefined,
     style: {
       transform: "scale(1)",
       transformOrigin: "top left",
@@ -120,7 +117,11 @@ export async function captureStaticSnapshot(
   compositeCtx.imageSmoothingQuality = "high";
 
   // If solid background and not transparent PNG
-  if (!isMeshBackground && canvasBackground.startsWith("#") && format === "jpeg") {
+  if (
+    !isMeshBackground &&
+    canvasBackground.startsWith("#") &&
+    format === "jpeg"
+  ) {
     compositeCtx.fillStyle = canvasBackground;
     compositeCtx.fillRect(0, 0, targetWidth, targetHeight);
   }
@@ -138,13 +139,18 @@ export async function captureStaticSnapshot(
         webglCanvas,
         buildMeshUniforms({
           ...meshConfig,
-          ditherPixelSize: Math.max(1, (meshConfig.ditherPixelSize || 4) * scale),
-        })
+          ditherPixelSize: Math.max(
+            1,
+            (meshConfig.ditherPixelSize || 4) * scale,
+          ),
+        }),
       );
       const effectiveMeshTime =
         meshTime !== undefined
           ? meshTime
-          : (containerEl.querySelector("canvas") as any)?.__meshRenderer?.getLastRenderTime?.() ?? 0;
+          : ((
+              containerEl.querySelector("canvas") as any
+            )?.__meshRenderer?.getLastRenderTime?.() ?? 0);
       webglRenderer.renderTime(effectiveMeshTime);
       compositeCtx.drawImage(webglCanvas, 0, 0, targetWidth, targetHeight);
     }
@@ -156,7 +162,7 @@ export async function captureStaticSnapshot(
     const quality = format === "jpeg" ? 0.98 : undefined;
 
     const blob = await new Promise<Blob | null>((resolve) =>
-      compositeCanvas.toBlob(resolve, mimeType, quality)
+      compositeCanvas.toBlob(resolve, mimeType, quality),
     );
 
     if (!blob) {
@@ -195,7 +201,7 @@ export interface CapturedFramesResult {
  */
 export async function captureCanvasFrames(
   containerEl: HTMLElement,
-  options: FrameCaptureOptions
+  options: FrameCaptureOptions,
 ): Promise<CapturedFramesResult> {
   const {
     durationSeconds = 3,
@@ -291,12 +297,15 @@ export async function captureCanvasFrames(
       buildMeshUniforms({
         ...meshConfig,
         ditherPixelSize: Math.max(1, (meshConfig.ditherPixelSize || 4) * scale),
-      })
+      }),
     );
   }
 
   const maxFrames = scale >= 4 ? 300 : 600;
-  const totalFrames = Math.min(maxFrames, Math.max(1, Math.round(durationSeconds * fps)));
+  const totalFrames = Math.min(
+    maxFrames,
+    Math.max(1, Math.round(durationSeconds * fps)),
+  );
   const frames: Uint8Array[] = [];
 
   try {
@@ -309,27 +318,15 @@ export async function captureCanvasFrames(
       // Render WebGL Mesh Shader at exact time step
       if (isMeshBackground && webglRenderer && webglCanvas) {
         webglRenderer.renderTime(timeInSeconds);
-        compositeCtx.drawImage(
-          webglCanvas,
-          0,
-          0,
-          targetWidth,
-          targetHeight
-        );
+        compositeCtx.drawImage(webglCanvas, 0, 0, targetWidth, targetHeight);
       }
 
       // Draw foreground layers (Images, 3D transforms, Text, Overlays)
-      compositeCtx.drawImage(
-        foregroundImg,
-        0,
-        0,
-        targetWidth,
-        targetHeight
-      );
+      compositeCtx.drawImage(foregroundImg, 0, 0, targetWidth, targetHeight);
 
       // Extract lightweight JPEG frame buffer (~150KB/frame to prevent ArrayBuffer allocation overflow)
       const frameBlob = await new Promise<Blob | null>((resolve) =>
-        compositeCanvas.toBlob(resolve, "image/jpeg", 0.95)
+        compositeCanvas.toBlob(resolve, "image/jpeg", 0.95),
       );
 
       if (!frameBlob) {
@@ -342,7 +339,7 @@ export async function captureCanvasFrames(
       const percent = Math.round(((frameIdx + 1) / totalFrames) * 100);
       onProgress?.(
         percent,
-        `Rendering frame ${frameIdx + 1}/${totalFrames}...`
+        `Rendering frame ${frameIdx + 1}/${totalFrames}...`,
       );
     }
   } finally {
@@ -371,7 +368,7 @@ export interface RecordOptions {
  */
 export async function recordCanvasToWebM(
   containerEl: HTMLElement,
-  options: RecordOptions
+  options: RecordOptions,
 ): Promise<Blob> {
   const { durationSeconds = 3, fps = 60, onProgress } = options;
 
@@ -400,7 +397,9 @@ export async function recordCanvasToWebM(
     : (webglCanvas as HTMLCanvasElement)?.captureStream?.(fps);
 
   if (!stream) {
-    throw new Error("Canvas video capture stream is not supported in this browser environment.");
+    throw new Error(
+      "Canvas video capture stream is not supported in this browser environment.",
+    );
   }
 
   const mimeTypes = [

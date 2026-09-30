@@ -15,7 +15,12 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { motion, useMotionValue, useTransform } from "motion/react";
-import { CanvasElement, ImageElement, TextElement, CodeElement } from "../../types";
+import {
+  CanvasElement,
+  ImageElement,
+  TextElement,
+  CodeElement,
+} from "../../types";
 import { CODE_THEMES } from "../../values";
 import React, { useEffect, useState, useRef, useCallback, memo } from "react";
 
@@ -41,13 +46,17 @@ function SmoothReorderGroup({
   className?: string;
   onClick?: (e: React.MouseEvent) => void;
 }) {
-  const orderRef = useRef<Array<{ value: CanvasElement; layout: { min: number; max: number } }>>([]);
+  const orderRef = useRef<
+    Array<{ value: CanvasElement; layout: { min: number; max: number } }>
+  >([]);
   const isReordering = useRef(false);
   const groupRef = useRef<HTMLUListElement | null>(null);
 
   // Keep orderRef synchronized with incoming values while preserving measured layouts
   useEffect(() => {
-    const layoutMap = new Map(orderRef.current.map((item) => [item.value.id, item.layout]));
+    const layoutMap = new Map(
+      orderRef.current.map((item) => [item.value.id, item.layout]),
+    );
     orderRef.current = values.map((val) => ({
       value: val,
       layout: layoutMap.get(val.id) || { min: 0, max: 0 },
@@ -67,7 +76,9 @@ function SmoothReorderGroup({
   }, []);
 
   const unregisterItem = useCallback((id: string) => {
-    orderRef.current = orderRef.current.filter((entry) => entry.value.id !== id);
+    orderRef.current = orderRef.current.filter(
+      (entry) => entry.value.id !== id,
+    );
   }, []);
 
   const updateOrder = useCallback(
@@ -86,7 +97,8 @@ function SmoothReorderGroup({
       const currentEntry = order[index];
       if (!currentEntry.layout || !nextEntry.layout) return;
 
-      const currentCenter = (currentEntry.layout.min + currentEntry.layout.max) / 2 + offset;
+      const currentCenter =
+        (currentEntry.layout.min + currentEntry.layout.max) / 2 + offset;
       const nextCenter = (nextEntry.layout.min + nextEntry.layout.max) / 2;
 
       // 8px hysteresis deadband completely eliminates midpoint jitter & rapid swap thrashing
@@ -118,7 +130,7 @@ function SmoothReorderGroup({
         });
       }
     },
-    [onReorder]
+    [onReorder],
   );
 
   useEffect(() => {
@@ -126,7 +138,9 @@ function SmoothReorderGroup({
   });
 
   return (
-    <ReorderContext.Provider value={{ registerItem, unregisterItem, updateOrder, groupRef }}>
+    <ReorderContext.Provider
+      value={{ registerItem, unregisterItem, updateOrder, groupRef }}
+    >
       <motion.ul
         ref={groupRef}
         className={className}
@@ -193,8 +207,13 @@ function SmoothReorderItem({
 
         // Controlled auto-scroll: only scrolls if list actually overflows the container
         const group = context.groupRef.current;
-        const scrollContainer = group?.closest("[data-slot=scroll-area-viewport]") as HTMLElement | null;
-        if (scrollContainer && scrollContainer.scrollHeight > scrollContainer.clientHeight + 20) {
+        const scrollContainer = group?.closest(
+          "[data-slot=scroll-area-viewport]",
+        ) as HTMLElement | null;
+        if (
+          scrollContainer &&
+          scrollContainer.scrollHeight > scrollContainer.clientHeight + 20
+        ) {
           const rect = scrollContainer.getBoundingClientRect();
           const distTop = info.point.y - rect.top;
           const distBottom = rect.bottom - info.point.y;
@@ -265,7 +284,8 @@ export function LayerPanel() {
             <div className="flex-1 flex flex-col items-center justify-center text-center py-12 px-4 text-muted-foreground text-xs space-y-1">
               <p className="font-medium">No layers added yet</p>
               <p className="text-[11px] opacity-70">
-                Add images or text layers from the sidebar to organize them here.
+                Add images or text layers from the sidebar to organize them
+                here.
               </p>
             </div>
           ) : (
@@ -326,10 +346,18 @@ const SortableLayer = memo(function SortableLayer({
     : null;
 
   const has3D = isText
-    ? Boolean(textEl?.style.rotate || textEl?.style.rotateX || textEl?.style.rotateY)
+    ? Boolean(
+        textEl?.style.rotate || textEl?.style.rotateX || textEl?.style.rotateY,
+      )
     : isCode
-    ? Boolean(codeEl?.style.rotate || codeEl?.style.rotateX || codeEl?.style.rotateY)
-    : Boolean(imgEl?.style.rotate || imgEl?.style.rotateX || imgEl?.style.rotateY);
+      ? Boolean(
+          codeEl?.style.rotate ||
+          codeEl?.style.rotateX ||
+          codeEl?.style.rotateY,
+        )
+      : Boolean(
+          imgEl?.style.rotate || imgEl?.style.rotateX || imgEl?.style.rotateY,
+        );
 
   const rawText = textEl?.content?.trim() || "Text Layer";
   const rawCode = codeEl?.style?.windowTitle || codeEl?.name || "Code Snippet";
@@ -340,18 +368,18 @@ const SortableLayer = memo(function SortableLayer({
       ? `${rawText.slice(0, 14)}...`
       : rawText
     : isCode
-    ? rawCode.length > 14
-      ? `${rawCode.slice(0, 14)}...`
-      : rawCode
-    : rawImageName.length > 14
-      ? `${rawImageName.slice(0, 14)}...`
-      : rawImageName;
+      ? rawCode.length > 14
+        ? `${rawCode.slice(0, 14)}...`
+        : rawCode
+      : rawImageName.length > 14
+        ? `${rawImageName.slice(0, 14)}...`
+        : rawImageName;
 
   const subtitle = isText
     ? `${textEl?.style.fontFamily || "Inter"} • ${textEl?.style.fontSize}px`
     : isCode
-    ? `${codeEl?.language === "python" ? "Python" : "TypeScript"} • ${codeEl?.style?.fontSize || 14}px`
-    : `Scale ${imgEl?.style.scale}% • ${imgEl?.style.opacity}%`;
+      ? `${codeEl?.language === "python" ? "Python" : "TypeScript"} • ${codeEl?.style?.fontSize || 14}px`
+      : `Scale ${imgEl?.style.scale}% • ${imgEl?.style.opacity}%`;
 
   return (
     <SmoothReorderItem
@@ -384,8 +412,8 @@ const SortableLayer = memo(function SortableLayer({
                   ? textEl.style.backgroundType === "solid"
                     ? textEl.style.backgroundColor
                     : textEl.style.backgroundColorVia
-                    ? `linear-gradient(${textEl.style.backgroundDirection || "to bottom"}, ${textEl.style.backgroundColor || "#18181b"}, ${textEl.style.backgroundColorVia || "#111113"}, ${textEl.style.backgroundColorEnd || "#09090b"})`
-                    : `linear-gradient(${textEl.style.backgroundDirection || "to bottom"}, ${textEl.style.backgroundColor || "#18181b"}, ${textEl.style.backgroundColorEnd || "#09090b"})`
+                      ? `linear-gradient(${textEl.style.backgroundDirection || "to bottom"}, ${textEl.style.backgroundColor || "#18181b"}, ${textEl.style.backgroundColorVia || "#111113"}, ${textEl.style.backgroundColorEnd || "#09090b"})`
+                      : `linear-gradient(${textEl.style.backgroundDirection || "to bottom"}, ${textEl.style.backgroundColor || "#18181b"}, ${textEl.style.backgroundColorEnd || "#09090b"})`
                   : undefined,
               }}
             >
@@ -406,7 +434,7 @@ const SortableLayer = memo(function SortableLayer({
               style={{
                 backgroundColor: codeEl?.style?.glassmorphism
                   ? "rgba(24, 24, 27, 0.75)"
-                  : (codeTheme?.bg || "#18181b"),
+                  : codeTheme?.bg || "#18181b",
               }}
             >
               <CodeIcon
@@ -433,7 +461,13 @@ const SortableLayer = memo(function SortableLayer({
         <div className="flex-1 min-w-0 flex flex-col justify-center overflow-hidden pr-0.5">
           <span
             className="text-xs font-semibold truncate text-foreground leading-tight block max-w-full"
-            title={isText ? textEl?.content || "Text Layer" : isCode ? codeEl?.style?.windowTitle || "Code Snippet" : imgEl?.name || "Image Layer"}
+            title={
+              isText
+                ? textEl?.content || "Text Layer"
+                : isCode
+                  ? codeEl?.style?.windowTitle || "Code Snippet"
+                  : imgEl?.name || "Image Layer"
+            }
           >
             {title}
           </span>
@@ -462,7 +496,11 @@ const SortableLayer = memo(function SortableLayer({
             }}
             onPointerDown={(e) => e.stopPropagation()}
           >
-            {element.isLocked ? <LockSimpleIcon size={13} /> : <LockSimpleOpenIcon size={13} />}
+            {element.isLocked ? (
+              <LockSimpleIcon size={13} />
+            ) : (
+              <LockSimpleOpenIcon size={13} />
+            )}
           </Button>
 
           {/* Visibility Button */}
@@ -483,7 +521,11 @@ const SortableLayer = memo(function SortableLayer({
             }}
             onPointerDown={(e) => e.stopPropagation()}
           >
-            {element.isVisible ? <EyeIcon size={13} /> : <EyeSlashIcon size={13} />}
+            {element.isVisible ? (
+              <EyeIcon size={13} />
+            ) : (
+              <EyeSlashIcon size={13} />
+            )}
           </Button>
 
           {/* Delete Button */}
@@ -516,7 +558,8 @@ const SortableLayer = memo(function SortableLayer({
       <div className="flex items-center gap-1 mt-1.5 pt-1.5 border-t border-border/40 text-[9px] text-muted-foreground font-manrope min-w-0 max-w-full overflow-hidden flex-nowrap">
         {/* Coordinates */}
         <span className="text-[9px] bg-muted/70 dark:bg-muted/50 px-1.5 py-0.2 rounded-xs border border-border/50 shrink-0 truncate">
-          X:{Math.round(element.position.x)} &nbsp; Y:{Math.round(element.position.y)}
+          X:{Math.round(element.position.x)} &nbsp; Y:
+          {Math.round(element.position.y)}
         </span>
 
         {/* Feature Badges */}
@@ -535,10 +578,10 @@ const SortableLayer = memo(function SortableLayer({
         {((isText && textEl?.style.glassmorphism) ||
           (isCode && codeEl?.style?.glassmorphism) ||
           (!isText && !isCode && imgEl?.style.glassmorphism)) && (
-            <span className="px-1 py-0.2 rounded-xs text-[9px] font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 shrink-0">
-              Glass
-            </span>
-          )}
+          <span className="px-1 py-0.2 rounded-xs text-[9px] font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 shrink-0">
+            Glass
+          </span>
+        )}
 
         {!isText && !isCode && imgEl?.dither?.enabled && (
           <span className="px-1 py-0.2 rounded-xs text-[9px] font-semibold bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20 shrink-0">
@@ -562,4 +605,3 @@ const SortableLayer = memo(function SortableLayer({
     </SmoothReorderItem>
   );
 });
-

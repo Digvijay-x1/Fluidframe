@@ -29,7 +29,8 @@ const TOOLS: Record<string, ToolConfig> = {
   "screenshot-mockup-generator": {
     slug: "screenshot-mockup-generator",
     title: "3D Screenshot Mockup Generator",
-    metaTitle: "Free 3D Screenshot Mockup Generator for Developers & Creators | Fluidframe",
+    metaTitle:
+      "Free 3D Screenshot Mockup Generator for Developers & Creators | Fluidframe",
     metaDescription:
       "Transform flat app screenshots into beautiful 3D isometric mockups with fluid WebGL gradients, shadow presets, and 4K exports. 100% free & client-side.",
     heading: "The Ultimate 3D Screenshot Mockup Generator",
@@ -58,7 +59,8 @@ const TOOLS: Record<string, ToolConfig> = {
   "code-snippet-mockup": {
     slug: "code-snippet-mockup",
     title: "Code Snippet & Terminal Beautifier",
-    metaTitle: "Code Snippet Mockup & Terminal Beautifier (Ray.so Alternative) | Fluidframe",
+    metaTitle:
+      "Code Snippet Mockup & Terminal Beautifier (Ray.so Alternative) | Fluidframe",
     metaDescription:
       "Generate beautiful syntax-highlighted code images and macOS terminal mockups. Customize themes, line numbers, 3D tilt, and export 4K graphics.",
     heading: "Turn Code Snippets into Studio 3D Art",
@@ -87,7 +89,8 @@ const TOOLS: Record<string, ToolConfig> = {
   "github-readme-banner-maker": {
     slug: "github-readme-banner-maker",
     title: "GitHub Readme Banner Maker",
-    metaTitle: "Free GitHub Readme Banner & Hero Generator for Developers | Fluidframe",
+    metaTitle:
+      "Free GitHub Readme Banner & Hero Generator for Developers | Fluidframe",
     metaDescription:
       "Design high-voltage GitHub Readme banners and open-source project hero cards. Add code previews, tech stack badges, and dark mesh gradients.",
     heading: "Design High-Impact GitHub Readme Banners",
@@ -116,7 +119,8 @@ const TOOLS: Record<string, ToolConfig> = {
   "3d-device-mockup": {
     slug: "3d-device-mockup",
     title: "3D Device Mockup Studio",
-    metaTitle: "3D Device Mockup Studio - iPhone, MacBook & Browser Frames | Fluidframe",
+    metaTitle:
+      "3D Device Mockup Studio - iPhone, MacBook & Browser Frames | Fluidframe",
     metaDescription:
       "Create 3D isometric device mockups for iPhone 16 Pro, MacBook Pro, and browser frames. Real-time shader lighting, glassmorphism, and zero cloud delay.",
     heading: "3D Device Mockups Without Blender or Figma",
@@ -145,7 +149,8 @@ const TOOLS: Record<string, ToolConfig> = {
   "bayer-dithering-generator": {
     slug: "bayer-dithering-generator",
     title: "Online Bayer Dithering & Retro Shader",
-    metaTitle: "Online Bayer Dithering Generator & Retro Pixel Art Studio | Fluidframe",
+    metaTitle:
+      "Online Bayer Dithering Generator & Retro Pixel Art Studio | Fluidframe",
     metaDescription:
       "Convert screenshots and photos into retro 90s Bayer dither graphics. Custom 2x2, 4x4, 8x8 matrices, dual-tone color mapping, and GLSL shaders.",
     heading: "Hardware-Accelerated Bayer Dithering Studio",
@@ -225,7 +230,13 @@ export async function generateMetadata({
       title: tool.metaTitle,
       description: tool.metaDescription,
       url: `https://fluidframe.vercel.app/tools/${tool.slug}`,
-      images: [{ url: "https://fluidframe.vercel.app/landing.png", width: 1200, height: 630 }],
+      images: [
+        {
+          url: "https://fluidframe.vercel.app/landing.png",
+          width: 1200,
+          height: 630,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
@@ -334,7 +345,10 @@ export default async function ToolPage({
               key={idx}
               className="flex items-start gap-3 p-4 rounded-xl border border-border/80 bg-card/50 backdrop-blur-md"
             >
-              <CheckCircleIcon className="size-5 text-primary shrink-0 mt-0.5" weight="fill" />
+              <CheckCircleIcon
+                className="size-5 text-primary shrink-0 mt-0.5"
+                weight="fill"
+              />
               <span className="text-sm font-medium text-foreground leading-snug">
                 {feature}
               </span>

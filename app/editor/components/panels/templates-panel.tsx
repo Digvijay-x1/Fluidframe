@@ -58,7 +58,8 @@ function TemplateAccuratePreview({ template }: { template: TemplateItem }) {
           const cardW = img.width || 260;
           const cardH = img.height || 380;
           const zIndex = idx + 20;
-          const has3DRotation = img.style.rotateX !== 0 || img.style.rotateY !== 0;
+          const has3DRotation =
+            img.style.rotateX !== 0 || img.style.rotateY !== 0;
 
           const isShortCard = cardH < 280;
 
@@ -76,7 +77,7 @@ function TemplateAccuratePreview({ template }: { template: TemplateItem }) {
                   rotateX(${img.style.rotateX}deg)
                   rotateY(${img.style.rotateY}deg)
                   rotateZ(${img.style.rotate}deg)
-                  scale3d(${((img.style.scale || 100) / 100)}, ${((img.style.scale || 100) / 100)}, 1)
+                  scale3d(${(img.style.scale || 100) / 100}, ${(img.style.scale || 100) / 100}, 1)
                   scaleX(${img.style.flipX ? -1 : 1})
                   scaleY(${img.style.flipY ? -1 : 1})
                 `,
@@ -123,7 +124,9 @@ function TemplateAccuratePreview({ template }: { template: TemplateItem }) {
   );
 }
 
-export function TemplatesPanel({ onLoadTemplateOrPreset }: Pick<LeftPanelProps, "onLoadTemplateOrPreset">) {
+export function TemplatesPanel({
+  onLoadTemplateOrPreset,
+}: Pick<LeftPanelProps, "onLoadTemplateOrPreset">) {
   const {
     userPresets,
     saveCustomPreset,
@@ -242,21 +245,25 @@ export function TemplatesPanel({ onLoadTemplateOrPreset }: Pick<LeftPanelProps, 
             className="h-8 text-xs bg-background"
             autoFocus
           />
-          <Button type="submit" size="sm" className="w-full h-7 text-xs bg-primary rounded-md">
+          <Button
+            type="submit"
+            size="sm"
+            className="w-full h-7 text-xs bg-primary rounded-md"
+          >
             Save Preset
           </Button>
         </form>
       )}
 
-      <p className="px-3 text-xs text-muted-foreground">Presets are named copies. Your current canvas is recovered separately.</p>
+      <p className="px-3 text-xs text-muted-foreground">
+        Presets are named copies. Your current canvas is recovered separately.
+      </p>
       {/* User Saved Presets List */}
       {mounted && userPresets.length > 0 && (
         <div className="space-y-1.5">
           <span className=" flex items-center justify-between pr-1 text-[11px] font-medium text-muted-foreground">
-            <span>
-              Saved Preset{userPresets.length === 1 ? "" : "s"}
-            </span>
-            ({userPresets.length})
+            <span>Saved Preset{userPresets.length === 1 ? "" : "s"}</span>(
+            {userPresets.length})
           </span>
           <div className="gap-1 flex flex-col max-h-40 overflow-y-auto pr-1">
             {userPresets.map((preset) => (
@@ -267,7 +274,8 @@ export function TemplatesPanel({ onLoadTemplateOrPreset }: Pick<LeftPanelProps, 
                 <button
                   type="button"
                   onClick={async () => {
-                    if (await onLoadTemplateOrPreset(preset)) toast.success(`Loaded "${preset.name}"`);
+                    if (await onLoadTemplateOrPreset(preset))
+                      toast.success(`Loaded "${preset.name}"`);
                   }}
                   className="flex-1 text-left truncate cursor-pointer pr-2 flex items-center gap-2"
                 >
@@ -282,7 +290,8 @@ export function TemplatesPanel({ onLoadTemplateOrPreset }: Pick<LeftPanelProps, 
                       {preset.name}
                     </p>
                     <p className="text-[10px] text-muted-foreground">
-                      {preset.aspectRatio?.name || "16:9"} • {preset.elements?.length || 0} layers
+                      {preset.aspectRatio?.name || "16:9"} •{" "}
+                      {preset.elements?.length || 0} layers
                     </p>
                   </div>
                 </button>
@@ -311,7 +320,8 @@ export function TemplatesPanel({ onLoadTemplateOrPreset }: Pick<LeftPanelProps, 
               key={template.id}
               type="button"
               onClick={async () => {
-                if (await onLoadTemplateOrPreset(template)) toast.success(`Loaded "${template.title}"`);
+                if (await onLoadTemplateOrPreset(template))
+                  toast.success(`Loaded "${template.title}"`);
               }}
               className="group w-full rounded-xl border border-border/70 bg-card/60 p-2 hover:border-primary/60 hover:bg-muted/30 transition-all text-left flex flex-col gap-2 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary shadow-2xs hover:shadow-xs"
             >

@@ -12,11 +12,7 @@ const memeCache: {
 };
 
 export function Memes(options: MemesOptions = {}) {
-  const {
-    limit = 20,
-    enableCache = true,
-    cacheTime = 5 * 60 * 1000,
-  } = options;
+  const { limit = 20, enableCache = true, cacheTime = 5 * 60 * 1000 } = options;
 
   const [memes, setMemes] = useState<Meme[]>([]);
   const [loading, setLoading] = useState(true);
@@ -54,7 +50,7 @@ export function Memes(options: MemesOptions = {}) {
           `/api/imagekit/memes?page=${pageNum}&limit=${limit}`,
           {
             signal: abortControllerRef.current.signal,
-          }
+          },
         );
 
         if (!response.ok) {
@@ -92,7 +88,7 @@ export function Memes(options: MemesOptions = {}) {
         setLoading(false);
       }
     },
-    [limit, isCacheValid, enableCache, memes]
+    [limit, isCacheValid, enableCache, memes],
   );
 
   const loadMore = useCallback(() => {
