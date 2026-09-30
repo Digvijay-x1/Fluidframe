@@ -1,7 +1,7 @@
 import type { CanvasDocument } from "../types";
 import { useStore } from "../store/use-store";
 import { projectDocument } from "./draft-schema";
-import { DraftConflictError, DraftInvalidError, DraftQuotaError, DraftUnavailableError, writeDraft } from "./draft-storage";
+import { DraftConflictError, DraftInvalidError, DraftUnavailableError, writeDraft } from "./draft-storage";
 
 export type RecoveryStatus = "idle" | "pending" | "saving" | "saved" | "error" | "unavailable" | "conflict" | "invalid";
 export class DraftController {
@@ -12,6 +12,7 @@ export class DraftController {
   private maxTimer: ReturnType<typeof setTimeout> | undefined;
   private writing: Promise<void> | undefined;
   private unsubscribe: (() => void) | undefined;
+  private stop: (() => void) | undefined;
   private paused = false;
   private replacing = false;
   private disposed = false;
@@ -22,6 +23,7 @@ export class DraftController {
     this.status = revision ? "saved" : "idle";
   }
   start() {
+    if (this.stop) return this.stop;
     this.unsubscribe = useStore.subscribe((state, previous) => {
       if (this.replacing || this.disposed) return;
       if (state.aspectRatio === previous.aspectRatio && state.canvasBackground === previous.canvasBackground &&
@@ -38,15 +40,16 @@ export class DraftController {
     const hide = () => { void this.flush(); };
     document.addEventListener("visibilitychange", flush);
     window.addEventListener("pagehide", hide);
-    return () => {
+    this.stop = () => {
       this.disposed = true;
       this.unsubscribe?.(); this.cancelTimers();
       document.removeEventListener("visibilitychange", flush);
       window.removeEventListener("pagehide", hide);
-      this.db.close();
     };
+    return this.stop;
   }
   private setStatus(status: RecoveryStatus, error?: Error) {
+    if (this.disposed) return;
     this.status = status; this.error = error; this.notify(status, error);
   }
   private cancelTimers() {
@@ -84,11 +87,15 @@ export class DraftController {
     if (this.edit > this.savedEdit && !this.paused && this.status !== "error") void this.flush();
   }
   retry() { if (this.status === "invalid") this.paused = false; if (this.status === "error" || this.status === "invalid") { this.setStatus("pending"); return this.flush(); } return Promise.resolve(); }
+  markConflict() { this.paused = true; this.setStatus("conflict", new DraftConflictError()); }
   async replace(document: CanvasDocument, expectedRevision?: string | null, expectedRaw?: unknown) {
+    if (this.disposed || this.replacing) return false;
     this.cancelTimers(); this.replacing = true;
     try {
       await this.writing;
+      if (this.disposed) return false;
       const record = await writeDraft(this.db, expectedRevision === undefined ? this.revision : expectedRevision, document, expectedRaw);
+      if (this.disposed) return false;
       this.revision = record.revision;
       useStore.getState().replaceDocument(record.document);
       this.edit++; this.savedEdit = this.edit;
@@ -104,6 +111,7 @@ export class DraftController {
   }
   async adopt(document: CanvasDocument, revision: string | null) {
     this.cancelTimers(); await this.writing;
+    if (this.disposed) return;
     this.replacing = true;
     this.revision = revision;
     useStore.getState().replaceDocument(document);

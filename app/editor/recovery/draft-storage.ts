@@ -1,10 +1,10 @@
 import { CanvasDocumentSchema, type DraftRecordV1 } from "./draft-schema";
 import type { CanvasDocument } from "../types";
 
-export class DraftConflictError extends Error { constructor() { super("Draft changed in another tab"); } }
-export class DraftUnavailableError extends Error { constructor() { super("Local recovery unavailable"); } }
-export class DraftInvalidError extends Error { constructor() { super("Invalid canvas document"); } }
-export class DraftQuotaError extends Error { constructor() { super("Browser storage is full"); } }
+export class DraftConflictError extends Error { constructor() { super("Draft changed in another tab"); this.name = "DraftConflictError"; } }
+export class DraftUnavailableError extends Error { constructor() { super("Local recovery unavailable"); this.name = "DraftUnavailableError"; } }
+export class DraftInvalidError extends Error { constructor() { super("Invalid canvas document"); this.name = "DraftInvalidError"; } }
+export class DraftQuotaError extends Error { constructor() { super("Browser storage is full"); this.name = "DraftQuotaError"; } }
 const databaseName = "fluidframe-recovery";
 const storeName = "drafts";
 const key = "current";

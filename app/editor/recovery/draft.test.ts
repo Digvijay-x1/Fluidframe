@@ -2,7 +2,8 @@ import "fake-indexeddb/auto";
 import { beforeEach, describe, expect, it } from "vitest";
 import { createDefaultDocument } from "../store/use-store";
 import { decodeDraft, CanvasDocumentSchema } from "./draft-schema";
-import { openDraftDatabase, readDraft, writeDraft, DraftConflictError, DraftInvalidError } from "./draft-storage";
+import { openDraftDatabase, readDraft, writeDraft, DraftConflictError, DraftInvalidError, DraftQuotaError, DraftUnavailableError } from "./draft-storage";
+import { PRESET_GRADIENTS } from "../values";
 
 beforeEach(async () => {
   await new Promise<void>((resolve) => {
@@ -12,6 +13,23 @@ beforeEach(async () => {
 });
 
 describe("recovery drafts", () => {
+  it("round trips every supported radial gradient background", async () => {
+    const db = await openDraftDatabase();
+    try {
+      let revision: string | null = null;
+      for (const preset of PRESET_GRADIENTS) {
+        const document = { ...createDefaultDocument(), canvasBackground: preset.value };
+        const record = await writeDraft(db, revision, document);
+        expect(decodeDraft(await readDraft(db))).toEqual({ kind: "valid", record });
+        revision = record.revision;
+      }
+    } finally { db.close(); }
+  });
+  it("identifies storage errors for recovery guidance", () => {
+    for (const ErrorClass of [DraftQuotaError, DraftConflictError, DraftInvalidError, DraftUnavailableError]) {
+      expect(new ErrorClass().name).toBe(ErrorClass.name);
+    }
+  });
   it("round trips a document and keeps the prior revision on invalid writes", async () => {
     const db = await openDraftDatabase();
     const document = createDefaultDocument();

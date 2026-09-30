@@ -1,6 +1,7 @@
 import { z } from "zod";
 import type { CanvasDocument, EditorState } from "../types";
 import { createDefaultDocument } from "../store/use-store";
+import { PRESET_GRADIENTS } from "../values";
 
 const finite = z.number().finite();
 const positive = finite.positive();
@@ -59,7 +60,8 @@ const text = z.object({ ...common, type: z.literal("text"), content: z.string(),
 const code = z.object({ ...common, type: z.literal("code"), code: z.string(), language: z.string(), style: codeStyle, width: positive.optional() });
 export const CanvasElementSchema = z.union([image, text, code]);
 const background = z.string().refine((value) =>
-  value === "mesh" || /^#[0-9a-f]{3,8}$/i.test(value) || /^rgba?\([\d\s.,%]+\)$/i.test(value) ||
+  value === "mesh" || PRESET_GRADIENTS.some((preset) => preset.value === value) ||
+  /^#[0-9a-f]{3,8}$/i.test(value) || /^rgba?\([\d\s.,%]+\)$/i.test(value) ||
   /^url\((['"]?)(https?:\/\/[^)'"\s]+|\/[a-z0-9_./%?&=+-]+)\1\)$/i.test(value)
 );
 export const CanvasDocumentSchema = z.object({
