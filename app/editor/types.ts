@@ -1,6 +1,7 @@
 import { AspectRatioPreset } from "./values";
 import { VectorPatternType } from "./components/canvas/vector-overlay";
 import { StudioTextureType } from "./components/canvas/studio-texture";
+import type { TemplateItem, UserPreset } from "./templates/types";
 
 export interface ImageStyle {
   scale: number;
@@ -236,12 +237,15 @@ export interface EditorCanvasProps {
 
 export type ExportFormat = "mp4" | "gif" | "png" | "jpeg" | "svg";
 
+export type CanvasDocument = Pick<EditorState, "aspectRatio" | "canvasBackground" | "meshConfig" | "overlayConfig" | "elements">;
+
 export interface EditorState {
   aspectRatio: AspectRatioPreset;
   canvasBackground: string;
   meshConfig: MeshGradientConfig;
   overlayConfig: OverlayConfig;
   elements: CanvasElement[];
+  documentGeneration: number;
   selectedElementId: string | null;
   isCropping: boolean;
   exportFormat: ExportFormat;
@@ -292,6 +296,7 @@ export interface EditorState {
   undo: () => void;
   redo: () => void;
   reset: () => void;
+  replaceDocument: (document: CanvasDocument) => void;
   setElements: (elements: CanvasElement[]) => void;
   setDitherConfig: (layerId: string, config: Partial<DitherConfig>) => void;
   saveCustomPreset: (name: string) => void;
@@ -312,6 +317,7 @@ export interface LeftPanelProps {
   isCropping: boolean;
   onToggleCropping: () => void;
   onImageUpload: (file: File) => void;
+  onLoadTemplateOrPreset: (preset: TemplateItem | UserPreset) => Promise<boolean>;
 }
 
 export interface Wallpaper {
@@ -355,4 +361,3 @@ export interface DitherConfig {
   colorFront: string; // Hex string e.g. "#ffffff"
   colorBack: string; // Hex string e.g. "#000000"
 }
-

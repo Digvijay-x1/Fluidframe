@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { useStore } from "../../store/use-store";
 import { BUILTIN_TEMPLATES } from "../../templates/presets-data";
 import { TemplateItem } from "../../templates/types";
-import { ImageElement } from "../../types";
+import { ImageElement, type LeftPanelProps } from "../../types";
 
 function TemplateAccuratePreview({ template }: { template: TemplateItem }) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -123,12 +123,11 @@ function TemplateAccuratePreview({ template }: { template: TemplateItem }) {
   );
 }
 
-export function TemplatesPanel() {
+export function TemplatesPanel({ onLoadTemplateOrPreset }: Pick<LeftPanelProps, "onLoadTemplateOrPreset">) {
   const {
     userPresets,
     saveCustomPreset,
     deleteCustomPreset,
-    loadTemplateOrPreset,
     exportPresetsAsJson,
     importPresetsFromJson,
     loadUserPresets,
@@ -249,6 +248,7 @@ export function TemplatesPanel() {
         </form>
       )}
 
+      <p className="px-3 text-xs text-muted-foreground">Presets are named copies. Your current canvas is recovered separately.</p>
       {/* User Saved Presets List */}
       {mounted && userPresets.length > 0 && (
         <div className="space-y-1.5">
@@ -266,9 +266,8 @@ export function TemplatesPanel() {
               >
                 <button
                   type="button"
-                  onClick={() => {
-                    loadTemplateOrPreset(preset);
-                    toast.success(`Loaded "${preset.name}"`);
+                  onClick={async () => {
+                    if (await onLoadTemplateOrPreset(preset)) toast.success(`Loaded "${preset.name}"`);
                   }}
                   className="flex-1 text-left truncate cursor-pointer pr-2 flex items-center gap-2"
                 >
@@ -311,9 +310,8 @@ export function TemplatesPanel() {
             <button
               key={template.id}
               type="button"
-              onClick={() => {
-                loadTemplateOrPreset(template);
-                toast.success(`Loaded "${template.title}"`);
+              onClick={async () => {
+                if (await onLoadTemplateOrPreset(template)) toast.success(`Loaded "${template.title}"`);
               }}
               className="group w-full rounded-xl border border-border/70 bg-card/60 p-2 hover:border-primary/60 hover:bg-muted/30 transition-all text-left flex flex-col gap-2 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary shadow-2xs hover:shadow-xs"
             >
