@@ -160,10 +160,21 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
-        with:
-          persist-credentials: false
       - name: Require every validation job to succeed
+        shell: bash
         env:
-          CHECK_RESULTS: ${{ toJSON(needs) }}
-        run: node scripts/ci-gate.mjs
+          LINT_RESULT: ${{ needs.lint.result }}
+          FORMAT_RESULT: ${{ needs.format.result }}
+          TYPECHECK_RESULT: ${{ needs.typecheck.result }}
+          TEST_RESULT: ${{ needs.test.result }}
+          BUILD_RESULT: ${{ needs.build.result }}
+        run: |
+          for check in LINT FORMAT TYPECHECK TEST BUILD; do
+            variable="${check}_RESULT"
+            result="${!variable:-}"
+            if [[ "$result" != "success" ]]; then
+              echo "Required validation did not succeed: $check ($result)"
+              exit 1
+            fi
+          done
+          echo "Every required validation job succeeded."
