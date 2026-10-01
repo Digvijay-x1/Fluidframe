@@ -1,0 +1,169 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+  merge_group:
+    types: [checks_requested]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  CI: true
+  NEXT_TELEMETRY_DISABLED: 1
+  IMAGEKIT_ENABLED: false
+  DATABASE_ENABLED: false
+
+jobs:
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+      - name: Run lint
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p ci-diagnostics
+          npm run lint 2>&1 | tee ci-diagnostics/lint.log
+      - name: Upload failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: lint-diagnostics
+          path: |
+            ci-diagnostics/
+            junit.xml
+          retention-days: 7
+          if-no-files-found: ignore
+
+  format:
+    name: format
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+      - name: Run format
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p ci-diagnostics
+          npm run format:check 2>&1 | tee ci-diagnostics/format.log
+      - name: Upload failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: format-diagnostics
+          path: |
+            ci-diagnostics/
+            junit.xml
+          retention-days: 7
+          if-no-files-found: ignore
+
+  typecheck:
+    name: typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+      - name: Run typecheck
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p ci-diagnostics
+          npm run typecheck 2>&1 | tee ci-diagnostics/typecheck.log
+      - name: Upload failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: typecheck-diagnostics
+          path: |
+            ci-diagnostics/
+            junit.xml
+          retention-days: 7
+          if-no-files-found: ignore
+
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+      - name: Run test
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p ci-diagnostics
+          npm test -- --reporter=default --reporter=junit --outputFile=junit.xml 2>&1 | tee ci-diagnostics/test.log
+      - name: Upload failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: test-diagnostics
+          path: |
+            ci-diagnostics/
+            junit.xml
+          retention-days: 7
+          if-no-files-found: ignore
+
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+      - name: Run build
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p ci-diagnostics
+          npm run build 2>&1 | tee ci-diagnostics/build.log
+      - name: Upload failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: build-diagnostics
+          path: |
+            ci-diagnostics/
+            junit.xml
+          retention-days: 7
+          if-no-files-found: ignore
+
+  required:
+    name: CI required
+    if: ${{ always() }}
+    needs: [lint, format, typecheck, test, build]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - name: Require every validation job to succeed
+        env:
+          CHECK_RESULTS: ${{ toJSON(needs) }}
+        run: node scripts/ci-gate.mjs
