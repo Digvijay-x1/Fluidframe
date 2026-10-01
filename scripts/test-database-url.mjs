@@ -11,6 +11,7 @@ export function testDatabaseUrl(value) {
   if (
     !["postgresql:", "postgres:"].includes(url.protocol) ||
     !["127.0.0.1", "localhost"].includes(url.hostname) ||
+    url.port !== "5432" ||
     url.username !== "fluidframe_ci" ||
     url.password !== "fluidframe_ci" ||
     url.pathname !== "/fluidframe_ci" ||

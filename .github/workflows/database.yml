@@ -43,15 +43,19 @@ jobs:
           set -euo pipefail
           changes=true
           if [[ "$EVENT" != "workflow_dispatch" && "$BASE_SHA" =~ ^[0-9a-f]{40}$ && ! "$BASE_SHA" =~ ^0+$ ]]; then
-            git diff --name-only "$BASE_SHA" HEAD > /tmp/changed-files
-            if ! grep -Eq '^(prisma/|prisma.*\.config\.ts$|package(-lock)?\.json$|scripts/test-database-url|\.github/workflows/database\.yml$|\.github/actions/setup/)' /tmp/changed-files; then
+            changed_files=$(mktemp)
+            trap 'rm -f "$changed_files"' EXIT
+            git diff --name-only "$BASE_SHA" HEAD > "$changed_files"
+            if ! grep -Eq '^(prisma/|prisma.*\.config\.ts$|package(-lock)?\.json$|\.nvmrc$|\.node-version$|\.npmrc$|scripts/test-database-url|\.github/workflows/database\.yml$|\.github/actions/setup/)' "$changed_files"; then
               changes=false
             fi
           fi
           echo "migrations=$changes" >> "$GITHUB_OUTPUT"
       - uses: ./.github/actions/setup
       - name: Validate schema and generate client without a database
-        run: npm run db:validate
+        run: |
+          ./node_modules/.bin/prisma validate
+          ./node_modules/.bin/prisma generate
       - name: Test fixture boundary and required gate
         run: npm test -- scripts/test-database-url.test.ts scripts/database-gate.test.ts
 
@@ -84,9 +88,15 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p ci-diagnostics
-          npm run db:check 2>&1 | tee ci-diagnostics/migrations.log
-          # Re-running deploy must be safe and report no pending migrations.
-          npm run db:check 2>&1 | tee ci-diagnostics/migrations-repeat.log
+          # Invoke the installed, lockfile-pinned CLI directly; package.json
+          # aliases must not be able to replace validation with a no-op.
+          for attempt in initial repeat; do
+            {
+              ./node_modules/.bin/prisma migrate deploy --config prisma.ci.config.ts
+              ./node_modules/.bin/prisma migrate status --config prisma.ci.config.ts
+              ./node_modules/.bin/prisma migrate diff --config prisma.ci.config.ts --from-config-datasource --to-schema prisma/schema.prisma --exit-code
+            } 2>&1 | tee "ci-diagnostics/migrations-${attempt}.log"
+          done
       - name: Upload failure diagnostics
         if: failure()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
