@@ -170,6 +170,9 @@ jobs:
         run: |
           go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
           go install github.com/zricethezav/gitleaks/v8@v8.30.1
+      # Temporary failure probe: actionlint must reject shell injection.
+      - name: Unsafe input probe
+        run: echo "${{ github.event.pull_request.title }}"
       - name: Lint workflows
         run: actionlint -color
       - name: Scan full git history for secrets
