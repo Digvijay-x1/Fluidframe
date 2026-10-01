@@ -1,8 +1,7 @@
 # Workflow and dependency security
 
 These source controls implement the automation for [issue #6](https://github.com/Digvijay-x1/Fluidframe/issues/6).
-Repository settings listed below must be activated after the first successful
-scan. A successful CodeQL job means analysis completed; findings are enforced by
+Repository activation and verification evidence are recorded below. A successful CodeQL job means analysis completed; findings are enforced by
 the code scanning ruleset, not by the analysis job exit status.
 
 ## Checks and blocking policy
@@ -73,9 +72,25 @@ After the implementation PR has green CI and both CodeQL language scans:
 5. Retain the owner review requests in CODEOWNERS. Add a second human owner before
    requiring code-owner approval, as documented in [CI controls](ci.md).
 
-These settings are outside source control. This change does not activate them or
-change deployment authority. Record activation and controlled failure run links
-in #6 before closing it. Deployment isolation and provider identity integration
+These settings are outside source control. On 2026-10-01, implementation PR #14
+activated Dependabot alerts (which enables the dependency graph), automated
+security updates, and private vulnerability reporting. Secret scanning and push
+protection were already enabled. The Actions API confirmed read-only default
+tokens, disabled PR approval by Actions, and `first_time_contributors` fork
+approval. The existing main ruleset still requires CI required.
+
+Both CodeQL categories completed with zero findings in the
+[initial hosted scan](https://github.com/Digvijay-x1/Fluidframe/actions/runs/36839447303).
+The active [CodeQL ruleset](https://github.com/Digvijay-x1/Fluidframe/rules/24298193)
+requires CodeQL with `high_or_higher` security and `errors` alert thresholds on
+main. Its administrator bypass is limited to pull requests, matching the existing
+CI ruleset. Default CodeQL setup remains unconfigured because the committed
+workflow provides advanced setup. Deployment authority is unchanged.
+
+Enabling dependency alerts revealed existing high and critical advisories,
+including Next.js and Axios. These baseline advisories need owner triage and
+compatible fixes before release; a green change-only dependency review does not
+clear them. No baseline finding was dismissed or excepted by this change. Deployment isolation and provider identity integration
 remain in #7; no privileged release workflow currently exists.
 
 ## Exceptions and credential handling
@@ -117,3 +132,11 @@ required fail. For secret detection, generate a synthetic key in a disposable
 local directory and scan it with `gitleaks dir --redact=100`; do not commit real
 credentials or publish scanner reports. Restore the probe changes before opening
 the implementation for merge. Confirm fork runs receive no production credentials.
+
+The [hosted failure probe](https://github.com/Digvijay-x1/Fluidframe/actions/runs/36839790443)
+introduced `lodash@4.17.20` and direct PR-title interpolation into shell. Dependency
+review rejected the high-severity advisories GHSA-35jh-r3h4-6jhm and
+GHSA-r5fr-rjxr-66jc; actionlint rejected the untrusted expression; **CI required**
+failed while the five application checks passed. The probe commit was reverted
+before the final revision. A local synthetic secret probe exited 1 with fully
+redacted output; full-history scanning of 153 local commits reported no leaks.
