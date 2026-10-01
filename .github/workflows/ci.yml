@@ -38,6 +38,8 @@ jobs:
           set -o pipefail
           mkdir -p ci-diagnostics
           npm run lint 2>&1 | tee ci-diagnostics/lint.log
+          echo "Controlled failure probe for lint"
+          exit 1
       - name: Upload failure diagnostics
         if: failure()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -64,6 +66,8 @@ jobs:
           set -o pipefail
           mkdir -p ci-diagnostics
           npm run format:check 2>&1 | tee ci-diagnostics/format.log
+          echo "Controlled failure probe for format"
+          exit 1
       - name: Upload failure diagnostics
         if: failure()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -90,6 +94,8 @@ jobs:
           set -o pipefail
           mkdir -p ci-diagnostics
           npm run typecheck 2>&1 | tee ci-diagnostics/typecheck.log
+          echo "Controlled failure probe for typecheck"
+          exit 1
       - name: Upload failure diagnostics
         if: failure()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -116,6 +122,8 @@ jobs:
           set -o pipefail
           mkdir -p ci-diagnostics
           npm test -- --reporter=default --reporter=junit --outputFile=junit.xml 2>&1 | tee ci-diagnostics/test.log
+          echo "Controlled failure probe for test"
+          exit 1
       - name: Upload failure diagnostics
         if: failure()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -142,6 +150,8 @@ jobs:
           set -o pipefail
           mkdir -p ci-diagnostics
           npm run build 2>&1 | tee ci-diagnostics/build.log
+          echo "Controlled failure probe for build"
+          exit 1
       - name: Upload failure diagnostics
         if: failure()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
