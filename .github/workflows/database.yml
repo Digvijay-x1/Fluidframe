@@ -1,0 +1,122 @@
+name: Database validation
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+  merge_group:
+    types: [checks_requested]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: database-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  CI: true
+  NEXT_TELEMETRY_DISABLED: 1
+  IMAGEKIT_ENABLED: false
+  DATABASE_ENABLED: false
+
+jobs:
+  schema:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      migrations: ${{ steps.changes.outputs.migrations }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Determine whether database checks need PostgreSQL
+        id: changes
+        shell: bash
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.event.before }}
+        run: |
+          set -euo pipefail
+          changes=true
+          if [[ "$EVENT" != "workflow_dispatch" && "$BASE_SHA" =~ ^[0-9a-f]{40}$ && ! "$BASE_SHA" =~ ^0+$ ]]; then
+            git diff --name-only "$BASE_SHA" HEAD > /tmp/changed-files
+            if ! grep -Eq '^(prisma/|prisma.*\.config\.ts$|package(-lock)?\.json$|scripts/test-database-url|\.github/workflows/database\.yml$|\.github/actions/setup/)' /tmp/changed-files; then
+              changes=false
+            fi
+          fi
+          echo "migrations=$changes" >> "$GITHUB_OUTPUT"
+      - uses: ./.github/actions/setup
+      - name: Validate schema and generate client without a database
+        run: npm run db:validate
+      - name: Test fixture boundary and required gate
+        run: npm test -- scripts/test-database-url.test.ts scripts/database-gate.test.ts
+
+  migrations:
+    needs: schema
+    if: ${{ needs.schema.outputs.migrations == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:17-alpine@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+        env:
+          POSTGRES_USER: fluidframe_ci
+          POSTGRES_PASSWORD: fluidframe_ci
+          POSTGRES_DB: fluidframe_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U fluidframe_ci -d fluidframe_ci"
+          --health-interval 5s --health-timeout 5s --health-retries 12
+    env:
+      FLUIDFRAME_TEST_DATABASE_URL: postgresql://fluidframe_ci:fluidframe_ci@127.0.0.1:5432/fluidframe_ci
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+      - name: Apply committed migrations and reject schema drift
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci-diagnostics
+          npm run db:check 2>&1 | tee ci-diagnostics/migrations.log
+          # Re-running deploy must be safe and report no pending migrations.
+          npm run db:check 2>&1 | tee ci-diagnostics/migrations-repeat.log
+      - name: Upload failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: database-diagnostics
+          path: ci-diagnostics/
+          retention-days: 7
+          if-no-files-found: ignore
+
+  required:
+    name: Database required
+    if: ${{ always() }}
+    needs: [schema, migrations]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require schema and applicable migration checks
+        shell: bash
+        env:
+          SCHEMA_RESULT: ${{ needs.schema.result }}
+          NEEDS_MIGRATIONS: ${{ needs.schema.outputs.migrations }}
+          MIGRATIONS_RESULT: ${{ needs.migrations.result }}
+        run: |
+          set -euo pipefail
+          [[ "$SCHEMA_RESULT" == "success" ]]
+          if [[ "$NEEDS_MIGRATIONS" == "true" ]]; then
+            [[ "$MIGRATIONS_RESULT" == "success" ]]
+          elif [[ "$NEEDS_MIGRATIONS" == "false" ]]; then
+            [[ "$MIGRATIONS_RESULT" == "skipped" ]]
+          else
+            echo "Missing database change decision."
+            exit 1
+          fi

@@ -13,6 +13,8 @@
     "start": "next start",
     "postinstall": "prisma generate",
     "test": "vitest run",
+    "db:validate": "prisma validate && prisma generate",
+    "db:check": "prisma migrate deploy --config prisma.ci.config.ts && prisma migrate status --config prisma.ci.config.ts && prisma migrate diff --config prisma.ci.config.ts --from-config-datasource --to-schema prisma/schema.prisma --exit-code",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

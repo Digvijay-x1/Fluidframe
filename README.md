@@ -231,6 +231,8 @@ cp .env.example .env
 
 **Existing ImageKit deployments must add `IMAGEKIT_ENABLED=true`.** Disabled ImageKit endpoints return HTTP 503 without contacting the provider. The editor, local uploads, IndexedDB recovery, WebGL, and exports remain available without integrations. Database persistence is not currently used by any app route; `DATABASE_ENABLED` validates the intended configuration and does not add persistence.
 
+See [database validation and release safety](docs/database.md) for schema checks, disposable migration tests, and requirements before enabling production persistence.
+
 An explicit environment check runs before development, type generation, and builds; API modules also validate on load. Missing credentials for enabled integrations and invalid URLs fail before deployment. Use separate preview credentials and set flags in the environment that builds the candidate; public variables are compiled into browser bundles.
 
 ### 4. Launch development or production
