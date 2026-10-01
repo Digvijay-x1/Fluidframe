@@ -197,6 +197,8 @@ npm run check
 
 This is the clean-checkout CI sequence. `npm ci` rejects manifest/lockfile drift and generates Prisma's client without connecting to a database. `npm run check` runs lint, formatting, type generation/typecheck, unit tests, and the production build. The core editor needs no `.env`, database, or production credentials. Builds fetch Google Fonts over HTTPS.
 
+Pull requests run these checks in parallel in GitHub Actions. See [the CI guide](docs/ci.md) for the required gate, failure diagnostics, and repository protection.
+
 Individual commands:
 
 | Command                | Purpose                                                               |
