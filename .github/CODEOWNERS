@@ -1,4 +1,4 @@
-# Release-sensitive changes request review by the repository owner.
+# Release-sensitive changes request review from the repository owner.
 /.github/ @Digvijay-x1
 /vercel.json @Digvijay-x1
 /next.config.ts @Digvijay-x1
