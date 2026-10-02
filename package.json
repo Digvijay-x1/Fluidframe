@@ -77,7 +77,7 @@
     "tailwind-merge": "^3.4.0",
     "tech-stack-icons": "^3.7.1",
     "zod": "^4.1.12",
-    "zustand": "^5.0.10"
+    "zustand": "^5.0.15"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
