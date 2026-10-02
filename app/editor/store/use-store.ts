@@ -9,16 +9,27 @@ import {
 const DEFAULT_BG = "mesh";
 
 const commitLayerToggle = (state: EditorState, elements: CanvasElement[]) => {
-  const history = [
-    ...state.history.slice(0, state.historyIndex + 1),
-    {
-      elements,
-      canvasBackground: state.canvasBackground,
-      meshConfig: state.meshConfig,
-      overlayConfig: state.overlayConfig,
-      aspectRatio: state.aspectRatio,
-    },
-  ];
+  const history = state.history.slice(0, state.historyIndex + 1);
+  const currentDocument: CanvasDocument = {
+    elements: state.elements,
+    canvasBackground: state.canvasBackground,
+    meshConfig: state.meshConfig,
+    overlayConfig: state.overlayConfig,
+    aspectRatio: state.aspectRatio,
+  };
+  const activeSnapshot = history[state.historyIndex];
+  // Live edits such as keyboard nudges replace elements without recording history.
+  // Preserve them as a separate step so undoing the toggle only reverts the toggle.
+  if (
+    currentDocument.elements !== activeSnapshot.elements ||
+    currentDocument.canvasBackground !== activeSnapshot.canvasBackground ||
+    currentDocument.meshConfig !== activeSnapshot.meshConfig ||
+    currentDocument.overlayConfig !== activeSnapshot.overlayConfig ||
+    currentDocument.aspectRatio !== activeSnapshot.aspectRatio
+  ) {
+    history.push(currentDocument);
+  }
+  history.push({ ...currentDocument, elements });
   return { elements, history, historyIndex: history.length - 1 };
 };
 
