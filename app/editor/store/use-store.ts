@@ -8,6 +8,20 @@ import {
 
 const DEFAULT_BG = "mesh";
 
+const commitLayerToggle = (state: EditorState, elements: CanvasElement[]) => {
+  const history = [
+    ...state.history.slice(0, state.historyIndex + 1),
+    {
+      elements,
+      canvasBackground: state.canvasBackground,
+      meshConfig: state.meshConfig,
+      overlayConfig: state.overlayConfig,
+      aspectRatio: state.aspectRatio,
+    },
+  ];
+  return { elements, history, historyIndex: history.length - 1 };
+};
+
 const loadSavedPresets = (): EditorState["userPresets"] => {
   if (typeof window === "undefined") return [];
   try {
@@ -417,20 +431,25 @@ export const useStore = create<EditorState>((set, get) => ({
   },
 
   toggleVisibility: (id) => {
-    set((state) => ({
-      elements: state.elements.map((el) =>
+    set((state) => {
+      if (!state.elements.some((el) => el.id === id)) return state;
+      const elements = state.elements.map((el) =>
         el.id === id ? { ...el, isVisible: !el.isVisible } : el,
-      ),
-    }));
+      );
+      return commitLayerToggle(state, elements);
+    });
   },
 
   toggleLock: (id) => {
     set((state) => {
-      const isNowLocked = !state.elements.find((el) => el.id === id)?.isLocked;
+      const element = state.elements.find((el) => el.id === id);
+      if (!element) return state;
+      const isNowLocked = !element.isLocked;
+      const elements = state.elements.map((el) =>
+        el.id === id ? { ...el, isLocked: isNowLocked } : el,
+      );
       return {
-        elements: state.elements.map((el) =>
-          el.id === id ? { ...el, isLocked: !el.isLocked } : el,
-        ),
+        ...commitLayerToggle(state, elements),
         isCropping:
           isNowLocked && state.selectedElementId === id
             ? false
