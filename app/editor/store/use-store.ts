@@ -502,6 +502,10 @@ export const useStore = create<EditorState>((set, get) => ({
       const historyState = state.history[newIndex];
       return {
         elements: historyState.elements,
+        isCropping:
+          state.isCropping &&
+          !historyState.elements.find((el) => el.id === state.selectedElementId)
+            ?.isLocked,
         canvasBackground: historyState.canvasBackground,
         meshConfig: historyState.meshConfig,
         overlayConfig: historyState.overlayConfig,
@@ -518,6 +522,10 @@ export const useStore = create<EditorState>((set, get) => ({
       const historyState = state.history[newIndex];
       return {
         elements: historyState.elements,
+        isCropping:
+          state.isCropping &&
+          !historyState.elements.find((el) => el.id === state.selectedElementId)
+            ?.isLocked,
         canvasBackground: historyState.canvasBackground,
         meshConfig: historyState.meshConfig,
         overlayConfig: historyState.overlayConfig,

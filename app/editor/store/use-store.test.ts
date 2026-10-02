@@ -120,3 +120,32 @@ it("keeps cropping when locking another layer", () => {
   expect(useStore.getState().isCropping).toBe(true);
   expect(useStore.getState().selectedElementId).toBe("second");
 });
+
+describe.each(["undo", "redo"] as const)("%s restores a lock", (action) => {
+  const prepareLockedSnapshot = (id: string) => {
+    useStore.getState().toggleLock(id);
+    if (action === "undo") {
+      useStore.getState().toggleLock(id);
+    } else {
+      useStore.getState().undo();
+    }
+    useStore.getState().setCropping(true);
+  };
+
+  it("clears cropping when restoring the selected layer's lock", () => {
+    prepareLockedSnapshot("second");
+    useStore.getState()[action]();
+    expect(useStore.getState().elements[1].isLocked).toBe(true);
+    expect(useStore.getState().isCropping).toBe(false);
+    expect(useStore.getState().selectedElementId).toBe("second");
+  });
+
+  it("preserves cropping when restoring another layer's lock", () => {
+    prepareLockedSnapshot("first");
+    useStore.getState()[action]();
+    expect(useStore.getState().elements[0].isLocked).toBe(true);
+    expect(useStore.getState().elements[1].isLocked).toBe(false);
+    expect(useStore.getState().isCropping).toBe(true);
+    expect(useStore.getState().selectedElementId).toBe("second");
+  });
+});
