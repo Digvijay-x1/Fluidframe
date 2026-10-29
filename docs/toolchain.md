@@ -18,6 +18,8 @@ The check command runs lint, Prettier, environment validation, strict TypeScript
 
 Next.js's recommended lint presets cover framework, React, accessibility, hooks, and TypeScript checks. Existing dynamic graphics adapters allow explicit `any`; strict TypeScript still checks the full project. Vendored FFmpeg binaries/JavaScript and generated Prisma/Next files are excluded from source lint and formatting. React Compiler is not enabled; its existing effect, memoization, and purity diagnostics are warnings while framework errors and Rules of Hooks violations block validation. Existing unused-variable/image/dependency warnings remain visible for follow-up cleanup. Test harnesses may expose hook values to assertions. Formatting changes establish the initial baseline.
 
+Development and production builds explicitly use Webpack (`next dev --webpack` and `next build --webpack`). Next.js 16.4.3's default Turbopack build fails to resolve the dynamic worker URL in `@ffmpeg/ffmpeg/dist/esm/classes.js`, which is imported by the editor's video export service. Keep this compatibility setting until FFmpeg's worker loading works with Turbopack and video export has been verified. Both GitHub Actions and Vercel use `npm run build`, so they share this bundler choice. See the [Next.js CLI options](https://nextjs.org/docs/app/api-reference/cli/next).
+
 ## GitHub Actions setup
 
 After checking out the repository, use the composite action:

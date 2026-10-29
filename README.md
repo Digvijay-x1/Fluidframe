@@ -112,7 +112,7 @@ Most graphic design tools are either too basic or weighed down by bulky timeline
 
 | Layer                    | Technology                                                                         | Description                                                |
 | :----------------------- | :--------------------------------------------------------------------------------- | :--------------------------------------------------------- |
-| **Framework**            | [Next.js 16 (App Router)](https://nextjs.org/)                                     | Turbo-packed React server components & client routing      |
+| **Framework**            | [Next.js 16 (App Router)](https://nextjs.org/)                                     | React server components & client routing                   |
 | **UI Library**           | [React 19](https://react.dev/)                                                     | Concurrent UI rendering & state orchestration              |
 | **Language**             | [TypeScript 5](https://www.typescriptlang.org/)                                    | Strict type safety across shaders, models, and stores      |
 | **Styling**              | [Tailwind CSS v4](https://tailwindcss.com/)                                        | Modern CSS engine with `@tailwindcss/postcss`              |
