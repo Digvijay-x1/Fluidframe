@@ -8,8 +8,8 @@
     "npm": "11.16.0"
   },
   "scripts": {
-    "dev": "npm run env:check && next dev",
-    "build": "npm run env:check -- production && next build",
+    "dev": "npm run env:check && next dev --webpack",
+    "build": "npm run env:check -- production && next build --webpack",
     "start": "next start",
     "postinstall": "prisma generate",
     "test": "vitest run",
