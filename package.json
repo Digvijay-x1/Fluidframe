@@ -76,7 +76,7 @@
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.4.0",
     "tech-stack-icons": "^3.7.1",
-    "zod": "^4.1.12",
+    "zod": "^4.6.7",
     "zustand": "^5.0.15"
   },
   "devDependencies": {
